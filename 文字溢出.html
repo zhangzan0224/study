@@ -1,0 +1,42 @@
+<!--
+ * @Description: 单行多行文字溢出
+ * @Version: 2.0
+ * @Author: ZhangZan
+ * @Date: 2023-09-11 23:40:09
+ * @LastEditors: ZhangZan
+ * @LastEditTime: 2023-09-13 23:07:37
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .single {
+        width: 200px;
+        height: 40px;
+        line-height: 40px;
+        border: 1px solid red;
+        /* 文本不换行 */
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      /* 一般情况下用于移动端 */
+      .more {
+        display: -webkit-box; /*一般情况下移动端的都是webkit内核*/
+        -webkit-box-orient: vertical; /*设置或检索伸缩盒对象的子元素的排列方式 */
+        overflow: hidden;
+        text-overflow: ellipsis;
+        word-break: break-all;
+        -webkit-line-clamp: 2;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 单行和多行 -->
+    <p class="single">w我杀撒撒娇阿萨法久啊生发剂阿萨法久啊是</p>
+    <p class="more"></p>
+  </body>
+</html>
