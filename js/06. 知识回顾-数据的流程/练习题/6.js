@@ -482,29 +482,66 @@ var students = [
 ];
 
 // 遍历输出学生的姓名
-
+// for (var i = 0; i < students.length; i++) {
+//   console.log(students[i].name)
+// }
 // 得到所有女生（新数组）
-
+// const studentsFemale = students.filter(item => item.sex === '女')
+// console.log(studentsFemale)
 // 得到所有年龄在25岁以下的女生（新数组）
-
+// const studentUnder25 = students.filter(item => item.age <= 25)
+// console.log(studentUnder25)
 // 得到所有姓陈的学生（新数组）
-
+// const studentChen = students.filter(item => item.name[0] === '王')
+// console.log(studentChen)
 // 得到所有电话号码以1结尾的学生（新数组）
-
+// const studentMobileNumberEndWithOne = students.filter(item => item.tel[item.tel.length - 1] === '1')
+// console.log(studentMobileNumberEndWithOne);
 // 得到所有学生姓名组成的数组（新数组）
-
+// const studentNameArray = students.map(item => item.name)
+// console.log(studentNameArray)
 // 得到所有女生的姓名数组（新数组）
-
+// const studentNameArrayFemale = students.filter(item => item.sex === '女').map(item => item.name)
+// console.log(studentNameArrayFemale)
 // 得到所有女生的姓名和电话号码 [ {name:'monica', tel:'18122223333'} ]
-
+// const studentNameAndTelFemale = students.filter(item => item.sex === '女').map(item => {
+//   return {
+//     name: item.name,
+//     tel: item.tel
+//   }
+// })
+// console.log(studentNameAndTelFemale)
 // 得到所有学生的年龄的总和
-
+// var total = students.reduce((prev,curr) => {
+//   return prev + curr.age
+// },0)
+// console.log(total / students.length)
 // 得到所有学生的平均年龄
-
+// var total = students.reduce((prev,curr) => {
+//   return prev + curr.age
+// },0)
+// console.log(total / students.length)
 // 得到一个对象： {name:['张三', '李四', ...], age: [17, 25, ...]}
 
+// var newObject = {
+//   name: [],
+//   age: []
+// }
+// for (var i = 0; i < students.length; i++) {
+//   newObject.name.push(students[i].name)
+//   newObject.age.push(students[i].age)
+// }
+// const newObject = {
+//   name: students.map(student => student.name),
+//   age: students.map(student => student.age)
+// }
+
+// console.log(newObject);
 // 找到id为796997的学生对象
-
+// idStudent = students.find(item => item.id === 796997)
+// console.log(idStudent);
 // 是否包含年龄大于28岁的男生
-
+// console.log(students.some(student => student.age > 28) ? '是' : '否')
 // 是否所有的女生年龄都在28岁以内
+
+console.log(students.every(item => (item.sex === '女' && item.age < 28)) ? '是' : '否')
