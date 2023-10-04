@@ -34,6 +34,8 @@
 <div class="target"></div>
 </body>
 <script>
+<!--	事件是由行为触发的;但是一个行为可能会触发多个事件;比方说拖拽的鼠标放下事件会触发dragover和drop事件;dragover的默认会把可真拖拽元素放回原位;需要阻止-->
+<!--	掉，否则不出触发drop事件-->
 	var content = document.getElementsByClassName('content')[0]
 	var target = document.getElementsByClassName('target')[0]
 	var startX = 0

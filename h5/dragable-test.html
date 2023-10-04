@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>拖拽</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    #box1 {
+      position: absolute;
+      width: 200px;
+      height: auto;
+      padding-bottom:10px
+    }
+    #box2 {
+      position: absolute;
+      left: 400px;
+      width: 200px;
+      height: auto;
+      padding-bottom:10px;
+      background-color: #ff4400;
+    }
+    li {
+      width: 160px;
+      margin: 10px auto 0 auto;
+      height: 30px;
+      background-color: #abcdef;
+      list-style: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="box1">
+    <ul>
+      <li></li>
+      <li></li>
+      <li></li>
+    </ul>
+  </div>
+  <div id="box2"></div>
+<script>
+  var dragDom;
+  var liList = document.querySelectorAll('#box1 li')
+  for (var i = 0; i < liList.length ; i++) {
+    liList[i].setAttribute('draggable', true)
+    liList[i].ondragstart = function (e) {
+      // console.log(e)
+      dragDom = e.target
+    }
+  }
+  var box2 = document.querySelector('#box2')
+  box2.ondragover = function (e) {
+    e.preventDefault()
+  }
+  box2.ondrop = function (e) {
+    // console.log(e, 'drop')
+    box2.appendChild(dragDom)
+    dragDom = null
+  }
+</script>
+</body>
+</html>
