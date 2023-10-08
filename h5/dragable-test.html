@@ -46,7 +46,8 @@
   for (var i = 0; i < liList.length ; i++) {
     liList[i].setAttribute('draggable', true)
     liList[i].ondragstart = function (e) {
-      // console.log(e)
+      console.log(e, 'dragstart')
+      e.dataTransfer.effectAllowed = 'move' // !e.dataTransfer.effectAllowed 只能在开始的时候设置
       dragDom = e.target
     }
   }
@@ -57,6 +58,7 @@
   box2.ondrop = function (e) {
     // console.log(e, 'drop')
     box2.appendChild(dragDom)
+    e.dataTransfer.dropEffect = 'copy'
     dragDom = null
   }
 </script>
