@@ -1,0 +1,125 @@
+.banner {
+  height: 460px;
+  position: relative;
+}
+
+.banner .banner-cover img {
+  width: 1226px;
+  height: 460px;
+}
+
+/* 箭头的统一样式 */
+.banner-pointer {
+  position: absolute;
+  /* outline: 1px solid; */
+  width: 40px;
+  height: 70px;
+  color: #d8c3cb;
+  text-align: center;
+  line-height: 70px;
+  cursor: pointer;
+  top: 50%;
+  margin-top: -35px;
+}
+
+.banner-pointer .iconfont {
+  font-size: 30px;
+}
+
+.banner-pointer:hover {
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+}
+
+.banner-pointer-left {
+  left: 234px;
+}
+
+.banner-pointer-right {
+  right: 0;
+}
+
+/* 小圆点区域 */
+.banner-dots {
+  position: absolute;
+  right: 30px;
+  bottom: 30px;
+}
+
+.banner-dots span {
+  width: 10px;
+  height: 10px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 2px solid rgba(0, 0, 0, 0.3);
+  border-radius: 50%;
+  margin: 0 4px;
+  cursor: pointer;
+}
+
+.banner-dots span.banner-dots-selected {
+  border-color: rgba(0, 0, 0, 0.4);
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* 横幅菜单的地方 */
+.banner-menu {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 234px;
+  height: 100%;
+  background: rgba(105, 101, 101, 0.6);
+  padding: 20px 0;
+}
+
+.banner-menu li .banner-menu-item {
+  height: 42px;
+  color: #fff;
+  line-height: 42px;
+  /* outline: 1px solid; */
+  cursor: pointer;
+  padding: 0 20px 0 30px;
+}
+
+.banner-menu li:hover .banner-menu-item {
+  background: #ff6700;
+}
+
+.banner-menu li:hover .banner-sub-menu {
+  display: block;
+}
+
+/* 子菜单 */
+
+.banner-sub-menu {
+  position: absolute;
+  top: 0;
+  left: 234px;
+  width: 992px;
+  /** 1226px - 234px */
+  height: 100%;
+  background: #fff;
+  border: 1px solid #eee;
+  display: none;
+}
+
+.banner-sub-menu a {
+  width: 25%;
+  height: 16.666%;
+  padding: 0 20px;
+}
+
+.banner-sub-menu a img {
+  width: 40px;
+  height: 40px;
+  margin-top: 17px;
+  margin-right: 12px;
+}
+
+.banner-sub-menu a span {
+  width: 154px;
+  margin-top: 28px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
