@@ -1,0 +1,96 @@
+.footer-top {
+  height: 75px;
+  padding: 27px 0;
+  border-bottom: 1px solid #e0e0e0;
+  color: #616161;
+}
+
+.footer-top a {
+  width: 20%;
+  text-align: center;
+  height: 20px;
+  line-height: 20px;
+  border-right: 1px solid #e0e0e0;
+}
+
+.footer-top a:last-child {
+  border-right: none;
+}
+
+.footer-top a .iconfont {
+  font-size: 26px;
+  /* ! 两个相邻的行盒或者行块盒子，垂直居中只能使用vertical-align */
+  vertical-align: -4px;
+}
+
+/* 页脚 */
+.footer-bottom {
+  padding: 40px 0;
+}
+
+.footer-bottom .footer-links {
+  width: 160px;
+  /* a元素可以继承，省的再去动a元素的颜色和hover效果 */
+  color: #757575;
+}
+
+.footer-bottom .footer-links h3 {
+  font-size: 14px;
+  color: #424242;
+  font-weight: normal;
+  margin-bottom: 17px;
+}
+
+.footer-links a {
+  display: block;
+  font-size: 12px;
+  margin-top: 10px;
+}
+
+.footer-contact {
+  width: 245px;
+  text-align: center;
+  font-size: 12px;
+  border-left: 1px solid #e0e0e0;
+}
+
+.footer-contact .footer-phone {
+  font-size: 22px;
+  color: #ff6700;
+}
+
+.footer-phone-desc {
+  color: #616161;
+}
+
+.footer-support {
+  width: 118px;
+  height: 30px;
+  line-height: 30px;
+  color: #ff6700;
+  border: 1px solid;
+  display: inline-block;
+}
+
+.footer-support .iconfont {
+  vertical-align: -2px;
+}
+
+.footer-support:hover {
+  background: #ff6700;
+  color: #fff;
+}
+
+.footer-subscribe {
+  color: #616161;
+}
+
+.footer-subcribe .iconfont {
+  font-size: 20px;
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+.footer-subcribe .iconfont:hover {
+  color: #ff6700;
+}
