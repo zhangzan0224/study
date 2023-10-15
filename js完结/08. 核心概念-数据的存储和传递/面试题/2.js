@@ -23,4 +23,4 @@ method1(arr);
 method2(foo);
 method3(foo.n);
 
-console.log(foo.n, arr.length);
+console.log(foo.n, arr.length); // 结果是 4 2
