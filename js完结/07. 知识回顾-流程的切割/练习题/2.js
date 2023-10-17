@@ -29,13 +29,25 @@ var nums3 = [11, 5, 1];
 /*
 3. 思考题：判断nums3中是否所有数字都在nums中存在，输出是或否
 */
-function check () {
-	for (var i = 0; i < nums3.length; i++){
-		if(!includes(nums, nums3[i])){
-			return false;
-		}
-		return true
-	}
-}
-console.log(check())
+// function check () {
+// 	for (var i = 0; i < nums3.length; i++){
+// 		if(!includes(nums, nums3[i])){
+// 			return false;
+// 		}
+// 		return true
+// 	}
+// }
+// console.log(check())
+// 刚开始定义所有的数字都在nums中存在
+console.log(includes(nums, 11))
+var flag = true
 
+function check() {
+	for (var index = 0; index < nums3.length; index++) {
+		flag = flag && includes(nums, nums3[index])
+		if (!flag) {
+			break
+		}
+}
+}
+console.log(flag)

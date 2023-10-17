@@ -9,8 +9,8 @@ function m1() {
 function m2() {
   var a = 2;
   m1();
-  console.log(a);
+  console.log(a); // 2 m2 内部定义的a
 }
 
 m2();
-console.log(a);
+console.log(a); // 2

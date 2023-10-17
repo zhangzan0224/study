@@ -16,7 +16,7 @@ function factorial(n) {
     }
     return result
 }
-console.log("factorial", factorial(0))
+console.log("factorial", factorial(1))
 
 // 利用上面的函数，完成下面的练习题
 
