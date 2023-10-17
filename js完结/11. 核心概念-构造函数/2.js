@@ -1,4 +1,4 @@
-// JS所有的对象，都是通过构造函数产生的
+// !JS所有的对象，都是通过构造函数产生的
 
 // 语法糖
 // var obj = {
@@ -17,7 +17,7 @@
 // var arr = new Array(1, 2, 3); // 创建一个数组
 
 // console.log(arr);
-
+// 函数本身，也是通过构造函数产生的；
 function sum(a, b) {
   return a + b;
 }
