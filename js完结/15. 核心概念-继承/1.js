@@ -1,3 +1,4 @@
+// 设置child的原型的隐式原型指向parent的原型
 function inherit(Child, Parent) {
   Object.setPrototypeOf(Child.prototype, Parent.prototype);
 }
@@ -26,6 +27,7 @@ VIPUser.prototype.playPayVideo = function () {
 // 完成原型上的变化
 inherit(VIPUser, User);
 
-var vip = new VIPUser('abc', '123', '2022-10-01');
 
+var vip = new VIPUser('abc', '123', '2022-10-01');
+console.log(VIPUser.prototype.__proto__ === User.prototype, 'js完结/15. 核心概念-继承/1.js-第28行')
 vip.playFreeVideo();
