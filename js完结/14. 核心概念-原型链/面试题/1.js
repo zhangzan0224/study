@@ -5,12 +5,12 @@ User.prototype.sayHello = function () {};
 var u1 = new User();
 var u2 = new User();
 
-console.log(u1.sayHello === u2.sayHello);
-console.log(User.prototype === Function.prototype);
-console.log(User.__proto__ === Function.prototype);
-console.log(User.__proto__ === Function.__proto__);
-console.log(u1.__proto__ === u2.__proto__);
-console.log(u1.__proto__ === User.__proto__);
-console.log(Function.__proto__ === Object.__proto__);
-console.log(Function.prototype.__proto__ === Object.prototype.__proto__);
-console.log(Function.prototype.__proto__ === Object.prototype);
+console.log(u1.sayHello === u2.sayHello); // true
+console.log(User.prototype === Function.prototype); // false
+console.log(User.__proto__ === Function.prototype); // true
+console.log(User.__proto__ === Function.__proto__); // true  // ! 都执行Function的原型
+console.log(u1.__proto__ === u2.__proto__); // true
+console.log(u1.__proto__ === User.__proto__); // false
+console.log(Function.__proto__ === Object.__proto__); // true // ! 都指向的是Function的原型
+console.log(Function.prototype.__proto__ === Object.prototype.__proto__); // false Object原型 ！== null
+console.log(Function.prototype.__proto__ === Object.prototype); // true
