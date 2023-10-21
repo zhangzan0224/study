@@ -2,3 +2,4 @@
 
 var str =
   'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Adipisci impedit voluptatem cupiditate, est corporis, quis sunt quod tempore officiis hic voluptates eaque commodi. Repudiandae provident animi quia qui harum quasi.';
+console.log(str.substring(str.indexOf('i') + 1, str.lastIndexOf('i')));
