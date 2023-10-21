@@ -4,4 +4,6 @@
  * @param {number} max 范围的最大值（无法取到最大值）
  * @return {number} 范围内的随机整数
  */
-function getRandom(min, max) {}
+function getRandom(min, max) {
+  return Math.floor(Math.random() * (max - min) + min)
+}
