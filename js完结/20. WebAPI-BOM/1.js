@@ -15,5 +15,5 @@ function start() {
 // 停止
 function stop() {
   clearInterval(timerId);
-  timerId = null;
+  timerId = null; // 不清空会导致问题，因为是判断了计时器存在的情况下，回return就开启不了计时器了
 }
