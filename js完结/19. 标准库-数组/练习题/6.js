@@ -68,4 +68,12 @@ Deck.prototype.print = function () {
 /**
  * 洗牌，打乱牌堆中的扑克牌顺序
  */
-Deck.prototype.shuffle = function () {};
+Deck.prototype.shuffle = function () {
+  this.pokers.sort(function () {
+    return Math.random() - 0.5; // 随机排序
+  })
+};
+
+const d = new Deck();
+d.shuffle();
+d.print();

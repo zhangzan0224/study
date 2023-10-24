@@ -1,5 +1,4 @@
-var students = [
-  {
+var students = [{
     id: 988985,
     name: '梁平',
     sex: '女',
@@ -482,5 +481,7 @@ var students = [
 ];
 
 // 得到所有学生的姓名形成的字符串：张三,李四,王五,老邓...
-
+console.log(students.map(item => item.name).join(','));
 // 将学生数组按照年龄的升序排序
+
+console.log(students.sort((a, b) => a.age - b.age));

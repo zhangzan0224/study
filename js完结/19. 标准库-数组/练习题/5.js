@@ -5,3 +5,9 @@ var fakeArr = {
   2: 'c',
   length: 3,
 };
+
+var arr = Array.prototype.slice.call(fakeArr);
+console.log(arr);
+// 或者使用
+var arr1 = [].slice.call(fakeArr);
+console.log(arr1);

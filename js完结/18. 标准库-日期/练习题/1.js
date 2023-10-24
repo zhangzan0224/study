@@ -14,15 +14,14 @@ function formatDate(date, format) {
   var second = date.getSeconds().toString().padStart(2, '0');
   var millisecond = date.getMilliseconds();
 
-  return format
-    .replace('yyyy', year)
+  return format.replace('yyyy', year)
     .replace('MM', month)
     .replace('dd', day)
     .replace('HH', hour)
     .replace('mm', minute)
     .replace('ss', second)
-    .replace('ms', millisecond);
+    .replace('ms', millisecond.toString().padStart(3, '0'));
 }
 
 var d = new Date();
-console.log(formatDate(d, 'yyyy年MM月dd日 HH时mm分ss秒'));
+console.log(formatDate(d, 'yyyy年MM月dd日 HH时mm分ss秒ms毫秒'));
