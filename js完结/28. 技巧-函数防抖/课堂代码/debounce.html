@@ -9,36 +9,52 @@
   <body>
     <input type="text" />
     <script>
-      function debounce(fn, duration) {
-        var timerId;
+      function debounce1(fn, delay) {
+        var curThis1 = this // window
+        var timeId
         return function () {
-          clearTimeout(timerId);
+          if (timeId) {
+            clearTimeout(timeId)
+          }
+          var curThis = this //  
+          console.log(curThis, curThis1, 'js完结/28. 技巧-函数防抖/课堂代码/debounce.html-第20行')
+          var args = Array.prototype.slice.call(arguments)
+          console.log(args)
+          timeId = setTimeout(function () {
+            fn.apply(curThis, args)
+          }, delay)
+        }
+      }
+      function debounce(fn, duration) {
+        var timerId
+        return function () {
+          clearTimeout(timerId)
           // 将该函数的this传递到fn
-          var curThis = this;
+          var curThis = this
           // 将该函数的参数全部传递给fn
           function slice() {
-            this;
+            this
           }
-          var args = Array.prototype.slice.call(arguments, 0);
+          var args = Array.prototype.slice.call(arguments, 0)
 
           timerId = setTimeout(function () {
-            fn.apply(curThis, args);
-          }, duration);
-        };
+            fn.apply(curThis, args)
+          }, duration)
+        }
       }
 
-      var newHandler = debounce(function (e) {
-        console.log('用户有按键', e, this.value, '耗时操作');
-      }, 2000);
+      var newHandler = debounce1(function (e) {
+        console.log('用户有按键', e, this.value, '耗时操作')
+      }, 2000)
 
-      var inp = document.querySelector('input');
-      inp.addEventListener('input', newHandler);
+      var inp = document.querySelector('input')
+      inp.addEventListener('input', newHandler)
 
       var mouseMoveHandler = debounce(function () {
-        console.log('move');
-      }, 1000);
+        console.log('move')
+      }, 1000)
 
-      window.addEventListener('mousemove', mouseMoveHandler);
+      window.addEventListener('mousemove', mouseMoveHandler)
     </script>
   </body>
 </html>
