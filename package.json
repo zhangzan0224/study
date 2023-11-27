@@ -1,13 +1,14 @@
 {
   "scripts": {
-    "dev": "nodemon --watch src  -e ts --exec ts-node ts_study/src/index.ts"
+    "dev": "nodemon --watch ./ts_study/src  -e ts --exec ts-node ./ts_study/src/index.ts"
   },
   "dependencies": {
     "dayjs": "^1.11.10",
-    "nodemon": "^3.0.1",
+    "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
   },
   "devDependencies": {
-    "@types/node": "^20.9.0"
+    "@types/node": "^20.9.0",
+    "nodemon": "^3.0.1"
   }
 }

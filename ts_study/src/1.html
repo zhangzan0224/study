@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .dot {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background-color: red;
+        /* position: absolute; */
+      }
+    </style>
+  </head>
+  <body>
+    <div class="dot"></div>
+    <script>
+      var dot = document.querySelector('.dot')
+      var dotW = dot.getBoundingClientRect().width
+      var dotH = dot.getBoundingClientRect().height
+      console.log(dotW, dotH)
+      window.addEventListener('click', function (e) {
+        let x = e.clientX
+        let y = e.clientY
+        if (x < 0) x = 0
+        if (x > document.documentElement.clientWidth) x = document.documentElement.clientWidth
+        if (y < 0) y = 0
+        if (y > document.documentElement.clientHeight) y = document.documentElement.clientHeight
+        dot.style.transform = `translate(${x - dotW}px , ${y - dotH}px)`
+      })
+    </script>
+  </body>
+</html>

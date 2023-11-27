@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <ul class="container"></ul>
+    <script>
+      var ul = document.querySelector('.container')
+      var users = [
+        {
+          name: 'mocica',
+          age: 18,
+          isSingle: true,
+        },
+        {
+          name: '122',
+          age: 22,
+          isSingle: false,
+        },
+      ]
+      function createEle(users) {
+        return users.reduce((prev, curr) => {
+          return (prev += `
+          <li>
+            <div>${curr.name}</div>
+            <div>${curr.age}</div>
+            <div>${curr.isSingle ? '单身' : '已脱单'}</div>
+          </li>
+          `)
+        }, '')
+      }
+      // console.log(createEle(users))
+      ul.innerHTML = createEle(users)
+    </script>
+  </body>
+</html>
