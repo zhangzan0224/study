@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
       .dot {
         width: 20px;
         height: 20px;
@@ -21,14 +25,14 @@
       var dotW = dot.getBoundingClientRect().width
       var dotH = dot.getBoundingClientRect().height
       console.log(dotW, dotH)
-      window.addEventListener('click', function (e) {
-        let x = e.clientX
-        let y = e.clientY
+      window.addEventListener('mousemove', function (e) {
+        let x = e.clientX - dotW / 2
+        let y = e.clientY - dotH / 2
         if (x < 0) x = 0
         if (x > document.documentElement.clientWidth) x = document.documentElement.clientWidth
         if (y < 0) y = 0
         if (y > document.documentElement.clientHeight) y = document.documentElement.clientHeight
-        dot.style.transform = `translate(${x - dotW}px , ${y - dotH}px)`
+        dot.style.transform = `translate(${x}px , ${y}px)`
       })
     </script>
   </body>
