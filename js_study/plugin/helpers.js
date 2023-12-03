@@ -125,10 +125,13 @@ this.myPlugin.throttle = function (callback, time, immediately) {
 this.myPlugin.curry = function (func) {
     //得到从下标1开始的参数
     var args = Array.prototype.slice.call(arguments, 1);
+    console.log(args, 'args');
+    console.log(func.length, 'func');
     var that = this;
     return function () {
         var curArgs = Array.from(arguments); //当前调用的参数
         var totalArgs = args.concat(curArgs);
+        console.log(totalArgs);
         if (totalArgs.length >= func.length) {
             //参数数量够了
             return func.apply(null, totalArgs);
@@ -155,4 +158,4 @@ this.myPlugin.pipe = function () {
         // }
         // return val;
     }
-}   
+}
