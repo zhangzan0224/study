@@ -12,7 +12,7 @@
           @keyup.enter="addTodo"
         />
       </header>
-      <section class="main">
+      <section class="main" v-show="todosRef.length > 0">
         <input id="toggle-all" class="toggle-all" type="checkbox" :checked="isAllFinished" @input="changeAllStatus($event.target.checked)"/>
         <label for="toggle-all">Mark all as complete</label>
         <ul class="todo-list" v-for="todo in filterTodosRef" :key="todo.id">
@@ -42,7 +42,7 @@
           </li> -->
         </ul>
       </section>
-      <footer class="footer">
+      <footer class="footer" v-show="todosRef.length > 0">
         <span class="todo-count">
           <strong>{{ remainingRef }}</strong>
           <span>item{{ remainingRef === 1 ? '' : 's'}} left</span>
@@ -52,7 +52,7 @@
           <li><a href="#/active" :class="{selected: visibilityRef === 'active'}">Active</a></li>
           <li><a href="#/completed" :class="{selected: visibilityRef === 'completed'}">Completed</a></li>
         </ul>
-        <button class="clear-completed" v-show="finishedRef > 0">
+        <button class="clear-completed" v-show="finishedRef > 0" @click="clearCompleted">
           Clear completed
         </button>
       </footer>
@@ -65,13 +65,16 @@ import useTodoList from './components/useTodoList'
 import useNewtodo from './components/useNewtodo'
 import useFilter from './components/useFilter'
 import useEditTodo from './components/useEditTodo'
+import useDeleteTodo from './components/useDeleteTodo'
   export default {
     setup(props, context) {
       const  { todosRef } = useTodoList()
       return {
+        todosRef,
         ...useNewtodo(todosRef),
         ...useFilter(todosRef),
-        ...useEditTodo(todosRef)
+        ...useEditTodo(todosRef),
+        ...useDeleteTodo(todosRef)
       }
     }
   }

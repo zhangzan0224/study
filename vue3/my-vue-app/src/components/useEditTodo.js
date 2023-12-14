@@ -34,17 +34,11 @@ export default function useEditTodo(todosRef) {
   const changeAllStatus = (checked) => {
     todosRef.value.forEach(to => to.isFinshed = checked)
   }
-  // 删除todo
-  const removeTodo = (todo) => {
-    todosRef.value.splice(todosRef.value.indexOf(todo), 1)
-  }
   return {
-    editTodoRef,
     editTodo,
     saveEdit,
     cancelEdit,
     isAllFinished,
-    changeAllStatus,
-    removeTodo
+    changeAllStatus
   }
 }
