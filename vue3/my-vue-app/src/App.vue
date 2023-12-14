@@ -13,14 +13,14 @@
         />
       </header>
       <section class="main">
-        <input id="toggle-all" class="toggle-all" type="checkbox" />
+        <input id="toggle-all" class="toggle-all" type="checkbox" :checked="isAllFinished" @input="changeAllStatus($event.target.checked)"/>
         <label for="toggle-all">Mark all as complete</label>
         <ul class="todo-list" v-for="todo in filterTodosRef" :key="todo.id">
           <li class="todo" :class="{ completed: todo.isFinshed, editing: todo === editTodoRef}">
             <div class="view">
               <input class="toggle" type="checkbox" v-model="todo.isFinshed"/>
               <label @dblclick="editTodo(todo)">{{ todo.title }}</label>
-              <button class="destroy"></button>
+              <button class="destroy" @click="removeTodo(todo)"></button>
             </div>
             <input class="edit" type="text" v-model="todo.title"  @keyup.escape="cancelEdit(todo)" @keyup.enter="saveEdit(todo)" />
           </li>
