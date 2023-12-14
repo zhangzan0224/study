@@ -16,13 +16,13 @@
         <input id="toggle-all" class="toggle-all" type="checkbox" />
         <label for="toggle-all">Mark all as complete</label>
         <ul class="todo-list" v-for="todo in filterTodosRef" :key="todo.id">
-          <li class="todo" :class="{ completed: todo.isFinshed }">
+          <li class="todo" :class="{ completed: todo.isFinshed, editing: todo === editTodoRef}">
             <div class="view">
               <input class="toggle" type="checkbox" v-model="todo.isFinshed"/>
-              <label>{{ todo.title }}</label>
+              <label @dblclick="editTodo(todo)">{{ todo.title }}</label>
               <button class="destroy"></button>
             </div>
-            <input class="edit" type="text" />
+            <input class="edit" type="text" v-model="todo.title"  @keyup.escape="cancelEdit(todo)" @keyup.enter="saveEdit(todo)" />
           </li>
           <!-- <li class="todo">
             <div class="view">
@@ -64,12 +64,14 @@
 import useTodoList from './components/useTodoList'
 import useNewtodo from './components/useNewtodo'
 import useFilter from './components/useFilter'
+import useEditTodo from './components/useEditTodo'
   export default {
     setup(props, context) {
       const  { todosRef } = useTodoList()
       return {
         ...useNewtodo(todosRef),
-        ...useFilter(todosRef)
+        ...useFilter(todosRef),
+        ...useEditTodo(todosRef)
       }
     }
   }
