@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div>
+      <textarea id="txt" cols="30" rows="10"></textarea>
+      <button>点我</button>
+      <p id="p"></p>
+    </div>
+  </body>
+  <script src="./模板字符串.js"></script>
+  <script>
+    const txt = document.querySelector('#txt')
+    const button = document.querySelector('button')
+    const p = document.querySelector('p')
+    button.addEventListener('click', () => {
+      // 如果是标签,需要对标签进行处理
+      p.innerHTML = processStr`<p>${txt.value}</p>
+      <h1>${txt.value}</h1>`
+    })
+  </script>
+</html>

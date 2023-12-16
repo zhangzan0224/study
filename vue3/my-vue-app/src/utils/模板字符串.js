@@ -13,4 +13,15 @@
    return str
  }
 
- console.log(`output->`, text)
+ //  console.log(`output->`, text)
+
+
+ function processStr(parts) {
+   const args = Array.prototype.slice.call(arguments, 1)
+   let str = ''
+   for (let i = 0; i < args.length; i++) {
+     str += parts[i] + args[i].replace(/</g, '&lt;').replace(/>/g, '&gt;')
+   }
+   str += parts[parts.length - 1]
+   return str
+ }
