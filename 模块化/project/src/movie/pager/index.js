@@ -35,7 +35,7 @@ export function createPagers(page, limit, total) {
     const span = $('<span>').appendTo(container).text(text);
     const className = styles[status];
     span.addClass(className);
-    // 只有当页码为普通状态时才可以有点击事件
+    // 只有当页码为普通状态时才可以有clickEvent
     if (!status) {
       span.on('click', async function () {
         //1. 重新拿数据
