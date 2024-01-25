@@ -35,7 +35,7 @@ export default {
           name: "Blog",
           title: "文章",
           icon: "blog",
-          exact: false, // 激活状态是否要精确匹配，false表示只要是以/blog开头的都会激活 会添加selected类
+          exact: false, // 激活状态是否要精确匹配，false表示只要是以/blog开头的都会激活 会添加selected类，不添加的情况下默认是false
         },
         {
           name: "About",
