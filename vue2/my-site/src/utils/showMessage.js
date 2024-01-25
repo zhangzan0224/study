@@ -1,6 +1,6 @@
 import getComponentRootDom from "./getComponentRootDom";
 import Icon from "@/components/Icon";
-// import styles from "./showMessage.module.less";
+import styles from "./showMessage.module.less";
 
 /**
  * 弹出消息
@@ -19,40 +19,37 @@ export default function(options = {}) {
   const iconDom = getComponentRootDom(Icon, {
     type,
   });
-  console.log(iconDom, 'iconDom') // 结果是什么呢
-  // 设置div的内容为这个icon加上内容
-  //
-  // div.innerHTML = `<span class="${styles.icon}">${iconDom.outerHTML}</span><div>${content}</div>`;
-  // // 设置样式
-  // const typeC
-  // lassName = styles[`message-${type}`]; //类型样式名
-  // div.className = `${styles.message} ${typeClassName}`;
-  // // 将div加入到容器中
-  //
-  // // 容器的position是否改动过
-  // if (getComputedStyle(container).position === "static") {
-  //   container.style.position = "relative";
-  // }
-  // container.appendChild(div);
-  // // 浏览器强行渲染
-  // div.clientHeight; // 导致reflow
-  //
-  // // 回归到正常位置
-  // div.style.opacity = 1;
-  // div.style.transform = `translate(-50%, -50%)`;
-  //
-  // // 等一段时间，消失
-  // setTimeout(() => {
-  //   div.style.opacity = 0;
-  //   div.style.transform = `translate(-50%, -50%) translateY(-25px)`;
-  //   div.addEventListener(
-  //     "transitionend",
-  //     function() {
-  //       div.remove();
-  //       // 运行回调函数
-  //       options.callback && options.callback();
-  //     },
-  //     { once: true }
-  //   );
-  // }, duration);
+
+  div.innerHTML = `<span class="${styles.icon}">${iconDom.outerHTML}</span><div>${content}</div>`;
+  // 设置样式
+  const typeClassName = styles[`message-${type}`]; //类型样式名
+  div.className = `${styles.message} ${typeClassName}`;
+  // 将div加入到容器中
+
+  // 容器的position是否改动过
+  if (getComputedStyle(container).position === "static") {
+    container.style.position = "relative";
+  }
+  container.appendChild(div);
+  // 浏览器强行渲染
+  div.clientHeight; // 导致reflow
+
+  // 回归到正常位置
+  div.style.opacity = 1;
+  div.style.transform = `translate(-50%, -50%)`;
+
+  // 等一段时间，消失
+  setTimeout(() => {
+    div.style.opacity = 0;
+    div.style.transform = `translate(-50%, -50%) translateY(-25px)`;
+    div.addEventListener(
+      "transitionend",
+      function() {
+        div.remove();
+        // 运行回调函数
+        options.callback && options.callback();
+      },
+      { once: true }
+    );
+  }, duration);
 }
