@@ -1,3 +1,4 @@
+import exp = require("constants");
 import { Mark, Color } from "./enums";
 import { Card, Deck, Joker, NormalCard } from "./types";
 
@@ -55,4 +56,30 @@ export function printDeck(deck: Deck): void {
     }
   })
   console.log(result);
+}
+// 定义一个函数用来判断是否为奇数，如果传入的不是数字，进行报错，否则返回 boolea
+export function isOdd(n: number | string): boolean {
+  if (typeof n === 'string') {
+    n = parseInt(n);
+    if (isNaN(n)) {
+      throw new Error('n must be a number or a string representing a number');
+    }
+  }
+  if (typeof n !== 'number') {
+    throw new Error('n must be a number or a string representing a number');
+  }
+  return n % 2 === 1
+}
+// 定义一个函数用来判断是否为偶数，如果传入的不是数字，进行报错，否则返回 boolean
+export function isEven(n: number | string): boolean {
+  if (typeof n === 'string') {
+    n = parseInt(n);
+    if (isNaN(n)) {
+      throw new Error('n must be a number or a string representing a number');
+    }
+  }
+  if (typeof n !== 'number') {
+    throw new Error('n must be a number or a string representing a number');
+  }
+  return n % 2 === 0;
 }
