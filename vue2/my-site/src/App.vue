@@ -1,26 +1,27 @@
 <template>
-    <div class="app-container">
-        <Layout>
-            <template #left>
-                <div class="aside">
-                    <SiteAside />
-                </div>
-            </template>
-            <template #default>
-                <RouterView />
-            </template>
-        </Layout>
-    </div>
+  <div class="app-container">
+    <Layout>
+      <!--插槽-->
+      <template #left>
+        <div class="aside">
+          <SiteAside />
+        </div>
+      </template>
+      <template #default>
+        <RouterView />
+      </template>
+    </Layout>
+  </div>
 </template>
 
 <script>
 import Layout from "./components/Layout";
 import SiteAside from "./components/SiteAside";
 export default {
-    components: {
-        Layout,
-        SiteAside,
-    },
+  components: {
+    Layout,
+    SiteAside,
+  },
 };
 </script>
 
