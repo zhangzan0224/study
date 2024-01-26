@@ -27,8 +27,26 @@ export default function (options = {}) {
   // 将div加入到容器中
 
   // 判断容器的position是否为static，如果为static，则设置为relative，否则无法定位
-  if (getComputedStyle(container).position === "static") {
-    container.style.position = "relative";
+  /**
+这段 JavaScript 代码是在检查一个名为 options 的对象是否有一个名为 container 的属性。如果 options.container 存在，那么它将进一步检查 container 的 CSS 属性 position 是否为 static。
+
+getComputedStyle(container).position 这行代码是获取 container 元素的计算样式中的 position 属性值。计算样式是元素的最终样式，它包括了 CSS 样式表、内联样式和浏览器默认样式等所有样式的最终结果。
+
+如果 position 属性的值为 static，那么代码将会改变 container 的 position 属性值为 relative。这是因为 static 是 position 属性的默认值，它会使元素按照正常的文档流进行布局，而 relative 则会使元素相对于其正常位置进行定位。
+
+这段代码的目的可能是为了确保 container 元素可以作为其子元素的定位上下文，这样，子元素就可以使用 position: absolute 或 position: relative 来相对于 container 元素进行定位。
+  !为什么不能给body设置为relative呢？
+  将 body 元素的 position 设置为 relative 可能会导致一些不预期的布局问题。因为 body 元素是所有 HTML 元素的父元素，改变它的定位方式可能会影响到页面上所有使用了绝对定位 (position: absolute) 或固定定位 (position: fixed) 的元素。
+
+例如，一个元素如果设置了 position: absolute，它会相对于最近的非 static 定位的祖先元素进行定位。如果 body 元素设置为 relative，那么所有没有非 static 定位的祖先元素的绝对定位元素都会相对于 body 元素进行定位，这可能会打乱原有的布局。
+
+因此，通常我们会避免直接改变 body 元素的 position 属性，而是在 body 元素内部创建一个新的 div 元素，将这个 div 元素设置为 relative，然后将需要定位的元素放入这个 div 元素中。这样就可以避免影响到其他元素的布局。
+  
+  */
+  if (options.container) {
+    if (getComputedStyle(container).position === "static") {
+      container.style.position = "relative";
+    }
   }
   container.appendChild(div);
   // 浏览器强行渲染 如何强制重绘？ 重绘：重新渲染页面中的元素，重新计算样式；回流：重新计算元素的位置和结构
