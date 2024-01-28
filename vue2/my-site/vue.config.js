@@ -4,7 +4,6 @@ module.exports = {
     // 配置路径别名
     resolve: {
       alias: {
-        '@': 'src', // 已经默认配置过了
         'assets': '@/assets',
         'common': '@/common',
         'components': '@/components',

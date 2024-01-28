@@ -5,8 +5,3 @@ export const getBannerList = () => {
     method: 'get'
   })
 }
-getBannerList().then((result) => {
-  console.log('tag', result)
-}).catch((err) => {
-  console.log('err', err)  
-})
