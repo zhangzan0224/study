@@ -1,19 +1,17 @@
 <template>
   <div class="carousel-item-container">CarouselItem</div>
 </template>
+
 <script>
-export default {
-  name: "",
-  components: {},
-  data() {
-    return {};
-  },
-  props: {},
-  // 计算属性
-  computed: {},
-  watch: {},
-  mounted() {},
-  methods: {},
-};
+export default {};
 </script>
-<style lang="less" scoped></style>
+
+<style lang="less" scoped>
+@import "~@/styles/var.less";
+.carousel-item-container {
+  background: @dark;
+  width: 100%;
+  height: 100%;
+  color: #fff;
+}
+</style>

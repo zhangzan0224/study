@@ -1,11 +1,25 @@
 <template>
   <div class="home-container" ref="container">
-    <ul>
+    <ul class="carousel-container" :style="{ marginTop }">
       <li v-for="item in banners" :key="item.id">
         <CarouselItem></CarouselItem>
       </li>
     </ul>
-    <!-- <div class="icon icon-up"></div> -->
+    <div class="icon icon-up" v-show="currentIndex >= 1" @click="switchTo(currentIndex -1)">
+      <Icon type="arrowUp"></Icon>
+    </div>
+    <div class="icon icon-down" v-show="currentIndex < banners.length - 1" @click="switchTo(currentIndex +1)">
+      <Icon type="arrowDown"></Icon>
+    </div>
+    <!-- 指示器 -->
+    <ul class="indicator">
+      <li
+        v-for="(item, i) in banners"
+        :key="item.id"
+        :class="{ active: i === currentIndex }"
+        @click="switchTo(i)"
+      ></li>
+    </ul>
   </div>
 </template>
 
@@ -21,29 +35,113 @@ export default {
   data() {
     return {
       banners: [],
+      currentIndex: 1, // 当前轮播图的索引
+      clientHeight: 0, // 客户端高度
     };
   },
   methods: {
-    handleClick() {
-      // this.$sayHello();
-      this.$showMessage({
-        content: "评论成功",
-        type: "success",
-        container: this.$refs.container,
-        callback: function () {
-          console.log("完成！！！");
-        },
-      });
-    },
+    // 切换轮播图的index
+    switchTo (index) {
+      this.currentIndex = index
+    }
   },
   async created() {
     const res = await getBannerList();
     this.banners = res;
   },
+  computed: {
+    // 轮播图容器的ulmarginTop的值，用于切换图片
+    marginTop() {
+      return -(this.clientHeight * this.currentIndex) + "px";
+    },
+  },
+  mounted() {
+    this.clientHeight = this.$refs.container.clientHeight;
+  },
 };
 </script>
 
-<style scoped>
+<style scoped lang="less">
+@import "~@/styles/mixin.less";
+@import "~@/styles/var.less";
 .home-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  ul {
+    margin: 0;
+    list-style: none;
+    padding: 0;
+  }
+  .carousel-container {
+    width: 100%;
+    height: 100%;
+    transition: 500ms;
+    li {
+      width: 100%;
+      height: 100%;
+    }
+  }
+  .icon {
+    .self-center();
+    font-size: 30px;
+    @gap: 25px;
+    color: @gray;
+    cursor: pointer;
+    transform: translateX(-50%);
+    &.icon-up {
+      top: @gap;
+      animation: jump-up 2s infinite;
+    }
+    &.icon-down {
+      top: auto;
+      bottom: @gap;
+      animation: jump-down 2s infinite;
+    }
+    @jump: 5px;
+    @keyframes jump-up {
+      0% {
+        transform: translate(-50%, @jump);
+      }
+      50% {
+        transform: translate(-50%, -@jump);
+      }
+      100% {
+        transform: translate(-50%, @jump);
+      }
+    }
+    @keyframes jump-down {
+      0% {
+        transform: translate(-50%, -@jump);
+      }
+      50% {
+        transform: translate(-50%, @jump);
+      }
+      100% {
+        transform: translate(-50%, -@jump);
+      }
+    }
+  }
+  // 指示器
+  .indicator {
+    .self-center();
+    transform: translateY(-50%);
+    left: auto;
+    right: 20px;
+    li {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: @words;
+      margin-bottom: 10px;
+      border: 1px solid #fff;
+      box-sizing: border-box;
+      cursor: pointer;
+      &.active {
+        background: #fff;
+      }
+    }
+  }
 }
 </style>
