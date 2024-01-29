@@ -1,14 +1,31 @@
 <template>
   <div class="home-container" ref="container" @wheel="handleWheel">
-    <ul class="carousel-container" :style="{ marginTop }" @transitionend="handleTransitionEnd">
-      <li v-for="item in banners" :key="item.id">
-        <CarouselItem :carouse="item"></CarouselItem>
+    <ul
+      class="carousel-container"
+      :style="{ marginTop }"
+      @transitionend="handleTransitionEnd"
+    >
+      <li v-for="(item, index) in banners" :key="item.id">
+        <CarouselItem
+          :ref="`item${index}`"
+          :carouse="item"
+          :currentIndex="currentIndex"
+          :banners="banners"
+        ></CarouselItem>
       </li>
     </ul>
-    <div class="icon icon-up" v-show="currentIndex >= 1" @click="switchTo(currentIndex -1)">
+    <div
+      class="icon icon-up"
+      v-show="currentIndex >= 1"
+      @click="switchTo(currentIndex - 1)"
+    >
       <Icon type="arrowUp"></Icon>
     </div>
-    <div class="icon icon-down" v-show="currentIndex < banners.length - 1" @click="switchTo(currentIndex +1)">
+    <div
+      class="icon icon-down"
+      v-show="currentIndex < banners.length - 1"
+      @click="switchTo(currentIndex + 1)"
+    >
       <Icon type="arrowDown"></Icon>
     </div>
     <!-- 指示器 -->
@@ -37,36 +54,44 @@ export default {
       banners: [],
       currentIndex: 0, // 当前轮播图的索引
       clientHeight: 0, // 客户端高度
-      swithching: false // 是否正在切换
+      swithching: false, // 是否正在切换
     };
+  },
+  watch: {
+    currentIndex: {
+      // 根据currentIndex的值，切换轮播图,来实现切换时,文字的加载效果,调用子组件的imgLoad方法
+      handler(newVal) {
+        this.$refs[`item${newVal}`] && this.$refs[`item${newVal}`][0].textRender();
+      },
+      immediate: true,
+    },
   },
   methods: {
     // 切换轮播图的index
-    switchTo (index) {
-      this.currentIndex = index
+    switchTo(index) {
+      this.currentIndex = index;
     },
     // 监听鼠标滚轮事件
-    handleWheel (e) {
+    handleWheel(e) {
       if (this.swithching) return;
       if (e.deltaY < -5 && this.currentIndex > 0) {
         // 向上滚动
-        this.swithching = true
-        this.currentIndex--
+        this.swithching = true;
+        this.currentIndex--;
       } else if (e.deltaY > 5 && this.currentIndex < this.banners.length - 1) {
         // 向下滚动
-        this.swithching = true
-        this.currentIndex++
+        this.swithching = true;
+        this.currentIndex++;
       }
     },
     // 监听轮播图切换完成
-    handleTransitionEnd () {
-      this.swithching = false
+    handleTransitionEnd() {
+      this.swithching = false;
     },
     // 监听窗口大小变化
-    handleResize () {
-      this.clientHeight = this.$refs.container.clientHeight
-    }
-    
+    handleResize() {
+      this.clientHeight = this.$refs.container.clientHeight;
+    },
   },
   async created() {
     const res = await getBannerList();
@@ -84,8 +109,8 @@ export default {
   },
   beforeDestroy() {
     window.removeEventListener("resize", this.handleResize);
-  }
-}
+  },
+};
 </script>
 
 <style scoped lang="less">
