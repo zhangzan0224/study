@@ -74,18 +74,21 @@ export default {
     // 监听鼠标滚轮事件
     handleWheel(e) {
       if (this.swithching) return;
-      if (e.deltaY < -5 && this.currentIndex > 0) {
+      if (e.deltaY < -15 && this.currentIndex > 0) {
         // 向上滚动
         this.swithching = true;
         this.currentIndex--;
-      } else if (e.deltaY > 5 && this.currentIndex < this.banners.length - 1) {
+      } else if (e.deltaY > 15 && this.currentIndex < this.banners.length - 1) {
         // 向下滚动
         this.swithching = true;
         this.currentIndex++;
+      } else {
+        return;
       }
     },
     // 监听轮播图切换完成
     handleTransitionEnd() {
+      console.log("切换完成");
       this.swithching = false;
     },
     // 监听窗口大小变化
