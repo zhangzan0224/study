@@ -1,8 +1,8 @@
 <template>
-  <div class="home-container" ref="container">
-    <ul class="carousel-container" :style="{ marginTop }">
+  <div class="home-container" ref="container" @wheel="handleWheel">
+    <ul class="carousel-container" :style="{ marginTop }" @transitionend="handleTransitionEnd">
       <li v-for="item in banners" :key="item.id">
-        <CarouselItem></CarouselItem>
+        <CarouselItem :carouse="item"></CarouselItem>
       </li>
     </ul>
     <div class="icon icon-up" v-show="currentIndex >= 1" @click="switchTo(currentIndex -1)">
@@ -35,15 +35,38 @@ export default {
   data() {
     return {
       banners: [],
-      currentIndex: 1, // 当前轮播图的索引
+      currentIndex: 0, // 当前轮播图的索引
       clientHeight: 0, // 客户端高度
+      swithching: false // 是否正在切换
     };
   },
   methods: {
     // 切换轮播图的index
     switchTo (index) {
       this.currentIndex = index
+    },
+    // 监听鼠标滚轮事件
+    handleWheel (e) {
+      if (this.swithching) return;
+      if (e.deltaY < -5 && this.currentIndex > 0) {
+        // 向上滚动
+        this.swithching = true
+        this.currentIndex--
+      } else if (e.deltaY > 5 && this.currentIndex < this.banners.length - 1) {
+        // 向下滚动
+        this.swithching = true
+        this.currentIndex++
+      }
+    },
+    // 监听轮播图切换完成
+    handleTransitionEnd () {
+      this.swithching = false
+    },
+    // 监听窗口大小变化
+    handleResize () {
+      this.clientHeight = this.$refs.container.clientHeight
     }
+    
   },
   async created() {
     const res = await getBannerList();
@@ -57,8 +80,12 @@ export default {
   },
   mounted() {
     this.clientHeight = this.$refs.container.clientHeight;
+    window.addEventListener("resize", this.handleResize);
   },
-};
+  beforeDestroy() {
+    window.removeEventListener("resize", this.handleResize);
+  }
+}
 </script>
 
 <style scoped lang="less">
@@ -68,7 +95,7 @@ export default {
   width: 100%;
   height: 100%;
   position: relative;
-  overflow: hidden;
+  overflow: hidden; // !隐藏超出部分，省的会找不到箭头和指示器，和下面的marginTop配合使用
   ul {
     margin: 0;
     list-style: none;
