@@ -9,8 +9,6 @@
         <CarouselItem
           :ref="`item${index}`"
           :carouse="item"
-          :currentIndex="currentIndex"
-          :banners="banners"
         ></CarouselItem>
       </li>
     </ul>

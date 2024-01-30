@@ -28,14 +28,6 @@ export default {
       type: Object,
       required: true,
     },
-    banners: {
-      type: Array,
-      required: true,
-    },
-    currentIndex: {
-      type: Number,
-      required: true,
-    },
   },
   data() {
     return {
@@ -108,7 +100,7 @@ export default {
       this.$refs.desc.style.width = 0;
       this.$refs.desc.style.transition = "none";
       this.$nextTick(() => {
-        this.$refs.desc.clientWidth;
+        this.$refs.desc.clientWidth; // 强制浏览器刷新
         this.$refs.title.style.opacity = 1;
         this.$refs.title.style.width = this.titleWidth + "px";
         this.$refs.title.style.transition = "width 1s";
@@ -149,6 +141,7 @@ export default {
   width: 100%;
   height: 100%;
   color: #fff;
+  overflow: hidden;
   .carousel-img {
     width: 110%;
     height: 110%;
