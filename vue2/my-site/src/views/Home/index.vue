@@ -1,5 +1,5 @@
 <template>
-  <div class="home-container" ref="container" @wheel="handleWheel">
+  <div class="home-container" ref="container" @wheel="handleWheel" v-loading="isLoading">
     <ul
       class="carousel-container"
       :style="{ marginTop }"
@@ -49,6 +49,7 @@ export default {
   },
   data() {
     return {
+      isLoading: false, // 是否展示loading
       banners: [],
       currentIndex: 0, // 当前轮播图的索引
       clientHeight: 0, // 客户端高度
@@ -95,8 +96,10 @@ export default {
     },
   },
   async created() {
+    this.isLoading = true;
     const res = await getBannerList();
     this.banners = res;
+    this.isLoading = false;
   },
   computed: {
     // 轮播图容器的ulmarginTop的值，用于切换图片
