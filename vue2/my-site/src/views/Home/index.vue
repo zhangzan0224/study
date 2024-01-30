@@ -5,7 +5,7 @@
       :style="{ marginTop }"
       @transitionend="handleTransitionEnd"
     >
-      <li v-for="(item, index) in banners" :key="item.id">
+      <li v-for="(item, index) in data" :key="item.id">
         <CarouselItem
           :ref="`item${index}`"
           :carouse="item"
@@ -21,7 +21,7 @@
     </div>
     <div
       class="icon icon-down"
-      v-show="currentIndex < banners.length - 1"
+      v-show="currentIndex < data.length - 1"
       @click="switchTo(currentIndex + 1)"
     >
       <Icon type="arrowDown"></Icon>
@@ -29,7 +29,7 @@
     <!-- 指示器 -->
     <ul class="indicator">
       <li
-        v-for="(item, i) in banners"
+        v-for="(item, i) in data"
         :key="item.id"
         :class="{ active: i === currentIndex }"
         @click="switchTo(i)"
@@ -41,16 +41,17 @@
 <script>
 import CarouselItem from "./CarouselItem";
 import Icon from "@/components/Icon";
+import fetchData from "@/mixins/fetchData";
 import { getBannerList } from "@/api/banner";
+
 export default {
   components: {
     CarouselItem,
     Icon,
   },
+  mixins: [fetchData([])],
   data() {
     return {
-      isLoading: false, // 是否展示loading
-      banners: [],
       currentIndex: 0, // 当前轮播图的索引
       clientHeight: 0, // 客户端高度
       swithching: false, // 是否正在切换
@@ -77,26 +78,23 @@ export default {
         // 向上滚动
         this.swithching = true;
         this.currentIndex--;
-      } else if (e.deltaY > 15 && this.currentIndex < this.banners.length - 1) {
+      } else if (e.deltaY > 15 && this.currentIndex < this.data.length - 1) {
         // 向下滚动
         this.swithching = true;
         this.currentIndex++;
       }
     },
     // 监听轮播图切换完成
-    handleTransitionEnd() {
-      console.log("切换完成");
-      this.swithching = false;
+    handleTransitionEnd(){
+      this.swithching = false
     },
     // 监听窗口大小变化
     handleResize() {
       this.clientHeight = this.$refs.container.clientHeight;
     },
-  },
-  async created() {
-    this.isLoading = true;
-    this.banners = await getBannerList();
-    this.isLoading = false;
+    async fetchData() {
+      return await getBannerList()
+    },
   },
   computed: {
     // 轮播图容器的ulmarginTop的值，用于切换图片
