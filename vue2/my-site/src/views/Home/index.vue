@@ -81,8 +81,6 @@ export default {
         // 向下滚动
         this.swithching = true;
         this.currentIndex++;
-      } else {
-        return;
       }
     },
     // 监听轮播图切换完成
@@ -97,8 +95,7 @@ export default {
   },
   async created() {
     this.isLoading = true;
-    const res = await getBannerList();
-    this.banners = res;
+    this.banners = await getBannerList();
     this.isLoading = false;
   },
   computed: {
