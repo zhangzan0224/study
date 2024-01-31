@@ -8,6 +8,8 @@ import loading from "@/directives/loading"
 Vue.directive('loading', loading)
 import "./mock/index.js";
 import './api/banner.js'
+import { getBlogs, getBlogTypes } from './api/blog.js'
+getBlogs().then(res => console.log(res))
 Vue.prototype.$showMessage = showMessage;
 new Vue({
   render: (h) => h(App),
