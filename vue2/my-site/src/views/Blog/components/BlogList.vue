@@ -146,7 +146,7 @@ export default {
   width: 100%;
   height: 100%;
   box-sizing: border-box;
-  scroll-behavior: smooth;
+  scroll-behavior: smooth; // 平滑滚动
   ul {
     list-style: none;
     margin: 0;
