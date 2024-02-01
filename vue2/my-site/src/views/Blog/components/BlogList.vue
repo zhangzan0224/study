@@ -74,7 +74,7 @@ export default {
       return await getBlogs({
         page: this.routeInfo.page,
         limit: this.routeInfo.limit,
-        categoryId: this.routeInfo.categoryId
+        categoryId: this.routeInfo.categoryId,
       });
     },
     // 处理分页
@@ -106,7 +106,7 @@ export default {
     // 监控路由的变化,如果路由变化了,就重新获取数据
     async $route() {
       this.isLoading = true;
-      // 滚动高度为0
+      // 滚动高度为0，否则影响loading的展示
       this.$refs.container.scrollTop = 0;
       this.data = await this.fetchData();
       this.isLoading = false;
