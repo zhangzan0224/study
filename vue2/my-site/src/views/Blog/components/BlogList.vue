@@ -26,8 +26,8 @@
       </li>
     </ul>
     <Pager
-      v-if="data.total"
-      :total="data.total"
+      v-if="data && data.total"
+      :total="data && data.total"
       :current="routeInfo.page"
       :limit="routeInfo.limit"
       :visibleNumber="10"
