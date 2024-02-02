@@ -1,5 +1,6 @@
 <template>
   <div class="message-area-container">
+    <!--等同于v-on="{submit: handleSubmit}" 和 @submit="handleSubmit" 爷爷传递父亲,父亲传递儿子,必须在爷爷的身上去处理,可以这样写,否则处理起来麻烦-->
     <DataForm v-on="$listeners" />
     <h3>
       {{ title }}<span>{{ subTitle }}</span>
