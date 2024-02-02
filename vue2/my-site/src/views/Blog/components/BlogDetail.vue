@@ -20,6 +20,8 @@
 </template>
 
 <script>
+// 引入highlight.js样式
+import "highlight.js/styles/github.css";
 export default {
   name: "BlogDetail",
   props: {
@@ -36,9 +38,7 @@ export default {
 @import "~@/styles/var.less";
 // 使用markdown样式
 @import "~@/styles/markdown.css";
-
 .blog-detail-container {
-  padding: 20px;
   .aside {
     font-size: 12px;
     color: @gray;

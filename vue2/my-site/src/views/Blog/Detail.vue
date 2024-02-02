@@ -69,6 +69,8 @@ export default {
 .main-container {
   height: 100%;
   width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
   overflow-x: hidden;
   overflow-y: scroll;
   scroll-behavior: smooth;
