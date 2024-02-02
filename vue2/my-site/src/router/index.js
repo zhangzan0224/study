@@ -9,8 +9,13 @@ const router = new VueRouter({
   mode: "history",
 });
 // 解决重复点击路由报错的BUG
-const originalPush = VueRouter.prototype.push
+const originalPush = VueRouter.prototype.push;
+const originalReplace = VueRouter.prototype.replace;
+
+VueRouter.prototype.replace = function replace(location) {
+  return originalReplace.call(this, location).catch((err) => err);
+};
 VueRouter.prototype.push = function push(location) {
-  return originalPush.call(this, location).catch((err) => err)
-}
+  return originalPush.call(this, location).catch((err) => err);
+};
 export default router;

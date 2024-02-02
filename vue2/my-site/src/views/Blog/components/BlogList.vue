@@ -3,21 +3,28 @@
     <ul v-if="data">
       <li v-for="item in data.rows" :key="item.id">
         <div class="thumb" v-if="item.thumb">
-          <a href="">
+          <RouterLink :to="{ name: 'BlogDetail', params: { id: item.id } }">
             <img :src="item.thumb" :alt="item.title" :title="item.title" />
-          </a>
+          </RouterLink>
         </div>
         <div class="main">
-          <a href="">
+          <RouterLink :to="{ name: 'BlogDetail', params: { id: item.id } }">
             <h2>{{ item.title }}</h2>
-          </a>
+          </RouterLink>
           <div class="aside">
             <span>日期：{{ formatDate(item.createDate) }}</span>
             <span>浏览：{{ item.scanNumber }}</span>
             <span>评论：{{ item.commentNumber }}</span>
-            <a :href="`/article/cate/${item.category.id}`" class="">{{
-              item.category.name
-            }}</a>
+            <RouterLink
+              :to="{
+                name: 'BlogCategory',
+                params: {
+                  categoryId: item.category.id,
+                },
+              }"
+            >
+              {{ item.category.name }}</RouterLink
+            >
           </div>
           <div class="desc">
             {{ item.description }}
