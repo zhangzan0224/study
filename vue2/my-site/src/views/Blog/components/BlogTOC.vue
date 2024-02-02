@@ -1,24 +1,56 @@
 <template>
-  <div>BLogTOC</div>
+  <div class="blog-toc-container">
+    <h2>目录</h2>
+    <RightList :list="processList" @select="handleSelect" />
+  </div>
 </template>
 
 <script>
 // 这里可以导入其他文件（比如：组件，工具 js，第三方插件 js，json 文件，图片文件等等）
 // 例如：import  《组件名称》  from '《组件路径》 ';
 
+import RightList from "@/views/Blog/components/RightList.vue";
+
 export default {
   name: "BlogTOC",
   data() {
     // 这里存放数据
-    return {};
+    return {
+      activeAnchor: "",
+    };
   },
   // import 引入的组件需要注入到对象中才能使用
-  components: {},
-  props: {},
+  components: { RightList },
+  props: {
+    toc: {
+      type: Array,
+      required: true,
+      default: () => [],
+    },
+  },
   // 方法集合
-  methods: {},
+  methods: {
+    handleSelect(item) {
+      this.activeAnchor = item.anchor;
+      window.location.hash = item.anchor;
+    },
+  },
   // 计算属性 类似于 data 概念
-  computed: {},
+  computed: {
+    processList() {
+      // 递归调用
+      const getTOC = (toc = []) => {
+        return toc.map((item) => {
+          return {
+            ...item,
+            isSelected: item.anchor === this.activeAnchor,
+            children: getTOC(item.children),
+          };
+        });
+      };
+      return getTOC(this.toc);
+    },
+  },
   // 监控 data 中的数据变化
   watch: {},
   //过滤器
@@ -47,4 +79,13 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped lang="less">
+.blog-toc-container {
+  h2 {
+    font-weight: bold;
+    letter-spacing: 2px;
+    font-size: 1em;
+    margin: 0;
+  }
+}
+</style>

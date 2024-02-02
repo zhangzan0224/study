@@ -4,8 +4,12 @@
       <span @click="handleSelect(item)" :class="{ active: item.isSelected }">
         {{ item.name }}
       </span>
-      <span @click="handleSelect(item)" v-if="item.aside" :class="{ active: item.isSelected }">
-        {{ item.aside}}
+      <span
+        @click="handleSelect(item)"
+        v-if="item.aside"
+        :class="{ active: item.isSelected }"
+      >
+        {{ item.aside }}
       </span>
       <!--嵌套原来的组件-->
       <RightList
@@ -31,9 +35,7 @@ export default {
       this.$emit("select", item);
     },
   },
-  mounted() {
-    // console.log(this.list);
-  },
+  mounted() {},
 };
 </script>
 

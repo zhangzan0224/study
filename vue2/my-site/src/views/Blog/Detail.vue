@@ -5,7 +5,7 @@
     </div>
     <template v-slot:right>
       <div class="right-container" v-loading="isLoading">
-        <BlogTOC></BlogTOC>
+        <BlogTOC :toc="data.toc" v-if="data"></BlogTOC>
       </div>
     </template>
   </Layout>
