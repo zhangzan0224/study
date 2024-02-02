@@ -1,13 +1,54 @@
 <template>
-  <div>
-    <h1>BlogDetail</h1>
+  <div class="blog-detail-container">
+    <h1>{{ blog.title }}</h1>
+    <div class="aside">
+      <span>日期：{{ blog.createDate }}</span>
+      <span>浏览：{{ blog.scanNumber }}</span>
+      <a href="">评论：{{ blog.commentNumber }}</a>
+      <RouterLink
+        :to="{
+          name: 'BlogCategory',
+          params: {
+            id: blog.category.id,
+          },
+        }"
+        >{{ blog.category.name }}</RouterLink
+      >
+    </div>
+    <div v-html="blog.htmlContent" class="markdown-body"></div>
   </div>
 </template>
 
 <script>
 export default {
   name: "BlogDetail",
+  props: {
+    blog: {
+      type: Object,
+      required: true,
+      default: () => ({}),
+    },
+  },
 };
 </script>
 
-<style scoped lang="less"></style>
+<style scoped lang="less">
+@import "~@/styles/var.less";
+// 使用markdown样式
+@import "~@/styles/markdown.css";
+
+.blog-detail-container {
+  padding: 20px;
+  .aside {
+    font-size: 12px;
+    color: @gray;
+    span,
+    a {
+      margin-right: 5px;
+    }
+  }
+  .markdown-body {
+    margin: 2em 0;
+  }
+}
+</style>
