@@ -34,7 +34,7 @@ export default {
 };
 </script>
 
-<style scoped lang="less">
+<style lang="less" scoped>
 @import "~@/styles/var.less";
 // 使用markdown样式
 @import "~@/styles/markdown.css";
