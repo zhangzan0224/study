@@ -2,6 +2,8 @@
   <Layout>
     <div class="main-container" v-loading="isLoading">
       <BlogDetail :blog="data" v-if="data"></BlogDetail>
+      <!--等文章加载完成之后再去加载评论-->
+      <BlogComment v-if="!isLoading"></BlogComment>
     </div>
     <template v-slot:right>
       <div class="right-container" v-loading="isLoading">
@@ -19,6 +21,7 @@ import fetchData from "@/mixins/fetchData";
 import { getBlogDetail } from "@/api/blog.js";
 import BlogDetail from "@/views/Blog/components/BlogDetail.vue";
 import BlogTOC from "@/views/Blog/components/BlogTOC.vue";
+import BlogComment from "@/views/Blog/components/BlogComment.vue";
 export default {
   name: "Detail",
   data() {
@@ -27,7 +30,7 @@ export default {
   },
   mixins: [fetchData(null)],
   // import 引入的组件需要注入到对象中才能使用
-  components: { BlogDetail, Layout, BlogTOC },
+  components: { BlogComment, BlogDetail, Layout, BlogTOC },
   props: {},
   // 方法集合
   methods: {
