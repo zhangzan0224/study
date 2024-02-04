@@ -30,4 +30,4 @@
 
 // 更简单的写法
 import Vue from "vue";
-export default Vue({});
+export default new Vue({});
