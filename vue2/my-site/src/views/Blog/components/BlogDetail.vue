@@ -9,7 +9,7 @@
         :to="{
           name: 'BlogCategory',
           params: {
-            id: blog.category.id,
+            categoryId: blog.category.id,
           },
         }"
         >{{ blog.category.name }}

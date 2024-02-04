@@ -63,6 +63,7 @@ export default {
   beforeUpdate() {},
   // 生命周期 - 更新之后
   updated() {
+    // 数据加载完成之后,回运行updated函数,这个时候需要去判断一下hash值,如果有hash值,就跳转到对应的位置
     // ! 当刷新页面的时候,如果之前存在hash值,但是不跳转,为什么呢?刚开始dom元素是app,然后才是main-container,所以需要延迟一下,window只要监测到hash值变化才会去跳转
     const locationHash = window.location.hash;
     window.location.hash = "";

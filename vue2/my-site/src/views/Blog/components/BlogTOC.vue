@@ -55,7 +55,7 @@ export default {
           // 在规定的范围下面
           return;
         } else {
-          // 在规定的范围上面
+          // 在规定的范围上面,但是不在控制范围内
           this.activeAnchor = dom.id;
         }
       }
