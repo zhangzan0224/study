@@ -68,6 +68,7 @@ export default {
           type: message.includes("成功") ? "success" : "error",
           duration: 1000,
           container: this.$refs.form,
+          // 当动画结束之后，执行回调函数
           callback: () => {
             if (message.includes("成功")) {
               this.isSubmiting = false;

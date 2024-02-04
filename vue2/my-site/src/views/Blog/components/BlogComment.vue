@@ -38,7 +38,7 @@ export default {
         blogId: this.$route.params.id,
         ...formData,
       });
-      console.log(res, "res");
+      // console.log(res, "res");
       if (res) {
         this.data.total++;
         this.data.rows.unshift(res);
