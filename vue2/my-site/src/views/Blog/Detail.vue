@@ -1,6 +1,6 @@
 <template>
   <Layout>
-    <div class="main-container" v-loading="isLoading">
+    <div class="main-container" v-loading="isLoading" ref="mainContainer">
       <BlogDetail :blog="data" v-if="data"></BlogDetail>
       <!--等文章加载完成之后再去加载评论-->
       <BlogComment v-if="!isLoading"></BlogComment>
@@ -37,6 +37,23 @@ export default {
     async fetchData() {
       return await getBlogDetail(this.$route.params.id);
     },
+    // 监听滚动事件
+    // handleScroll() {
+    //   const mainContainer = this.$refs.mainContainer;
+    //   if (mainContainer) {
+    //     const scrollTop = mainContainer.scrollTop;
+    //     const blogTOC = this.$refs.blogTOC;
+    //     if (blogTOC) {
+    //       const blogTOCHeight = blogTOC.offsetHeight;
+    //       if (scrollTop > blogTOCHeight) {
+    //         blogTOC.style.position = "fixed";
+    //         blogTOC.style.top = "20px";
+    //       } else {
+    //         blogTOC.style.position = "static";
+    //       }
+    //     }
+    //   }
+    // },
   },
   // 计算属性 类似于 data 概念
   computed: {},
