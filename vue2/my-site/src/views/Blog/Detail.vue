@@ -22,6 +22,7 @@ import { getBlogDetail } from "@/api/blog.js";
 import BlogDetail from "@/views/Blog/components/BlogDetail.vue";
 import BlogTOC from "@/views/Blog/components/BlogTOC.vue";
 import BlogComment from "@/views/Blog/components/BlogComment.vue";
+
 export default {
   name: "Detail",
   data() {
@@ -37,23 +38,10 @@ export default {
     async fetchData() {
       return await getBlogDetail(this.$route.params.id);
     },
-    // 监听滚动事件
-    // handleScroll() {
-    //   const mainContainer = this.$refs.mainContainer;
-    //   if (mainContainer) {
-    //     const scrollTop = mainContainer.scrollTop;
-    //     const blogTOC = this.$refs.blogTOC;
-    //     if (blogTOC) {
-    //       const blogTOCHeight = blogTOC.offsetHeight;
-    //       if (scrollTop > blogTOCHeight) {
-    //         blogTOC.style.position = "fixed";
-    //         blogTOC.style.top = "20px";
-    //       } else {
-    //         blogTOC.style.position = "static";
-    //       }
-    //     }
-    //   }
-    // },
+    // 处理滚动的函数
+    handleScroll() {
+      this.$bus.$emit("mainScroll", this.$refs.mainContainer);
+    },
   },
   // 计算属性 类似于 data 概念
   computed: {},
@@ -68,13 +56,24 @@ export default {
   // 生命周期 - 挂载之前
   beforeMount() {},
   // 生命周期 - 挂载完成（可以访问 DOM 元素）
-  mounted() {},
+  mounted() {
+    this.$refs.mainContainer.addEventListener("scroll", this.handleScroll);
+  },
   // 生命周期 - 更新之前
   beforeUpdate() {},
   // 生命周期 - 更新之后
-  updated() {},
+  updated() {
+    // ! 当刷新页面的时候,如果之前存在hash值,但是不跳转,为什么呢?刚开始dom元素是app,然后才是main-container,所以需要延迟一下,window只要监测到hash值变化才会去跳转
+    const locationHash = window.location.hash;
+    window.location.hash = "";
+    setTimeout(() => {
+      window.location.hash = locationHash;
+    }, 0);
+  },
   // 生命周期 - 销毁之前
-  beforeDestroy() {},
+  beforeDestroy() {
+    this.$refs.mainContainer.removeEventListener("scroll", this.handleScroll);
+  },
   // 生命周期 - 销毁完成
   destroyed() {},
   // 如果页面有 keep-alive 缓存功能,这个函数会触发
