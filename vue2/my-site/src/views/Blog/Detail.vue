@@ -42,6 +42,9 @@ export default {
     handleScroll() {
       this.$bus.$emit("mainScroll", this.$refs.mainContainer);
     },
+    handleSetMainScroll(top) {
+      this.$refs.mainContainer.scrollTop = top;
+    },
   },
   // 计算属性 类似于 data 概念
   computed: {},
@@ -58,6 +61,8 @@ export default {
   // 生命周期 - 挂载完成（可以访问 DOM 元素）
   mounted() {
     this.$refs.mainContainer.addEventListener("scroll", this.handleScroll);
+    // 监听top按钮的点击事件
+    this.$bus.$on("setMainScroll", this.handleSetMainScroll);
   },
   // 生命周期 - 更新之前
   beforeUpdate() {},
@@ -73,10 +78,15 @@ export default {
   },
   // 生命周期 - 销毁之前
   beforeDestroy() {
+    // 触发滚动事件，dom元素为未知的，主要用于top按钮的显示隐藏
+    this.$bus.$emit("mainScroll", null);
     this.$refs.mainContainer.removeEventListener("scroll", this.handleScroll);
+    this.$bus.$off("setMainScroll", this.handleSetMainScroll);
   },
   // 生命周期 - 销毁完成
-  destroyed() {},
+  destroyed() {
+    console.log("detail destroyed", this);
+  },
   // 如果页面有 keep-alive 缓存功能,这个函数会触发
   //进入的时候触发
   activated() {},
