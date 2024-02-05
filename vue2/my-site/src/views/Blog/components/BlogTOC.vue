@@ -50,13 +50,13 @@ export default {
         // 在控制范围内
         if (top >= 0 && top < range) {
           this.activeAnchor = dom.id;
-          break;
+          return;
         } else if (top > range) {
           // 在规定的范围下面
           return;
         } else {
           // 在规定的范围上面,但是不在控制范围内
-          this.activeAnchor = dom.id;
+          this.activeAnchor = dom.id; // !先假设自己是激活的，如果下一个元素在范围内，就会覆盖
         }
       }
     },
