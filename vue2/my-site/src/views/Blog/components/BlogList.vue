@@ -48,6 +48,7 @@
 // 例如：import  《组件名称》  from '《组件路径》 ';
 import Pager from "@/components/Pager/index.vue";
 import fetchData from "@/mixins/fetchData";
+import processMainScroll from "@/mixins/processMainScroll";
 import { getBlogs } from "@/api/blog.js";
 import { formatDate } from "@/utils";
 export default {
@@ -73,7 +74,7 @@ export default {
       };
     },
   },
-  mixins: [fetchData(null)],
+  mixins: [fetchData(null), processMainScroll("container")],
   // 方法集合
   methods: {
     formatDate,
@@ -107,12 +108,6 @@ export default {
         });
       }
     },
-    handleScroll() {
-      this.$bus.$emit("mainScroll", this.$refs.container);
-    },
-    handleSetMainScroll(top) {
-      this.$refs.container.scrollTop = top;
-    },
   },
   // 监控 data 中的数据变化
   watch: {
@@ -132,22 +127,13 @@ export default {
   // 生命周期 - 挂载之前
   beforeMount() {},
   // 生命周期 - 挂载完成（可以访问 DOM 元素）
-  mounted() {
-    this.$refs.container.addEventListener("scroll", this.handleScroll);
-    // 监听top按钮的点击事件
-    this.$bus.$on("setMainScroll", this.handleSetMainScroll);
-  },
+  mounted() {},
   // 生命周期 - 更新之前
   beforeUpdate() {},
   // 生命周期 - 更新之后
   updated() {},
   // 生命周期 - 销毁之前
-  beforeDestroy() {
-    // 触发滚动事件，dom元素为未知的，主要用于top按钮的显示隐藏
-    this.$bus.$emit("mainScroll", null);
-    this.$refs.container.removeEventListener("scroll", this.handleScroll);
-    this.$bus.$off("setMainScroll", this.handleSetMainScroll);
-  },
+  beforeDestroy() {},
   // 生命周期 - 销毁完成
   destroyed() {},
   // 如果页面有 keep-alive 缓存功能,这个函数会触发

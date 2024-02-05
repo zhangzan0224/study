@@ -18,6 +18,7 @@
 // 例如：import  《组件名称》  from '《组件路径》 ';
 import Layout from "@/components/Layout/index.vue";
 import fetchData from "@/mixins/fetchData";
+import processMainScroll from "@/mixins/processMainScroll";
 import { getBlogDetail } from "@/api/blog.js";
 import BlogDetail from "@/views/Blog/components/BlogDetail.vue";
 import BlogTOC from "@/views/Blog/components/BlogTOC.vue";
@@ -29,7 +30,7 @@ export default {
     // 这里存放数据
     return {};
   },
-  mixins: [fetchData(null)],
+  mixins: [fetchData(null), processMainScroll("mainContainer")],
   // import 引入的组件需要注入到对象中才能使用
   components: { BlogComment, BlogDetail, Layout, BlogTOC },
   props: {},
@@ -37,13 +38,6 @@ export default {
   methods: {
     async fetchData() {
       return await getBlogDetail(this.$route.params.id);
-    },
-    // 处理滚动的函数
-    handleScroll() {
-      this.$bus.$emit("mainScroll", this.$refs.mainContainer);
-    },
-    handleSetMainScroll(top) {
-      this.$refs.mainContainer.scrollTop = top;
     },
   },
   // 计算属性 类似于 data 概念
@@ -58,12 +52,6 @@ export default {
   created() {},
   // 生命周期 - 挂载之前
   beforeMount() {},
-  // 生命周期 - 挂载完成（可以访问 DOM 元素）
-  mounted() {
-    this.$refs.mainContainer.addEventListener("scroll", this.handleScroll);
-    // 监听top按钮的点击事件
-    this.$bus.$on("setMainScroll", this.handleSetMainScroll);
-  },
   // 生命周期 - 更新之前
   beforeUpdate() {},
   // 生命周期 - 更新之后
@@ -75,13 +63,6 @@ export default {
     setTimeout(() => {
       window.location.hash = locationHash;
     }, 0);
-  },
-  // 生命周期 - 销毁之前
-  beforeDestroy() {
-    // 触发滚动事件，dom元素为未知的，主要用于top按钮的显示隐藏
-    this.$bus.$emit("mainScroll", null);
-    this.$refs.mainContainer.removeEventListener("scroll", this.handleScroll);
-    this.$bus.$off("setMainScroll", this.handleSetMainScroll);
   },
   // 生命周期 - 销毁完成
   destroyed() {
