@@ -5,6 +5,8 @@ import "./styles/global.less";
 import router from "@/router";
 import showMessage from "./utils/showMessage";
 import loading from "@/directives/loading";
+import lazy from "@/directives/lazy";
+Vue.directive("lazy", lazy);
 Vue.directive("loading", loading);
 import "./mock/index.js";
 import "./api/banner.js";

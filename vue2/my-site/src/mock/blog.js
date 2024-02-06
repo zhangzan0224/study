@@ -43,8 +43,9 @@ Mock.mock(/^\/api\/blog(\?.+)?$/, "get", function (options) {
           "commentNumber|0-300": 30,
           // 生成随机图片，在图片和null之间随机
           "thumb|1": [
-            Mock.Random.image("300x250", "#000", "#fff", "Random Image"),
-            null,
+            // Mock.Random.image("300x250", "#000", "#fff", "Random Image"),
+            "@image(300x250, @color, #fff, @title)",
+            // null,
           ],
           createDate: `@date('T')`,
         },
