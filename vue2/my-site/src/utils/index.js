@@ -36,3 +36,5 @@ export function throttle(fn, delay) {
     }, delay);
   };
 }
+
+export { default as titleControl } from "./titleControl";

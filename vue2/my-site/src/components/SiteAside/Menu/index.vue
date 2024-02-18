@@ -29,13 +29,13 @@ export default {
           name: "Home",
           title: "首页",
           icon: "home",
-          exact: true, // 激活状态是否要精确匹配
+          exact: true, // ！激活状态是否要精确匹配
         },
         {
           name: "Blog",
           title: "文章",
           icon: "blog",
-          exact: false, // 激活状态是否要精确匹配，false表示只要是以/blog开头的都会激活 会添加selected类，不添加的情况下默认是false
+          exact: false, // ！激活状态是否要精确匹配，false表示只要是以/blog开头的都会激活 会添加selected类，不添加的情况下默认是false
         },
         {
           name: "About",

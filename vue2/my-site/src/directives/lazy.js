@@ -7,6 +7,7 @@ let imgs = []; // 定义一个图片的数组，判断图片是否加载过
 function handleScroll(dom) {
   setImgs();
 }
+// 设置单个图片的src
 function setImg(img) {
   const rect = img.dom.getBoundingClientRect();
   const height = rect.height || 150; // 如果高度为0，设置默认高度

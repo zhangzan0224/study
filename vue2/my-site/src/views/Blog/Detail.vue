@@ -23,6 +23,7 @@ import { getBlogDetail } from "@/api/blog.js";
 import BlogDetail from "@/views/Blog/components/BlogDetail.vue";
 import BlogTOC from "@/views/Blog/components/BlogTOC.vue";
 import BlogComment from "@/views/Blog/components/BlogComment.vue";
+import { titleControl } from "@/utils";
 
 export default {
   name: "Detail",
@@ -37,7 +38,11 @@ export default {
   // 方法集合
   methods: {
     async fetchData() {
-      return await getBlogDetail(this.$route.params.id);
+      const resp = await getBlogDetail(this.$route.params.id);
+      if (resp.title) {
+        titleControl.setRouteTitle(resp.title);
+      }
+      return resp;
     },
   },
   // 计算属性 类似于 data 概念

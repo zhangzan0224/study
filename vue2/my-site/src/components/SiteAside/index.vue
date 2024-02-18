@@ -1,16 +1,15 @@
 <template>
   <div class="site-aside-container">
-    <Avatar url="http://mdrs.yuanjin.tech/FgMwAPYq17So9nwVH44ltDHo7u3c" />
-    <h1 class="title">龙傲天的小窝</h1>
+    <Avatar :url="(data && data.avatar) || ''" />
+    <h1 class="title">{{ data && data.siteTitle }}</h1>
     <Menu />
     <Contact />
-    <p class="footer">
-      黑ICP备17001719号
-    </p>
+    <p class="footer">{{ data && data.icp }}</p>
   </div>
 </template>
 
 <script>
+import { mapState } from "vuex";
 import Avatar from "@/components/Avatar";
 import Menu from "./Menu";
 import Contact from "./Contact";
@@ -19,6 +18,9 @@ export default {
     Avatar,
     Menu,
     Contact,
+  },
+  computed: {
+    ...mapState("setting", ["data"]),
   },
 };
 </script>
