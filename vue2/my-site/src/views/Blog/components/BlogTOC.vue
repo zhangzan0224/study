@@ -20,6 +20,7 @@ export default {
       activeAnchor: "",
     };
   },
+
   // import 引入的组件需要注入到对象中才能使用
   components: { RightList },
   props: {

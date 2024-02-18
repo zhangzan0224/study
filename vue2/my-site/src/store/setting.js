@@ -1,3 +1,4 @@
+import { getSetting } from "@/api/setting";
 export default {
   namespaced: true,
   state: {
@@ -13,12 +14,11 @@ export default {
     },
   },
   actions: {
-    async fetchSetting( {commit }): {
+    async fetchSetting({ commit }) {
       commit("setLoading", true);
-      const resp = await fetch("/setting");
-      const data = await resp.json();
-      commit("setData", data);
+      const resp = await getSetting();
+      commit("setData", resp);
       commit("setLoading", false);
-    }
-  }
+    },
+  },
 };

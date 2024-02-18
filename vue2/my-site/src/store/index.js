@@ -4,7 +4,7 @@ import banner from "./banner";
 import setting from "./setting";
 Vue.use(Vuex);
 const store = new Vuex.Store({
-  module: {
+  modules: {
     banner,
     setting,
   },

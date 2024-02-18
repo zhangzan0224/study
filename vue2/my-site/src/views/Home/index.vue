@@ -1,15 +1,17 @@
 <template>
-  <div class="home-container" ref="container" @wheel="handleWheel" v-loading="isLoading">
+  <div
+    class="home-container"
+    ref="container"
+    @wheel="handleWheel"
+    v-loading="loading"
+  >
     <ul
       class="carousel-container"
       :style="{ marginTop }"
       @transitionend="handleTransitionEnd"
     >
       <li v-for="(item, index) in data" :key="item.id">
-        <CarouselItem
-          :ref="`item${index}`"
-          :carouse="item"
-        ></CarouselItem>
+        <CarouselItem :ref="`item${index}`" :carouse="item"></CarouselItem>
       </li>
     </ul>
     <div
@@ -41,15 +43,13 @@
 <script>
 import CarouselItem from "./CarouselItem";
 import Icon from "@/components/Icon";
-import fetchData from "@/mixins/fetchData";
-import { getBannerList } from "@/api/banner";
+import { mapState } from "vuex";
 
 export default {
   components: {
     CarouselItem,
     Icon,
   },
-  mixins: [fetchData([])],
   data() {
     return {
       currentIndex: 0, // 当前轮播图的索引
@@ -61,10 +61,15 @@ export default {
     currentIndex: {
       // 根据currentIndex的值，切换轮播图,来实现切换时,文字的加载效果,调用子组件的imgLoad方法
       handler(newVal) {
-        this.$refs[`item${newVal}`] && this.$refs[`item${newVal}`][0].textRender();
+        this.$refs[`item${newVal}`] &&
+          this.$refs[`item${newVal}`][0].textRender();
       },
       immediate: true,
     },
+  },
+  // 获取轮播图数据通过vuex
+  created() {
+    this.$store.dispatch("banner/fetchBanner");
   },
   methods: {
     // 切换轮播图的index
@@ -85,15 +90,12 @@ export default {
       }
     },
     // 监听轮播图切换完成
-    handleTransitionEnd(){
-      this.swithching = false
+    handleTransitionEnd() {
+      this.swithching = false;
     },
     // 监听窗口大小变化
     handleResize() {
       this.clientHeight = this.$refs.container.clientHeight;
-    },
-    async fetchData() {
-      return await getBannerList()
     },
   },
   computed: {
@@ -101,6 +103,7 @@ export default {
     marginTop() {
       return -(this.clientHeight * this.currentIndex) + "px";
     },
+    ...mapState("banner", ["loading", "data"]),
   },
   mounted() {
     this.clientHeight = this.$refs.container.clientHeight;

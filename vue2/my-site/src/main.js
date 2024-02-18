@@ -7,6 +7,7 @@ import showMessage from "./utils/showMessage";
 import loading from "@/directives/loading";
 import lazy from "@/directives/lazy";
 import store from "@/store/index";
+store.dispatch("setting/fetchSetting");
 Vue.directive("lazy", lazy);
 Vue.directive("loading", loading);
 import "./mock/index.js";
