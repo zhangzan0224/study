@@ -18,6 +18,16 @@ const store = new Vuex.Store({
       context.commit("increment");
     },
     decrement(context) {
+      context.commit("decrement");
+    },
+
+    asyncIncrement(context) {
+      setTimeout(() => {
+        context.commit("increment");
+      }, 1000);
+    },
+    // 异步处理较少时，可以直接使用箭头函数
+    asyncDecrement: (context) => {
       setTimeout(() => {
         context.commit("decrement");
       }, 1000);
