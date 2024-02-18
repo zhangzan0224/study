@@ -6,6 +6,7 @@ import router from "@/router";
 import showMessage from "./utils/showMessage";
 import loading from "@/directives/loading";
 import lazy from "@/directives/lazy";
+import store from "@/store/index";
 Vue.directive("lazy", lazy);
 Vue.directive("loading", loading);
 import "./mock/index.js";
@@ -16,4 +17,5 @@ Vue.prototype.$bus = eventBus;
 new Vue({
   render: (h) => h(App),
   router,
+  store,
 }).$mount("#app");

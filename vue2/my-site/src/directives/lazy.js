@@ -18,6 +18,7 @@ function setImg(img) {
     const tempImage = new Image();
     tempImage.onload = () => {
       img.dom.src = img.src; // 临时图片加载成功后，再把dom的src设置为真正的图片地址
+      img.dom.src = img.src; // 十大注释
       imgs = imgs.filter((item) => item !== img); // 将已经加载过的去处掉
     };
     tempImage.src = img.src;

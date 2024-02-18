@@ -1,4 +1,5 @@
-             21 <template>
+21
+<template>
   <div class="layout-container">
     <div class="left">
       <slot name="left"></slot>
@@ -13,7 +14,27 @@
 </template>
 
 <script>
-export default {};
+export default {
+  name: "Layout",
+  data() {
+    return {};
+  },
+  components: {},
+  props: {},
+  methods: {},
+  computed: {},
+  watch: {},
+  beforeCreate() {},
+  created() {},
+  beforeMount() {},
+  mounted() {
+    console.log(this.$store);
+  },
+  beforeUpdate() {},
+  updated() {},
+  beforeDestroy() {},
+  destroyed() {},
+};
 </script>
 
 <style scoped lang="less">

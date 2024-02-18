@@ -55,7 +55,9 @@ export default {
   // 生命周期 - 挂载之前
   beforeMount() {},
   // 生命周期 - 挂载完成（可以访问 DOM 元素）
-  mounted() {},
+  mounted() {
+    console.log(this);
+  },
   // 生命周期 - 更新之前
   beforeUpdate() {},
   // 生命周期 - 更新之后
