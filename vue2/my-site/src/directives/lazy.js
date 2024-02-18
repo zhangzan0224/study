@@ -30,6 +30,7 @@ function setImgs() {
     setImg(item);
   });
 }
+// 监听滚动事件
 eventBus.$on("mainScroll", debounce(handleScroll, 100));
 export default {
   // 当被绑定的元素插入到 父节点时使用
