@@ -14,4 +14,5 @@ const store = new Vuex.Store({
   },
   strict: true,
 });
+// 导出 store
 export default store;
