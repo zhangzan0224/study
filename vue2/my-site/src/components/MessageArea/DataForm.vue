@@ -65,12 +65,15 @@ export default {
       this.$emit("submit", this.formData, (message) => {
         this.$showMessage({
           content: message,
-          type: message.includes("成功") ? "success" : "error",
+          type:
+            message.includes("成功") || message.includes("感谢")
+              ? "success"
+              : "error",
           duration: 1000,
           container: this.$refs.form,
           // 当动画结束之后，执行回调函数
           callback: () => {
-            if (message.includes("成功")) {
+            if (message.includes("成功") || message.includes("感谢")) {
               this.isSubmiting = false;
               this.formData.nickname = "";
               this.formData.content = "";
