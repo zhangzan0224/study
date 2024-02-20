@@ -1,3 +1,4 @@
+const webpackConf = require("./webpack.config.js");
 module.exports = {
   // 配置webpack
   configureWebpack: {
@@ -12,6 +13,7 @@ module.exports = {
         utils: "@/utils",
       },
     },
+    ...webpackConf,
   },
   // 配置开发服务器
   devServer: {
