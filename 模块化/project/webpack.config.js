@@ -4,7 +4,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 module.exports = {
   mode: 'development',
-  entry: './src/main.js',
+  entry: './src/main1.js',
   output: {
     path: path.resolve(__dirname, './dist'),
     filename: 'js/app-[contenthash:5].js',
