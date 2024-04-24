@@ -12,9 +12,11 @@ export default {
     Icon,
   },
   props: {
+    // 这是什么呢？呵呵
+    // 这是默认值为"无数据"的字符串类型的text属性
     text: {
       type: String,
-      default: "无数据",
+      default: "无数据"
     },
   },
 };
