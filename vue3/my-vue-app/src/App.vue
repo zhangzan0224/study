@@ -1,81 +1,67 @@
 <template>
-  <div id="app" data-v-app="">
-    <section class="todoapp">
-      <header class="header">
-        <h1>todos</h1>
-        <input
-          class="new-todo"
-          autofocus=""
-          autocomplete="off"
-          placeholder="What needs to be done?"
-          v-model="newTodoRef"
-          @keyup.enter="addTodo"
+  <div class="container">
+    <div class="list">
+      <strong>编辑:</strong>
+      <div class="list">
+        <CheckEditor
+          v-for="item in tasksRef"
+          :key="item.id"
+          v-model="item.sell"
+          v-model:text.trim="item.title"
         />
-      </header>
-      <section class="main" v-show="todosRef.length > 0">
-        <input id="toggle-all" class="toggle-all" type="checkbox" :checked="isAllFinished" @input="changeAllStatus($event.target.checked)"/>
-        <label for="toggle-all">Mark all as complete</label>
-        <ul class="todo-list" v-for="todo in filterTodosRef" :key="todo.id">
-          <li class="todo" :class="{ completed: todo.isFinshed, editing: todo === editTodoRef}">
-            <div class="view">
-              <input class="toggle" type="checkbox" v-model="todo.isFinshed"/>
-              <label @dblclick="editTodo(todo)">{{ todo.title }}</label>
-              <button class="destroy" @click="removeTodo(todo)"></button>
-            </div>
-            <input class="edit" type="text" v-model="todo.title"  @keyup.escape="cancelEdit(todo)" @keyup.enter="saveEdit(todo)" />
-          </li>
-          <!-- <li class="todo">
-            <div class="view">
-              <input class="toggle" type="checkbox" />
-              <label>投递50封简历</label>
-              <button class="destroy"></button>
-            </div>
-            <input class="edit" type="text" />
-          </li>
-          <li class="todo">
-            <div class="view">
-              <input class="toggle" type="checkbox" />
-              <label>上午10:30 参加面试</label>
-              <button class="destroy"></button>
-            </div>
-            <input class="edit" type="text" />
-          </li> -->
-        </ul>
-      </section>
-      <footer class="footer" v-show="todosRef.length > 0">
-        <span class="todo-count">
-          <strong>{{ remainingRef }}</strong>
-          <span>item{{ remainingRef === 1 ? '' : 's'}} left</span>
-        </span>
-        <ul class="filters">
-          <li><a href="#/all" :class="{selected: visibilityRef === 'all'}">All</a></li>
-          <li><a href="#/active" :class="{selected: visibilityRef === 'active'}">Active</a></li>
-          <li><a href="#/completed" :class="{selected: visibilityRef === 'completed'}">Completed</a></li>
-        </ul>
-        <button class="clear-completed" v-show="finishedRef > 0" @click="clearCompleted">
-          Clear completed
-        </button>
-      </footer>
-    </section>
+      </div>
+    </div>
+    <div class="list">
+      <strong>销售中:</strong>
+      <div>
+        <template v-for="(item, index) in sellingsRef" :key="item.id">
+          <span>{{ index + 1 }}.</span>
+          <strong>{{ item.title }}</strong>
+        </template>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import useTodoList from './components/useTodoList'
-import useNewtodo from './components/useNewtodo'
-import useFilter from './components/useFilter'
-import useEditTodo from './components/useEditTodo'
-import useDeleteTodo from './components/useDeleteTodo'
-  export default {
-    setup(props, context) {
-      const  { todosRef } = useTodoList()
-      return {
-        todosRef,
-        ...useNewtodo(todosRef),
-        ...useFilter(todosRef),
-        ...useEditTodo(todosRef),
-        ...useDeleteTodo(todosRef)
-      }
-    }
-  }
+import CheckEditor from "./components/CheckEditor.vue";
+import { ref, computed, Fragment } from "vue";
+export default {
+  components: {
+    CheckEditor,
+  },
+  setup() {
+    const tasksRef = ref([
+      {
+        id: 1,
+        sell: true,
+        title: "iphone12",
+      },
+      { id: 2, sell: false, title: "xiaomi" },
+      { id: 3, sell: true, title: "huawei" },
+      { id: 4, sell: true, title: "vivo" },
+    ]);
+    const sellingsRef = computed(() => tasksRef.value.filter((it) => it.sell));
+    return {
+      tasksRef,
+      sellingsRef,
+    };
+  },
+};
 </script>
+
+<style scoped>
+.container {
+  margin-top: 50px;
+  width: 880px;
+  margin: 50px auto;
+}
+.list {
+  display: flex;
+  margin: 1em 0;
+  align-items: center;
+}
+strong {
+  margin-right: 1em;
+}
+</style>
