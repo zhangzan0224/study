@@ -40,6 +40,13 @@ export default {
       { id: 2, sell: false, title: "xiaomi" },
       { id: 3, sell: true, title: "huawei" },
       { id: 4, sell: true, title: "vivo" },
+      {id: 5, sell: false, title: "oppo"},
+      { id: 6, sell: true, title: "samsung"},
+      { id: 7, sell: false, title: "meizu"},
+      { id: 8, sell: true, title: "nokia"},
+      { id:9 , sell: false, title: 'apple'},
+      {id: 10, sell: true, title: 'sony'},
+      {id: 11, sell: false, title: 'lenovo'},
     ]);
     const sellingsRef = computed(() => tasksRef.value.filter((it) => it.sell));
     return {

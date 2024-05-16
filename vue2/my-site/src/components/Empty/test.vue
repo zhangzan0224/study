@@ -10,6 +10,14 @@ export default {
   components: {
     Empty,
   },
+  data() {
+    return {
+      abc : 1,
+      cccc: 11,
+      bbb: 'xx',
+      x: 1,
+    }
+  },
 };
 </script>
 

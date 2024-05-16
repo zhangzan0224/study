@@ -24,6 +24,7 @@ export default {
   },
   mounted() {
     // 打印一下url和size可以吗？哈哈哈
+    // data和methods里面的属性和方法都可以直接使用
     console.log()
     console.log(this.url, this.size) 
   }
