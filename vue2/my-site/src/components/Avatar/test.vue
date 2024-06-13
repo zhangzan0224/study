@@ -15,6 +15,14 @@ export default {
       size: 300
     }
   },
+  methods: {
+    changeSize() {
+      // 阿达
+      console.log(this.size)
+      this.size = 200;
+      console.log(this.size)
+    }
+  },
 };
 </script>
 
