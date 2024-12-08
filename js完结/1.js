@@ -1,7 +1,7 @@
 /**
  * 打印一个对象的名字
- * @param {Object} 对象
- * @param {String} key值
+ * @param {Object} obj 对象
+ * @param {String} key key值
  * @return {String} 返回值
  */
 
