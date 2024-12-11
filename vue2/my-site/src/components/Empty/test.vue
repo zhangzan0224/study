@@ -36,7 +36,8 @@ export default {
           }
         }
         return arr;
-      }
+      },
+      // 帮我写yige
   },
 };
 </script>

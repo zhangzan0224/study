@@ -12,7 +12,8 @@ export default {
   },
   data() {
     return {
-      size: 300
+      size: 300,
+      
     }
   },
   methods: {
@@ -21,6 +22,10 @@ export default {
       console.log(this.size)
       this.size = 200;
       console.log(this.size)
+      setTimeout(() => {
+        this.size = 300;
+      }, 1000);
+      
     }
   },
 };
