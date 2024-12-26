@@ -8,3 +8,5 @@ const fullPath = path.join(basePath, '../', 'd.js')
 console.log(fullPath)
 const rel = path.relative('/data/orandea/test/aaa', '/data/orandea/impl/bbb');
 console.log(rel)
+const absPath = path.resolve(__dirname, "./a.js");
+console.log(absPath);
