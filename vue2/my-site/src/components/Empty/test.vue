@@ -23,6 +23,8 @@ export default {
     }
   },
   methods: {
+    // 解释下下面这个函数
+    
     bubbleSort(arr) {
         let len = arr.length;
         for (let i = 0; i < len - 1; i++) {
