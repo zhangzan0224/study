@@ -25,7 +25,8 @@ export default {
       setTimeout(() => {
         this.size = 300;
       }, 1000);
-      
+      // 安保处
+
     }
   },
 };
