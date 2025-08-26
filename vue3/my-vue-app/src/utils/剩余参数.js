@@ -14,6 +14,7 @@ function sum(...args) {
  * 获取一个指定长度的随机数组成的数组
  * @param {number} length 
  * @returns 指定长度的数组
+ * @example getRandomNumbers(5) // [0, 1, 0, 0, 1]
  */
 function getRandomNumbers(length) {
   let numbers = []
@@ -24,3 +25,5 @@ function getRandomNumbers(length) {
 }
 
 /**  */
+
+export { sum, getRandomNumbers }

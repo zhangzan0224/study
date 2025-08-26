@@ -9,7 +9,15 @@ var files = [{
   {
     name: '111232.webp',
     size: 1000
-  }
+  },
+  {
+    name: 'aaaa',
+    size: 1000
+  },
+    {
+    name: 'aaaa.png',
+    size: 1000
+    }
 
 ]
 
@@ -20,3 +28,5 @@ function getImgFiles(files) {
 console.log('====================================');
 console.log(getImgFiles(files));
 console.log('====================================');
+console.log('====================================');
+console.log('@@@@@@')
