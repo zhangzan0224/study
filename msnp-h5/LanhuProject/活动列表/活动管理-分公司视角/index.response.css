@@ -1,0 +1,495 @@
+
+        .page {
+          background-color: rgba(241,243,246,1.000000);position: relative;width: 100vw;height: 298.14vw;overflow: hidden;padding-left: 0;padding-right: 0;padding-top: 0;padding-bottom: 5.6vw
+        }
+      
+
+        .box_1 {
+          background-color: rgba(255,255,255,1.000000);padding: 3.73vw 2.93vw 0 0
+        }
+      
+
+        .box_2 {
+          margin: 0 0.8vw 0 5.6vw
+        }
+      
+
+        .text_1 {
+          overflow-wrap: break-word;color: rgba(0,0,0,1);font-size: 4vw;letter-spacing: -0.30000001192092896px;font-family: Helvetica, "Microsoft YaHei", Arial, sans-serif;font-weight: NaN;text-align: center;white-space: nowrap;line-height: 4.8vw
+        }
+      
+
+        .thumbnail_1 {
+          width: 4.54vw;height: 2.94vw;margin: 1.06vw 0 0.8vw 58.4vw
+        }
+      
+
+        .thumbnail_2 {
+          width: 4vw;height: 2.94vw;margin: 0.8vw 0 1.06vw 1.33vw
+        }
+      
+
+        .image_1 {
+          width: 6.67vw;height: 3.2vw;margin: 0.8vw 0 0.8vw 1.33vw
+        }
+      
+
+        .box_3 {
+          margin-top: 3.2vw
+        }
+      
+
+        .label_1 {
+          width: 10.67vw;height: 11.74vw
+        }
+      
+
+        .text_2 {
+          overflow-wrap: break-word;color: rgba(0,0,0,0.9);font-size: 4.8vw;font-family: PingFangSC-Medium;font-weight: 500;text-align: center;white-space: nowrap;line-height: 4.8vw;margin: 3.46vw 0 0 29.86vw
+        }
+      
+
+        .thumbnail_3 {
+          width: 3.74vw;height: 3.74vw;margin: 4vw 0 4vw 16.53vw
+        }
+      
+
+        .text_3 {
+          overflow-wrap: break-word;color: rgba(51,51,51,1);font-size: 3.73vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: right;white-space: nowrap;line-height: 5.34vw;margin: 3.2vw 0 0 2.13vw
+        }
+      
+
+        .box_4 {
+          background-color: rgba(255,255,255,1.000000);padding: 1.6vw 2.66vw 0 2.66vw
+        }
+      
+
+        .box_5 {
+          background-color: rgba(242,242,242,1.000000);border-radius: 8px;padding: 3.2vw 69.6vw 2.93vw 3.73vw
+        }
+      
+
+        .image-text_1 {
+          width: 21.34vw
+        }
+      
+
+        .thumbnail_4 {
+          width: 3.74vw;height: 3.74vw;margin: 0.8vw 0 1.06vw 0
+        }
+      
+
+        .text-group_1 {
+          overflow-wrap: break-word;color: rgba(153,153,153,1);font-size: 4vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .text-wrapper_1 {
+          width: 90.4vw;margin: 3.46vw 3.73vw 0 0.53vw
+        }
+      
+
+        .text_4 {
+          text-shadow: inset 0px 1px 3px rgba(0,0,0,0.500000);overflow-wrap: break-word;color: rgba(51,51,51,1);font-size: 4.26vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.87vw
+        }
+      
+
+        .text_5 {
+          text-shadow: inset 0px 1px 3px rgba(0,0,0,0.500000);overflow-wrap: break-word;color: rgba(102,102,102,1);font-size: 3.73vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.34vw;margin-top: 0.54vw
+        }
+      
+
+        .text_6 {
+          text-shadow: inset 0px 1px 3px rgba(0,0,0,0.500000);overflow-wrap: break-word;color: rgba(102,102,102,1);font-size: 3.73vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.34vw;margin-top: 0.54vw
+        }
+      
+
+        .text_7 {
+          text-shadow: inset 0px 1px 3px rgba(0,0,0,0.500000);overflow-wrap: break-word;color: rgba(102,102,102,1);font-size: 3.73vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.34vw;margin-top: 0.54vw
+        }
+      
+
+        .text_8 {
+          text-shadow: inset 0px 1px 3px rgba(0,0,0,0.500000);overflow-wrap: break-word;color: rgba(102,102,102,1);font-size: 3.73vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.34vw;margin-top: 0.54vw
+        }
+      
+
+        .box_6 {
+          background-color: rgba(255,129,26,1.000000);border-radius: 2px;width: 9.87vw;height: 1.07vw;margin: 2.13vw 83.2vw 0 1.6vw
+        }
+      
+
+        .box_7 {
+          background-color: rgba(255,255,255,1.000000);border-radius: 8px;width: 94.67vw;align-self: center;margin-top: 3.2vw;padding: 2.66vw 0 4.26vw 0
+        }
+      
+
+        .group_1 {
+          width: 59.2vw;margin-right: 35.47vw
+        }
+      
+
+        .section_1 {
+          background-color: rgba(255,129,26,1.000000);border-radius: 0px 28px 28px 0px;width: 1.07vw;height: 4.8vw;margin: 1.6vw 0 1.6vw 0
+        }
+      
+
+        .text_9 {
+          overflow-wrap: break-word;color: rgba(51,51,51,1);font-size: 4.53vw;font-family: PingFangSC-Semibold;font-weight: 600;text-align: left;white-space: nowrap;line-height: 8vw
+        }
+      
+
+        .group_2 {
+          width: 46.94vw;margin: 2.66vw 42.93vw 0 4.8vw
+        }
+      
+
+        .text-wrapper_2 {
+          background-color: rgba(255,242,232,1.000000);border-radius: 4px;padding: 0.53vw 1.6vw 0.8vw 1.6vw
+        }
+      
+
+        .text_10 {
+          overflow-wrap: break-word;color: rgba(255,129,26,1);font-size: 3.2vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 4.54vw
+        }
+      
+
+        .text-wrapper_3 {
+          background-color: rgba(231,245,244,1.000000);border-radius: 4px;padding: 0.53vw 1.6vw 0.8vw 1.6vw
+        }
+      
+
+        .text_11 {
+          overflow-wrap: break-word;color: rgba(21,157,147,1);font-size: 3.2vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 4.54vw
+        }
+      
+
+        .text-wrapper_4 {
+          background-color: rgba(235,240,253,1.000000);border-radius: 4px;padding: 0.53vw 1.6vw 0.8vw 1.6vw
+        }
+      
+
+        .text_12 {
+          overflow-wrap: break-word;color: rgba(60,110,238,1);font-size: 3.2vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 4.54vw
+        }
+      
+
+        .group_3 {
+          background-color: rgba(250,250,250,1.000000);border-radius: 8px;width: 84vw;align-self: center;margin-top: 3.74vw;justify-content: flex-center;padding: 3.46vw 3.73vw 3.46vw 3.73vw
+        }
+      
+
+        .text-group_2 {
+          
+        }
+      
+
+        .text_13 {
+          overflow-wrap: break-word;color: rgba(51,51,51,1);font-size: 8.8vw;font-family: DINAlternate-Bold;font-weight: 700;text-align: left;white-space: nowrap;line-height: 10.14vw;margin-right: 1.87vw
+        }
+      
+
+        .text_14 {
+          overflow-wrap: break-word;color: rgba(102,102,102,1);font-size: 3.73vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.34vw;margin-top: 1.07vw
+        }
+      
+
+        .thumbnail_5 {
+          width: 3.2vw;height: 1.07vw;margin: 6.4vw 0 9.06vw 10.93vw
+        }
+      
+
+        .thumbnail_6 {
+          width: 5.34vw;height: 1.07vw;margin: 6.4vw 0 9.06vw 1.06vw
+        }
+      
+
+        .box_8 {
+          background-color: rgba(216,216,216,0.500000);border-radius: 50%;width: 1.07vw;height: 1.07vw;margin: 6.4vw 0 9.06vw 1.06vw
+        }
+      
+
+        .text-group_3 {
+          margin: 0.26vw 0 0 11.73vw
+        }
+      
+
+        .text_15 {
+          overflow-wrap: break-word;color: rgba(51,51,51,1);font-size: 8.8vw;font-family: DINAlternate-Bold;font-weight: 700;text-align: right;white-space: nowrap;line-height: 10.14vw;margin-left: 1.87vw
+        }
+      
+
+        .text_16 {
+          overflow-wrap: break-word;color: rgba(102,102,102,1);font-size: 3.73vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: right;white-space: nowrap;line-height: 5.34vw;margin-top: 0.8vw
+        }
+      
+
+        .group_4 {
+          width: 59.2vw;margin: 1.86vw 30.13vw 0 5.33vw
+        }
+      
+
+        .paragraph_1 {
+          width: 14.94vw;height: 32vw;overflow-wrap: break-word;color: rgba(102,102,102,1);font-size: 3.73vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;line-height: 8vw
+        }
+      
+
+        .image-text_2 {
+          width: 37.34vw
+        }
+      
+
+        .text-group_4 {
+          width: 32.8vw;height: 32vw;overflow-wrap: break-word;color: rgba(51,51,51,1);font-size: 3.73vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;line-height: 8vw
+        }
+      
+
+        .thumbnail_7 {
+          width: 2.94vw;height: 3.2vw;margin: 2.4vw 0 26.4vw 0
+        }
+      
+
+        .group_5 {
+          background-color: rgba(242,242,242,1.000000);width: 84vw;height: 0.27vw;align-self: center;margin-top: 4.27vw
+        }
+      
+
+        .text_17 {
+          overflow-wrap: break-word;color: rgba(102,102,102,1);font-size: 3.73vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: center;white-space: nowrap;line-height: 5.34vw;margin: 4.26vw 74.4vw 0 5.33vw
+        }
+      
+
+        .list_1 {
+          width: 84vw;height: 17.6vw;align-self: center;margin-top: 3.2vw
+        }
+      
+
+        .text-group_5-0 {
+          background-color: rgba(250,250,250,1.000000);border-radius: 4px;margin-right: 2.67vw;padding: 2.13vw 9.06vw 1.86vw 3.2vw
+        }
+      
+
+        .text_18-0 {
+          width: 17.34vw;overflow-wrap: break-word;color: rgba(102,102,102,1);font-size: 3.46vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 4.8vw
+        }
+      
+
+        .text_19-0 {
+          overflow-wrap: break-word;color: rgba(51,51,51,1);font-size: 6.4vw;font-family: DINAlternate-Bold;font-weight: 700;text-align: center;white-space: nowrap;line-height: 7.47vw;margin: 1.33vw 7.46vw 0 0
+        }
+      
+
+        .text-group_5-1 {
+          background-color: rgba(250,250,250,1.000000);border-radius: 4px;margin-right: 2.67vw;padding: 2.13vw 9.06vw 1.86vw 3.2vw
+        }
+      
+
+        .text_18-1 {
+          width: 17.34vw;overflow-wrap: break-word;color: rgba(102,102,102,1);font-size: 3.46vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 4.8vw
+        }
+      
+
+        .text_19-1 {
+          overflow-wrap: break-word;color: rgba(51,51,51,1);font-size: 6.4vw;font-family: DINAlternate-Bold;font-weight: 700;text-align: center;white-space: nowrap;line-height: 7.47vw;margin: 1.33vw 7.46vw 0 0
+        }
+      
+
+        .text-group_5-2 {
+          background-color: rgba(250,250,250,1.000000);border-radius: 4px;margin-right: 2.67vw;padding: 2.13vw 9.06vw 1.86vw 3.2vw
+        }
+      
+
+        .text_18-2 {
+          width: 17.34vw;overflow-wrap: break-word;color: rgba(102,102,102,1);font-size: 3.46vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 4.8vw
+        }
+      
+
+        .text_19-2 {
+          overflow-wrap: break-word;color: rgba(51,51,51,1);font-size: 6.4vw;font-family: DINAlternate-Bold;font-weight: 700;text-align: center;white-space: nowrap;line-height: 7.47vw;margin: 1.33vw 7.46vw 0 0
+        }
+      
+
+        .group_6 {
+          background-color: rgba(242,242,242,1.000000);width: 94.67vw;height: 0.27vw;margin-top: 3.47vw
+        }
+      
+
+        .group_7 {
+          width: 66.67vw;margin: 4.26vw 22.66vw 0 5.33vw
+        }
+      
+
+        .text-wrapper_5 {
+          border-radius: 33px;border: 1px solid rgba(255,129,26,1);padding: 1.06vw 2.93vw 1.06vw 2.93vw
+        }
+      
+
+        .text_20 {
+          overflow-wrap: break-word;color: rgba(255,129,26,1);font-size: 3.46vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: center;white-space: nowrap;line-height: 4.8vw
+        }
+      
+
+        .text-wrapper_6 {
+          background: url(./img/SketchPng728db0762cd11491e61ae87d56f29dbc4370a1748ff73688b96c0c64af02dab1.png) 100% no-repeat;background-size: 100% 100%;padding: 1.33vw 3.2vw 1.33vw 3.2vw
+        }
+      
+
+        .text_21 {
+          overflow-wrap: break-word;color: rgba(255,255,255,1);font-size: 3.46vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: center;white-space: nowrap;line-height: 4.8vw
+        }
+      
+
+        .text-wrapper_7 {
+          background: url(./img/SketchPng728db0762cd11491e61ae87d56f29dbc4370a1748ff73688b96c0c64af02dab1.png) 100% no-repeat;background-size: 100% 100%;padding: 1.33vw 3.2vw 1.33vw 3.2vw
+        }
+      
+
+        .text_22 {
+          overflow-wrap: break-word;color: rgba(255,255,255,1);font-size: 3.46vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: center;white-space: nowrap;line-height: 4.8vw
+        }
+      
+
+        .box_9 {
+          background-color: rgba(255,255,255,1.000000);border-radius: 8px;width: 94.67vw;align-self: center;margin-top: 3.74vw;padding: 2.66vw 0 4.8vw 0
+        }
+      
+
+        .group_8 {
+          width: 59.2vw;margin-right: 35.47vw
+        }
+      
+
+        .group_9 {
+          background-color: rgba(255,129,26,1.000000);border-radius: 0px 28px 28px 0px;width: 1.07vw;height: 4.8vw;margin: 1.6vw 0 1.6vw 0
+        }
+      
+
+        .text_23 {
+          overflow-wrap: break-word;color: rgba(51,51,51,1);font-size: 4.53vw;font-family: PingFangSC-Semibold;font-weight: 600;text-align: left;white-space: nowrap;line-height: 8vw
+        }
+      
+
+        .group_10 {
+          width: 46.94vw;margin: 2.66vw 42.93vw 0 4.8vw
+        }
+      
+
+        .text-wrapper_8 {
+          background-color: rgba(255,242,232,1.000000);border-radius: 4px;padding: 0.53vw 1.6vw 0.8vw 1.6vw
+        }
+      
+
+        .text_24 {
+          overflow-wrap: break-word;color: rgba(255,129,26,1);font-size: 3.2vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 4.54vw
+        }
+      
+
+        .text-wrapper_9 {
+          background-color: rgba(231,245,244,1.000000);border-radius: 4px;padding: 0.53vw 1.6vw 0.8vw 1.6vw
+        }
+      
+
+        .text_25 {
+          overflow-wrap: break-word;color: rgba(21,157,147,1);font-size: 3.2vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 4.54vw
+        }
+      
+
+        .text-wrapper_10 {
+          background-color: rgba(235,240,253,1.000000);border-radius: 4px;padding: 0.53vw 1.6vw 0.8vw 1.6vw
+        }
+      
+
+        .text_26 {
+          overflow-wrap: break-word;color: rgba(60,110,238,1);font-size: 3.2vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 4.54vw
+        }
+      
+
+        .group_11 {
+          background-color: rgba(250,250,250,1.000000);border-radius: 8px;width: 84vw;align-self: center;margin-top: 3.74vw;justify-content: flex-center;padding: 3.46vw 3.73vw 3.46vw 3.73vw
+        }
+      
+
+        .text-group_6 {
+          
+        }
+      
+
+        .text_27 {
+          overflow-wrap: break-word;color: rgba(51,51,51,1);font-size: 8.8vw;font-family: DINAlternate-Bold;font-weight: 700;text-align: left;white-space: nowrap;line-height: 10.14vw;margin-right: 1.87vw
+        }
+      
+
+        .text_28 {
+          overflow-wrap: break-word;color: rgba(102,102,102,1);font-size: 3.73vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.34vw;margin-top: 1.07vw
+        }
+      
+
+        .thumbnail_8 {
+          width: 3.2vw;height: 1.07vw;margin: 6.4vw 0 9.06vw 10.93vw
+        }
+      
+
+        .thumbnail_9 {
+          width: 5.34vw;height: 1.07vw;margin: 6.4vw 0 9.06vw 1.06vw
+        }
+      
+
+        .group_12 {
+          background-color: rgba(216,216,216,0.500000);border-radius: 50%;width: 1.07vw;height: 1.07vw;margin: 6.4vw 0 9.06vw 1.06vw
+        }
+      
+
+        .text-group_7 {
+          margin: 0.26vw 0 0 11.73vw
+        }
+      
+
+        .text_29 {
+          overflow-wrap: break-word;color: rgba(51,51,51,1);font-size: 8.8vw;font-family: DINAlternate-Bold;font-weight: 700;text-align: right;white-space: nowrap;line-height: 10.14vw;margin-left: 1.87vw
+        }
+      
+
+        .text_30 {
+          overflow-wrap: break-word;color: rgba(102,102,102,1);font-size: 3.73vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: right;white-space: nowrap;line-height: 5.34vw;margin-top: 0.8vw
+        }
+      
+
+        .group_13 {
+          width: 59.2vw;margin: 1.86vw 30.13vw 0 5.33vw
+        }
+      
+
+        .paragraph_2 {
+          width: 14.94vw;height: 32vw;overflow-wrap: break-word;color: rgba(102,102,102,1);font-size: 3.73vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;line-height: 8vw
+        }
+      
+
+        .image-text_3 {
+          width: 37.34vw
+        }
+      
+
+        .text-group_8 {
+          width: 32.8vw;height: 32vw;overflow-wrap: break-word;color: rgba(51,51,51,1);font-size: 3.73vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;line-height: 8vw
+        }
+      
+
+        .thumbnail_10 {
+          width: 2.94vw;height: 3.2vw;margin: 2.4vw 0 26.4vw 0
+        }
+      
+
+        .group_14 {
+          background-color: rgba(242,242,242,1.000000);width: 94.67vw;height: 0.27vw;margin-top: 4.27vw
+        }
+      
+
+        .text-wrapper_11 {
+          border-radius: 33px;border: 1px solid rgba(255,129,26,1);margin: 4.26vw 76vw 0 5.33vw;padding: 1.06vw 2.93vw 1.06vw 2.93vw
+        }
+      
+
+        .text_31 {
+          overflow-wrap: break-word;color: rgba(255,129,26,1);font-size: 3.46vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: center;white-space: nowrap;line-height: 4.8vw
+        }
+      

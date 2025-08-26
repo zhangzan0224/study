@@ -1,0 +1,1200 @@
+
+        .page {
+          background-color: rgba(241,243,246,1.000000);position: relative;width: 100vw;height: 592.8vw;overflow: hidden
+        }
+      
+
+        .box_1 {
+          background-color: rgba(255,255,255,1.000000);padding: 3.73vw 3.73vw 0 0
+        }
+      
+
+        .block_1 {
+          margin-left: 5.6vw
+        }
+      
+
+        .text_1 {
+          overflow-wrap: break-word;color: rgba(0,0,0,1);font-size: 4vw;letter-spacing: -0.30000001192092896px;font-family: Helvetica, "Microsoft YaHei", Arial, sans-serif;font-weight: NaN;text-align: center;white-space: nowrap;line-height: 4.8vw
+        }
+      
+
+        .thumbnail_1 {
+          width: 4.54vw;height: 2.94vw;margin: 1.06vw 0 0.8vw 58.4vw
+        }
+      
+
+        .thumbnail_2 {
+          width: 4vw;height: 2.94vw;margin: 0.8vw 0 1.06vw 1.33vw
+        }
+      
+
+        .image_1 {
+          width: 6.67vw;height: 3.2vw;margin: 0.8vw 0 0.8vw 1.33vw
+        }
+      
+
+        .block_2 {
+          width: 59.74vw;margin: 3.2vw 36.53vw 0 0
+        }
+      
+
+        .label_1 {
+          width: 10.67vw;height: 11.74vw
+        }
+      
+
+        .text_2 {
+          overflow-wrap: break-word;color: rgba(0,0,0,0.9);font-size: 4.8vw;font-family: PingFangSC-Medium;font-weight: 500;text-align: center;white-space: nowrap;line-height: 4.8vw;margin-top: 3.47vw
+        }
+      
+
+        .box_2 {
+          background-color: rgba(255,255,255,1.000000);border-radius: 8px;width: 94.67vw;align-self: center;margin-top: 3.2vw
+        }
+      
+
+        .group_1 {
+          background: url(./img/SketchPnge4edf23d978dd525e4f6bc575b120e6159ead733da65916dbce7fcd01fd5140e.png) 100% no-repeat;background-size: 100% 100%;padding: 4.8vw 4vw 0 4vw
+        }
+      
+
+        .text_3 {
+          overflow-wrap: break-word;color: rgba(51,51,51,1);font-size: 4.26vw;font-family: PingFangSC-Semibold;font-weight: 600;text-align: left;white-space: nowrap;line-height: 5.87vw;margin-right: 61.07vw
+        }
+      
+
+        .group_2 {
+          background-color: rgba(242,242,242,1.000000);width: 86.67vw;height: 0.27vw;margin-top: 4.54vw
+        }
+      
+
+        .list_1 {
+          height: 40vw
+        }
+      
+
+        .list-items_1-0 {
+          padding: 4vw 4vw 0 4vw
+        }
+      
+
+        .group_3-0 {
+          width: 86.67vw
+        }
+      
+
+        .text-wrapper_1-0 {
+          width: 14.14vw;height: 5.6vw;overflow-wrap: break-word;font-size: 0;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .text_4-0 {
+          width: 18.14vw;overflow-wrap: break-word;color: rgba(255,0,0,1.000000);font-size: 4vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .text_5-0 {
+          width: 18.14vw;overflow-wrap: break-word;font-size: 4vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.6vw;color: rgba(51,51,51,1.000000)
+        }
+      
+
+        .image-text_1-0 {
+          width: 16.8vw
+        }
+      
+
+        .text-group_1-0 {
+          overflow-wrap: break-word;color: rgba(153,153,153,1);font-size: 4vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: right;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .thumbnail_3-0 {
+          width: 4.8vw;height: 4.8vw;margin: 0.53vw 0 0.26vw 0
+        }
+      
+
+        .group_4-0 {
+          background-color: rgba(242,242,242,1.000000);width: 86.67vw;height: 0.27vw;margin-top: 3.47vw
+        }
+      
+
+        .list-items_1-1 {
+          padding: 4vw 4vw 0 4vw
+        }
+      
+
+        .group_3-1 {
+          width: 86.67vw
+        }
+      
+
+        .text-wrapper_1-1 {
+          width: 14.14vw;height: 5.6vw;overflow-wrap: break-word;font-size: 0;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .text_4-1 {
+          width: 18.14vw;overflow-wrap: break-word;color: rgba(255,0,0,1.000000);font-size: 4vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .text_5-1 {
+          width: 18.14vw;overflow-wrap: break-word;font-size: 4vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.6vw;color: rgba(51,51,51,1.000000)
+        }
+      
+
+        .image-text_1-1 {
+          width: 16.8vw
+        }
+      
+
+        .text-group_1-1 {
+          overflow-wrap: break-word;color: rgba(153,153,153,1);font-size: 4vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: right;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .thumbnail_3-1 {
+          width: 4.8vw;height: 4.8vw;margin: 0.53vw 0 0.26vw 0
+        }
+      
+
+        .group_4-1 {
+          background-color: rgba(242,242,242,1.000000);width: 86.67vw;height: 0.27vw;margin-top: 3.47vw
+        }
+      
+
+        .list-items_1-2 {
+          padding: 4vw 4vw 0 4vw
+        }
+      
+
+        .group_3-2 {
+          width: 86.67vw
+        }
+      
+
+        .text-wrapper_1-2 {
+          width: 14.14vw;height: 5.6vw;overflow-wrap: break-word;font-size: 0;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .text_4-2 {
+          width: 18.14vw;overflow-wrap: break-word;color: rgba(255,0,0,1.000000);font-size: 4vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .text_5-2 {
+          width: 18.14vw;overflow-wrap: break-word;font-size: 4vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.6vw;color: rgba(153,153,153,1.000000)
+        }
+      
+
+        .image-text_1-2 {
+          width: 16.8vw
+        }
+      
+
+        .text-group_1-2 {
+          overflow-wrap: break-word;color: rgba(153,153,153,1);font-size: 4vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: right;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .thumbnail_3-2 {
+          width: 4.8vw;height: 4.8vw;margin: 0.53vw 0 0.26vw 0
+        }
+      
+
+        .group_4-2 {
+          background-color: rgba(242,242,242,1.000000);width: 86.67vw;height: 0.27vw;margin-top: 3.47vw
+        }
+      
+
+        .group_5 {
+          padding: 4vw 4vw 0 4vw
+        }
+      
+
+        .text-wrapper_2 {
+          width: 18.14vw;height: 5.6vw;overflow-wrap: break-word;font-size: 0;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.6vw;margin-right: 68.54vw
+        }
+      
+
+        .text_6 {
+          overflow-wrap: break-word;color: rgba(255,0,0,0.90);font-size: 4vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .text_7 {
+          overflow-wrap: break-word;color: rgba(51,51,51,1.000000);font-size: 4vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .block_3 {
+          background-color: rgba(250,250,250,1.000000);border-radius: 8px;margin-top: 2.94vw;padding: 3.73vw 4vw 2.66vw 4vw
+        }
+      
+
+        .text-wrapper_3 {
+          margin-right: 66.67vw
+        }
+      
+
+        .text_8 {
+          overflow-wrap: break-word;color: rgba(153,153,153,1);font-size: 4vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .text-wrapper_4 {
+          margin: 2.93vw 0 0 69.86vw
+        }
+      
+
+        .text_9 {
+          overflow-wrap: break-word;color: rgba(51,51,51,1);font-size: 3.73vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: right;white-space: nowrap;line-height: 5.34vw
+        }
+      
+
+        .block_4 {
+          background-color: rgba(242,242,242,1.000000);width: 86.67vw;height: 0.27vw;margin-top: 3.74vw
+        }
+      
+
+        .list_2 {
+          height: 93.34vw
+        }
+      
+
+        .list-items_2-0 {
+          padding: 4vw 4vw 0 4vw
+        }
+      
+
+        .group_6-0 {
+          width: 86.67vw
+        }
+      
+
+        .text-wrapper_5-0 {
+          width: 18.14vw;height: 5.6vw;overflow-wrap: break-word;font-size: 0;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .text_10-0 {
+          width: 30.14vw;overflow-wrap: break-word;color: rgba(255,0,0,1.000000);font-size: 4vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .text_11-0 {
+          width: 30.14vw;overflow-wrap: break-word;color: rgba(51,51,51,1.000000);font-size: 4vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .image-text_2-0 {
+          width: 16.8vw
+        }
+      
+
+        .text-group_2-0 {
+          overflow-wrap: break-word;color: rgba(153,153,153,1);font-size: 4vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: right;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .thumbnail_4-0 {
+          width: 4.8vw;height: 4.8vw;margin: 0.53vw 0 0.26vw 0
+        }
+      
+
+        .group_7-0 {
+          background-color: rgba(242,242,242,1.000000);width: 86.67vw;height: 0.27vw;margin-top: 3.47vw
+        }
+      
+
+        .list-items_2-1 {
+          padding: 4vw 4vw 0 4vw
+        }
+      
+
+        .group_6-1 {
+          width: 86.67vw
+        }
+      
+
+        .text-wrapper_5-1 {
+          width: 18.14vw;height: 5.6vw;overflow-wrap: break-word;font-size: 0;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .text_10-1 {
+          width: 30.14vw;overflow-wrap: break-word;color: rgba(255,0,0,1.000000);font-size: 4vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .text_11-1 {
+          width: 30.14vw;overflow-wrap: break-word;color: rgba(51,51,51,1.000000);font-size: 4vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .image-text_2-1 {
+          width: 16.8vw
+        }
+      
+
+        .text-group_2-1 {
+          overflow-wrap: break-word;color: rgba(153,153,153,1);font-size: 4vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: right;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .thumbnail_4-1 {
+          width: 4.8vw;height: 4.8vw;margin: 0.53vw 0 0.26vw 0
+        }
+      
+
+        .group_7-1 {
+          background-color: rgba(242,242,242,1.000000);width: 86.67vw;height: 0.27vw;margin-top: 3.47vw
+        }
+      
+
+        .list-items_2-2 {
+          padding: 4vw 4vw 0 4vw
+        }
+      
+
+        .group_6-2 {
+          width: 86.67vw
+        }
+      
+
+        .text-wrapper_5-2 {
+          width: 18.14vw;height: 5.6vw;overflow-wrap: break-word;font-size: 0;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .text_10-2 {
+          width: 30.14vw;overflow-wrap: break-word;color: rgba(255,0,0,1.000000);font-size: 4vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .text_11-2 {
+          width: 30.14vw;overflow-wrap: break-word;color: rgba(51,51,51,1.000000);font-size: 4vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .image-text_2-2 {
+          width: 16.8vw
+        }
+      
+
+        .text-group_2-2 {
+          overflow-wrap: break-word;color: rgba(153,153,153,1);font-size: 4vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: right;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .thumbnail_4-2 {
+          width: 4.8vw;height: 4.8vw;margin: 0.53vw 0 0.26vw 0
+        }
+      
+
+        .group_7-2 {
+          background-color: rgba(242,242,242,1.000000);width: 86.67vw;height: 0.27vw;margin-top: 3.47vw
+        }
+      
+
+        .list-items_2-3 {
+          padding: 4vw 4vw 0 4vw
+        }
+      
+
+        .group_6-3 {
+          width: 86.67vw
+        }
+      
+
+        .text-wrapper_5-3 {
+          width: 18.14vw;height: 5.6vw;overflow-wrap: break-word;font-size: 0;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .text_10-3 {
+          width: 30.14vw;overflow-wrap: break-word;color: rgba(255,0,0,1.000000);font-size: 4vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .text_11-3 {
+          width: 30.14vw;overflow-wrap: break-word;color: rgba(51,51,51,1.000000);font-size: 4vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .image-text_2-3 {
+          width: 16.8vw
+        }
+      
+
+        .text-group_2-3 {
+          overflow-wrap: break-word;color: rgba(153,153,153,1);font-size: 4vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: right;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .thumbnail_4-3 {
+          width: 4.8vw;height: 4.8vw;margin: 0.53vw 0 0.26vw 0
+        }
+      
+
+        .group_7-3 {
+          background-color: rgba(242,242,242,1.000000);width: 86.67vw;height: 0.27vw;margin-top: 3.47vw
+        }
+      
+
+        .list-items_2-4 {
+          padding: 4vw 4vw 0 4vw
+        }
+      
+
+        .group_6-4 {
+          width: 86.67vw
+        }
+      
+
+        .text-wrapper_5-4 {
+          width: 18.14vw;height: 5.6vw;overflow-wrap: break-word;font-size: 0;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .text_10-4 {
+          width: 30.14vw;overflow-wrap: break-word;color: rgba(255,0,0,1.000000);font-size: 4vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .text_11-4 {
+          width: 30.14vw;overflow-wrap: break-word;color: rgba(51,51,51,1.000000);font-size: 4vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .image-text_2-4 {
+          width: 16.8vw
+        }
+      
+
+        .text-group_2-4 {
+          overflow-wrap: break-word;color: rgba(153,153,153,1);font-size: 4vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: right;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .thumbnail_4-4 {
+          width: 4.8vw;height: 4.8vw;margin: 0.53vw 0 0.26vw 0
+        }
+      
+
+        .group_7-4 {
+          background-color: rgba(242,242,242,1.000000);width: 86.67vw;height: 0.27vw;margin-top: 3.47vw
+        }
+      
+
+        .list-items_2-5 {
+          padding: 4vw 4vw 0 4vw
+        }
+      
+
+        .group_6-5 {
+          width: 86.67vw
+        }
+      
+
+        .text-wrapper_5-5 {
+          width: 18.14vw;height: 5.6vw;overflow-wrap: break-word;font-size: 0;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .text_10-5 {
+          width: 30.14vw;overflow-wrap: break-word;color: rgba(255,0,0,1.000000);font-size: 4vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .text_11-5 {
+          width: 30.14vw;overflow-wrap: break-word;color: rgba(51,51,51,1.000000);font-size: 4vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .image-text_2-5 {
+          width: 16.8vw
+        }
+      
+
+        .text-group_2-5 {
+          overflow-wrap: break-word;color: rgba(153,153,153,1);font-size: 4vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: right;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .thumbnail_4-5 {
+          width: 4.8vw;height: 4.8vw;margin: 0.53vw 0 0.26vw 0
+        }
+      
+
+        .group_7-5 {
+          background-color: rgba(242,242,242,1.000000);width: 86.67vw;height: 0.27vw;margin-top: 3.47vw
+        }
+      
+
+        .list-items_2-6 {
+          padding: 4vw 4vw 0 4vw
+        }
+      
+
+        .group_6-6 {
+          width: 86.67vw
+        }
+      
+
+        .text-wrapper_5-6 {
+          width: 18.14vw;height: 5.6vw;overflow-wrap: break-word;font-size: 0;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .text_10-6 {
+          width: 30.14vw;overflow-wrap: break-word;color: rgba(255,0,0,1.000000);font-size: 4vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .text_11-6 {
+          width: 30.14vw;overflow-wrap: break-word;color: rgba(51,51,51,1.000000);font-size: 4vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .image-text_2-6 {
+          width: 16.8vw
+        }
+      
+
+        .text-group_2-6 {
+          overflow-wrap: break-word;color: rgba(153,153,153,1);font-size: 4vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: right;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .thumbnail_4-6 {
+          width: 4.8vw;height: 4.8vw;margin: 0.53vw 0 0.26vw 0
+        }
+      
+
+        .group_7-6 {
+          background-color: rgba(242,242,242,1.000000);width: 86.67vw;height: 0.27vw;margin-top: 3.47vw
+        }
+      
+
+        .group_8 {
+          padding: 4vw 4vw 0 4vw
+        }
+      
+
+        .text-wrapper_6 {
+          width: 18.14vw;height: 5.6vw;overflow-wrap: break-word;font-size: 0;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.6vw;margin-right: 68.54vw
+        }
+      
+
+        .text_12 {
+          overflow-wrap: break-word;color: rgba(255,0,0,0.90);font-size: 4vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .text_13 {
+          overflow-wrap: break-word;color: rgba(51,51,51,1.000000);font-size: 4vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .box_3 {
+          background-color: rgba(250,250,250,1.000000);border-radius: 8px;margin-top: 2.94vw;padding: 3.73vw 4vw 4vw 4vw
+        }
+      
+
+        .text-wrapper_7 {
+          margin-right: 66.67vw
+        }
+      
+
+        .text_14 {
+          overflow-wrap: break-word;color: rgba(153,153,153,1);font-size: 4vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .text-wrapper_8 {
+          margin: 18.66vw 0 0 67.73vw
+        }
+      
+
+        .text_15 {
+          overflow-wrap: break-word;color: rgba(51,51,51,1);font-size: 3.73vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: right;white-space: nowrap;line-height: 5.34vw
+        }
+      
+
+        .box_4 {
+          background-color: rgba(242,242,242,1.000000);width: 86.67vw;height: 0.27vw;margin-top: 4.27vw
+        }
+      
+
+        .list_3 {
+          height: 40vw
+        }
+      
+
+        .list-items_3-0 {
+          padding: 4vw 4vw 0 4vw
+        }
+      
+
+        .group_9-0 {
+          width: 86.67vw
+        }
+      
+
+        .text-wrapper_9-0 {
+          width: 18.14vw;height: 5.6vw;overflow-wrap: break-word;font-size: 0;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .text_16-0 {
+          width: 38.14vw;overflow-wrap: break-word;color: rgba(255,0,0,1.000000);font-size: 4vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .text_17-0 {
+          width: 38.14vw;overflow-wrap: break-word;color: rgba(51,51,51,1.000000);font-size: 4vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .image-text_3-0 {
+          width: 12.8vw
+        }
+      
+
+        .text-group_3-0 {
+          width: 12vw;overflow-wrap: break-word;font-size: 4vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: right;white-space: nowrap;line-height: 5.6vw;color: rgba(51,51,51,1)
+        }
+      
+
+        .thumbnail_5-0 {
+          width: 4.8vw;height: 4.8vw;margin: 0.53vw 0 0.26vw 0
+        }
+      
+
+        .group_10-0 {
+          background-color: rgba(242,242,242,1.000000);width: 86.67vw;height: 0.27vw;margin-top: 3.47vw
+        }
+      
+
+        .list-items_3-1 {
+          padding: 4vw 4vw 0 4vw
+        }
+      
+
+        .group_9-1 {
+          width: 86.67vw
+        }
+      
+
+        .text-wrapper_9-1 {
+          width: 18.14vw;height: 5.6vw;overflow-wrap: break-word;font-size: 0;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .text_16-1 {
+          width: 38.14vw;overflow-wrap: break-word;color: rgba(255,0,0,1.000000);font-size: 4vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .text_17-1 {
+          width: 38.14vw;overflow-wrap: break-word;color: rgba(51,51,51,1.000000);font-size: 4vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .image-text_3-1 {
+          width: 12.8vw
+        }
+      
+
+        .text-group_3-1 {
+          width: 12vw;overflow-wrap: break-word;font-size: 4vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: right;white-space: nowrap;line-height: 5.6vw;color: rgba(153,153,153,1)
+        }
+      
+
+        .thumbnail_5-1 {
+          width: 4.8vw;height: 4.8vw;margin: 0.53vw 0 0.26vw 0
+        }
+      
+
+        .group_10-1 {
+          background-color: rgba(242,242,242,1.000000);width: 86.67vw;height: 0.27vw;margin-top: 3.47vw
+        }
+      
+
+        .list-items_3-2 {
+          padding: 4vw 4vw 0 4vw
+        }
+      
+
+        .group_9-2 {
+          width: 86.67vw
+        }
+      
+
+        .text-wrapper_9-2 {
+          width: 18.14vw;height: 5.6vw;overflow-wrap: break-word;font-size: 0;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .text_16-2 {
+          width: 38.14vw;overflow-wrap: break-word;color: rgba(255,0,0,1.000000);font-size: 4vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .text_17-2 {
+          width: 38.14vw;overflow-wrap: break-word;color: rgba(51,51,51,1.000000);font-size: 4vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .image-text_3-2 {
+          width: 12.8vw
+        }
+      
+
+        .text-group_3-2 {
+          width: 12vw;overflow-wrap: break-word;font-size: 4vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: right;white-space: nowrap;line-height: 5.6vw;color: rgba(153,153,153,1)
+        }
+      
+
+        .thumbnail_5-2 {
+          width: 4.8vw;height: 4.8vw;margin: 0.53vw 0 0.26vw 0
+        }
+      
+
+        .group_10-2 {
+          background-color: rgba(242,242,242,1.000000);width: 86.67vw;height: 0.27vw;margin-top: 3.47vw
+        }
+      
+
+        .group_11 {
+          padding: 4vw 4vw 0 4vw
+        }
+      
+
+        .text_18 {
+          overflow-wrap: break-word;color: rgba(51,51,51,1);font-size: 4vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.6vw;margin-right: 70.67vw
+        }
+      
+
+        .group_12 {
+          background-color: rgba(250,250,250,1.000000);border-radius: 8px;margin-top: 2.94vw;padding: 3.73vw 4vw 2.66vw 4vw
+        }
+      
+
+        .text-wrapper_10 {
+          margin-right: 66.67vw
+        }
+      
+
+        .text_19 {
+          overflow-wrap: break-word;color: rgba(153,153,153,1);font-size: 4vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .text-wrapper_11 {
+          margin: 2.93vw 0 0 69.86vw
+        }
+      
+
+        .text_20 {
+          overflow-wrap: break-word;color: rgba(51,51,51,1);font-size: 3.73vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: right;white-space: nowrap;line-height: 5.34vw
+        }
+      
+
+        .group_13 {
+          background-color: rgba(242,242,242,1.000000);width: 86.67vw;height: 0.27vw;margin-top: 3.74vw
+        }
+      
+
+        .group_14 {
+          padding: 4vw 4vw 0 4vw
+        }
+      
+
+        .text_21 {
+          overflow-wrap: break-word;color: rgba(153,153,153,1);font-size: 4vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.6vw;margin-right: 70.67vw
+        }
+      
+
+        .box_5 {
+          background-color: rgba(242,242,242,1.000000);width: 86.67vw;height: 0.27vw;margin-top: 3.47vw
+        }
+      
+
+        .list_4 {
+          height: 26.67vw
+        }
+      
+
+        .list-items_4-0 {
+          padding: 4vw 4vw 0 4vw
+        }
+      
+
+        .section_1-0 {
+          width: 86.67vw
+        }
+      
+
+        .text-wrapper_12-0 {
+          width: 26.14vw;height: 5.6vw;overflow-wrap: break-word;font-size: 0;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .text_22-0 {
+          width: 46.14vw;overflow-wrap: break-word;color: rgba(255,0,0,1.000000);font-size: 4vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .text_23-0 {
+          width: 46.14vw;overflow-wrap: break-word;color: rgba(51,51,51,1.000000);font-size: 4vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .image-text_4-0 {
+          width: 16.8vw
+        }
+      
+
+        .text-group_4-0 {
+          overflow-wrap: break-word;color: rgba(153,153,153,1);font-size: 4vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: right;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .thumbnail_6-0 {
+          width: 4.8vw;height: 4.8vw;margin: 0.53vw 0 0.26vw 0
+        }
+      
+
+        .section_2-0 {
+          background-color: rgba(242,242,242,1.000000);width: 86.67vw;height: 0.27vw;margin-top: 3.47vw
+        }
+      
+
+        .list-items_4-1 {
+          padding: 4vw 4vw 0 4vw
+        }
+      
+
+        .section_1-1 {
+          width: 86.67vw
+        }
+      
+
+        .text-wrapper_12-1 {
+          width: 26.14vw;height: 5.6vw;overflow-wrap: break-word;font-size: 0;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .text_22-1 {
+          width: 46.14vw;overflow-wrap: break-word;color: rgba(255,0,0,1.000000);font-size: 4vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .text_23-1 {
+          width: 46.14vw;overflow-wrap: break-word;color: rgba(51,51,51,1.000000);font-size: 4vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .image-text_4-1 {
+          width: 16.8vw
+        }
+      
+
+        .text-group_4-1 {
+          overflow-wrap: break-word;color: rgba(153,153,153,1);font-size: 4vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: right;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .thumbnail_6-1 {
+          width: 4.8vw;height: 4.8vw;margin: 0.53vw 0 0.26vw 0
+        }
+      
+
+        .section_2-1 {
+          background-color: rgba(242,242,242,1.000000);width: 86.67vw;height: 0.27vw;margin-top: 3.47vw
+        }
+      
+
+        .box_6 {
+          background-color: rgba(255,255,255,1.000000);border-radius: 8px;width: 94.67vw;align-self: center;margin-top: 3.74vw;padding-bottom: 5.34vw
+        }
+      
+
+        .group_15 {
+          background: url(./img/SketchPnge4edf23d978dd525e4f6bc575b120e6159ead733da65916dbce7fcd01fd5140e.png) 100% no-repeat;background-size: 100% 100%;padding: 4.8vw 4vw 0 4vw
+        }
+      
+
+        .text_24 {
+          overflow-wrap: break-word;color: rgba(51,51,51,1);font-size: 4.26vw;font-family: PingFangSC-Semibold;font-weight: 600;text-align: left;white-space: nowrap;line-height: 5.87vw;margin-right: 69.6vw
+        }
+      
+
+        .group_16 {
+          background-color: rgba(242,242,242,1.000000);width: 86.67vw;height: 0.27vw;margin-top: 4.54vw
+        }
+      
+
+        .text-wrapper_13 {
+          padding: 4vw 82.66vw 3.73vw 4vw
+        }
+      
+
+        .text_25 {
+          overflow-wrap: break-word;color: rgba(51,51,51,1);font-size: 4vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .group_17 {
+          background-color: rgba(243,243,243,1.000000);border-radius: 8px;position: relative;margin: 0 65.86vw 0 4vw;padding: 12.53vw 9.33vw 13.33vw 7.46vw
+        }
+      
+
+        .box_7 {
+          background-color: rgba(166,166,166,1.000000);border-radius: 1px;width: 8vw;height: 0.54vw
+        }
+      
+
+        .image_2 {
+          position: absolute;left: 11.2vw;top: 8.8vw;width: 0.54vw;height: 8vw
+        }
+      
+
+        .group_18 {
+          background-color: rgba(242,242,242,1.000000);width: 86.67vw;height: 0.27vw;align-self: center;margin-top: 4.8vw
+        }
+      
+
+        .group_19 {
+          padding: 4vw 4vw 0 4vw
+        }
+      
+
+        .group_20 {
+          width: 86.67vw
+        }
+      
+
+        .text-wrapper_14 {
+          width: 10.14vw;height: 5.6vw;overflow-wrap: break-word;font-size: 0;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .text_26 {
+          overflow-wrap: break-word;color: rgba(255,0,0,0.90);font-size: 4vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .text_27 {
+          overflow-wrap: break-word;color: rgba(51,51,51,1.000000);font-size: 4vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .text_28 {
+          overflow-wrap: break-word;color: rgba(153,153,153,1);font-size: 4vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: right;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .group_21 {
+          background-color: rgba(242,242,242,1.000000);width: 86.67vw;height: 0.27vw;margin-top: 3.47vw
+        }
+      
+
+        .list_5 {
+          height: 26.67vw
+        }
+      
+
+        .list-items_5-0 {
+          padding: 4vw 4vw 0 4vw
+        }
+      
+
+        .group_22-0 {
+          width: 86.67vw
+        }
+      
+
+        .text-wrapper_15-0 {
+          width: 10.14vw;height: 5.6vw;overflow-wrap: break-word;font-size: 0;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .text_29-0 {
+          overflow-wrap: break-word;color: rgba(255,0,0,1.000000);font-size: 4vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .text_30-0 {
+          overflow-wrap: break-word;color: rgba(51,51,51,1.000000);font-size: 4vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .image-text_5-0 {
+          width: 16.8vw
+        }
+      
+
+        .text-group_5-0 {
+          overflow-wrap: break-word;color: rgba(153,153,153,1);font-size: 4vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: right;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .thumbnail_7-0 {
+          width: 4.8vw;height: 4.8vw;margin: 0.53vw 0 0.26vw 0
+        }
+      
+
+        .group_23-0 {
+          background-color: rgba(242,242,242,1.000000);width: 86.67vw;height: 0.27vw;margin-top: 3.47vw
+        }
+      
+
+        .list-items_5-1 {
+          padding: 4vw 4vw 0 4vw
+        }
+      
+
+        .group_22-1 {
+          width: 86.67vw
+        }
+      
+
+        .text-wrapper_15-1 {
+          width: 10.14vw;height: 5.6vw;overflow-wrap: break-word;font-size: 0;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .text_29-1 {
+          overflow-wrap: break-word;color: rgba(255,0,0,1.000000);font-size: 4vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .text_30-1 {
+          overflow-wrap: break-word;color: rgba(51,51,51,1.000000);font-size: 4vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .image-text_5-1 {
+          width: 16.8vw
+        }
+      
+
+        .text-group_5-1 {
+          overflow-wrap: break-word;color: rgba(153,153,153,1);font-size: 4vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: right;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .thumbnail_7-1 {
+          width: 4.8vw;height: 4.8vw;margin: 0.53vw 0 0.26vw 0
+        }
+      
+
+        .group_23-1 {
+          background-color: rgba(242,242,242,1.000000);width: 86.67vw;height: 0.27vw;margin-top: 3.47vw
+        }
+      
+
+        .group_24 {
+          padding: 4vw 4vw 0 4vw
+        }
+      
+
+        .text-wrapper_16 {
+          width: 86.67vw
+        }
+      
+
+        .text_31 {
+          overflow-wrap: break-word;color: rgba(51,51,51,1);font-size: 4vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .text_32 {
+          overflow-wrap: break-word;color: rgba(153,153,153,1);font-size: 4vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: right;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .box_8 {
+          background-color: rgba(242,242,242,1.000000);width: 86.67vw;height: 0.27vw;margin-top: 3.47vw
+        }
+      
+
+        .group_25 {
+          padding: 4vw 4vw 0 4vw
+        }
+      
+
+        .text_33 {
+          overflow-wrap: break-word;color: rgba(51,51,51,1);font-size: 4vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.6vw;margin-right: 78.67vw
+        }
+      
+
+        .box_9 {
+          background-color: rgba(250,250,250,1.000000);border-radius: 8px;margin-top: 2.94vw;padding: 3.73vw 4vw 4vw 4vw
+        }
+      
+
+        .text-wrapper_17 {
+          margin-right: 66.67vw
+        }
+      
+
+        .text_34 {
+          overflow-wrap: break-word;color: rgba(153,153,153,1);font-size: 4vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 5.6vw
+        }
+      
+
+        .text-wrapper_18 {
+          margin: 18.66vw 0 0 67.73vw
+        }
+      
+
+        .text_35 {
+          overflow-wrap: break-word;color: rgba(51,51,51,1);font-size: 3.73vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: right;white-space: nowrap;line-height: 5.34vw
+        }
+      
+
+        .box_10 {
+          background-color: rgba(242,242,242,1.000000);width: 86.67vw;height: 0.27vw;margin-top: 4.27vw
+        }
+      
+
+        .text-wrapper_19 {
+          border-radius: 4px;border: 1px solid rgba(255,129,26,1);align-self: center;width: 86.67vw;padding: 2.13vw 29.86vw 1.86vw 30.13vw
+        }
+      
+
+        .text_36 {
+          overflow-wrap: break-word;color: rgba(255,129,26,1);font-size: 3.73vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: center;white-space: nowrap;line-height: 5.34vw
+        }
+      
+
+        .box_11 {
+          box-shadow: 0px -3px 4px 0px rgba(0,0,0,0.050000);background-color: rgba(255,255,255,1.000000);width: 100vw;margin-top: 3.74vw;padding: 4vw 2.66vw 4vw 2.66vw
+        }
+      
+
+        .text-wrapper_20 {
+          background-color: rgba(255,255,255,1.000000);border-radius: 40px;border: 1px solid rgba(255,129,26,1);padding: 2.13vw 18.93vw 2.13vw 18.4vw
+        }
+      
+
+        .text_37 {
+          overflow-wrap: break-word;color: rgba(255,129,26,1);font-size: 4.26vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: center;white-space: nowrap;line-height: 5.87vw
+        }
+      
+
+        .text-wrapper_21 {
+          background: url(./img/SketchPng62abdbc7045770a0d1f896d0e1c3326a0d10ad342ec89ebca3bfbef110754d32.png) 100% no-repeat;background-size: 100% 100%;padding: 2.4vw 18.93vw 2.4vw 18.93vw
+        }
+      
+
+        .text_38 {
+          overflow-wrap: break-word;color: rgba(255,255,255,1);font-size: 4.26vw;font-family: PingFangSC-Regular;font-weight: NaN;text-align: center;white-space: nowrap;line-height: 5.87vw
+        }
+      

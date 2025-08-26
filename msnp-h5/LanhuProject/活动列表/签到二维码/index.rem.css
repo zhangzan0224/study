@@ -1,0 +1,75 @@
+
+    html {
+      font-size:37.5px
+    }
+  
+
+        .page {
+          background-color: rgba(241,243,246,1.000000);position: relative;width: 10rem;height: 21.654rem;overflow: hidden
+        }
+      
+
+        .box_1 {
+          background-color: rgba(255,255,255,1.000000);padding: 0.374rem 0.374rem 0 0
+        }
+      
+
+        .box_2 {
+          margin-left: 0.56rem
+        }
+      
+
+        .text_1 {
+          overflow-wrap: break-word;color: rgba(0,0,0,1);font-size: 0.4rem;letter-spacing: -0.30000001192092896px;font-family: Helvetica, "Microsoft YaHei", Arial, sans-serif;font-weight: NaN;text-align: center;white-space: nowrap;line-height: 0.48rem
+        }
+      
+
+        .thumbnail_1 {
+          width: 0.454rem;height: 0.294rem;margin: 0.107rem 0 0.08rem 5.84rem
+        }
+      
+
+        .thumbnail_2 {
+          width: 0.4rem;height: 0.294rem;margin: 0.08rem 0 0.107rem 0.134rem
+        }
+      
+
+        .image_1 {
+          width: 0.667rem;height: 0.32rem;margin: 0.08rem 0 0.08rem 0.134rem
+        }
+      
+
+        .box_3 {
+          width: 6.694rem;margin: 0.32rem 2.934rem 0 0
+        }
+      
+
+        .label_1 {
+          width: 1.067rem;height: 1.174rem
+        }
+      
+
+        .text_2 {
+          overflow-wrap: break-word;color: rgba(0,0,0,0.9);font-size: 0.48rem;font-family: PingFangSC-Medium;font-weight: 500;text-align: center;white-space: nowrap;line-height: 0.48rem;margin-top: 0.347rem
+        }
+      
+
+        .image_2 {
+          width: 10rem;height: 14.134rem;margin-top: 1.414rem
+        }
+      
+
+        .box_4 {
+          background: url(./img/SketchPnge54b934e067b2fd16dc1508cdbb48721408591f35ebedb5f61284ee2a18b4aef.png) 0rem -0.187rem no-repeat;background-size: 10rem 2.054rem;margin-top: 1.894rem;padding: 0.4rem 0.267rem 0.4rem 0.267rem
+        }
+      
+
+        .text-wrapper_1 {
+          background: url(./img/SketchPng2b777cbb2ad415b14e32ff062b34cf1dbc25968ddc0a0e3b539b538635f20055.png) 100% no-repeat;background-size: 100% 100%;padding: 0.24rem 3.654rem 0.24rem 3.68rem
+        }
+      
+
+        .text_3 {
+          overflow-wrap: break-word;color: rgba(255,255,255,1);font-size: 0.426rem;font-family: PingFangSC-Regular;font-weight: NaN;text-align: center;white-space: nowrap;line-height: 0.587rem
+        }
+      

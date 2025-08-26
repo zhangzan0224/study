@@ -1,0 +1,175 @@
+
+        .page {
+          background-color: rgba(241,243,246,1.000000);position: relative;width: 375.00px;height: 812.00px;overflow: hidden
+        }
+      
+
+        .group_1 {
+          background-color: rgba(255,255,255,1.000000);padding-top: 14.00px
+        }
+      
+
+        .box_1 {
+          margin: 0 14px 0 21px
+        }
+      
+
+        .text_1 {
+          overflow-wrap: break-word;color: rgba(0,0,0,1);font-size: 15.00px;letter-spacing: -0.30000001192092896px;font-family: Helvetica, "Microsoft YaHei", Arial, sans-serif;font-weight: NaN;text-align: center;white-space: nowrap;line-height: 18.00px
+        }
+      
+
+        .thumbnail_1 {
+          width: 17.00px;height: 11.00px;margin: 4px 0 3px 219px
+        }
+      
+
+        .thumbnail_2 {
+          width: 15.00px;height: 11.00px;margin: 3px 0 4px 5px
+        }
+      
+
+        .image_1 {
+          width: 25.00px;height: 12.00px;margin: 3px 0 3px 5px
+        }
+      
+
+        .nav-bar_1 {
+          width: 375.00px;margin-top: 9.00px;padding: 3px 151px 0 0
+        }
+      
+
+        .label_1 {
+          width: 40.00px;height: 44.00px
+        }
+      
+
+        .text_2 {
+          overflow-wrap: break-word;color: rgba(0,0,0,0.9);font-size: 18.00px;font-family: PingFangSC-Medium;font-weight: 500;text-align: center;white-space: nowrap;line-height: 18.00px;margin-top: 13.00px
+        }
+      
+
+        .group_2 {
+          position: relative;padding: 1px 0 292px 0
+        }
+      
+
+        .tabs_1 {
+          
+        }
+      
+
+        .group_3 {
+          width: 375.00px
+        }
+      
+
+        .text-wrapper_1 {
+          background-color: rgba(255,255,255,1.000000);padding: 12px 34px 12px 35px
+        }
+      
+
+        .text_3 {
+          text-shadow: inset 0px 1px 3px rgba(0,0,0,0.500000);overflow-wrap: break-word;color: rgba(102,102,102,1);font-size: 14.00px;font-family: PingFangSC-Regular;font-weight: NaN;text-align: center;white-space: nowrap;line-height: 20.00px
+        }
+      
+
+        .text-wrapper_2 {
+          background-color: rgba(255,255,255,1.000000);padding: 12px 34px 12px 35px
+        }
+      
+
+        .text_4 {
+          text-shadow: inset 0px 1px 3px rgba(0,0,0,0.500000);overflow-wrap: break-word;color: rgba(102,102,102,1);font-size: 14.00px;font-family: PingFangSC-Regular;font-weight: NaN;text-align: center;white-space: nowrap;line-height: 20.00px
+        }
+      
+
+        .group_4 {
+          background-color: rgba(255,255,255,1.000000);padding: 11px 30px 0 31px
+        }
+      
+
+        .text_5 {
+          text-shadow: inset 0px 1px 3px rgba(0,0,0,0.500000);overflow-wrap: break-word;color: rgba(51,51,51,1);font-size: 16.00px;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 22.00px
+        }
+      
+
+        .group_5 {
+          background-color: rgba(255,129,26,1.000000);border-radius: 2px;width: 37.00px;height: 4.00px;margin: 7px 14px 0 13px
+        }
+      
+
+        .image_2 {
+          width: 1.00px;height: 225.00px;margin: -5px 355px 0 19px
+        }
+      
+
+        .text_6 {
+          overflow-wrap: break-word;color: rgba(102,102,102,1);font-size: 14.00px;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 20.00px;margin: -208px 130px 0 36px
+        }
+      
+
+        .group_6 {
+          background-color: rgba(255,255,255,1.000000);border-radius: 8px;margin: 11px 14px 0 33px;padding: 14px 8px 14px 20px
+        }
+      
+
+        .paragraph_1 {
+          width: 60.00px;height: 120.00px;overflow-wrap: break-word;color: rgba(102,102,102,1);font-size: 15.00px;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;line-height: 30.00px
+        }
+      
+
+        .paragraph_2 {
+          width: 60.00px;height: 120.00px;overflow-wrap: break-word;color: rgba(51,51,51,1);font-size: 15.00px;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;line-height: 30.00px;margin-left: 15.00px
+        }
+      
+
+        .image_3 {
+          width: 84.00px;height: 72.00px;margin: 23px 0 25px 81px
+        }
+      
+
+        .text_7 {
+          overflow-wrap: break-word;color: rgba(102,102,102,1);font-size: 14.00px;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;white-space: nowrap;line-height: 20.00px;margin: 19px 130px 0 36px
+        }
+      
+
+        .group_7 {
+          background-color: rgba(255,255,255,1.000000);border-radius: 8px;margin: 10px 14px 0 33px;padding: 14px 8px 14px 20px
+        }
+      
+
+        .paragraph_3 {
+          width: 60.00px;height: 120.00px;overflow-wrap: break-word;color: rgba(102,102,102,1);font-size: 15.00px;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;line-height: 30.00px
+        }
+      
+
+        .paragraph_4 {
+          width: 75.00px;height: 120.00px;overflow-wrap: break-word;color: rgba(51,51,51,1);font-size: 15.00px;font-family: PingFangSC-Regular;font-weight: NaN;text-align: left;line-height: 30.00px;margin-left: 15.00px
+        }
+      
+
+        .group_8 {
+          background: url(./img/SketchPng037a5a76a89dc67bfb2a70534de327ed216428b3b584bc113aa2448d72cf5e71.png) 0px -1px no-repeat;background-size: 85px 73px;margin: 24px 0 24px 66px;padding: 21px 16px 20px 15px
+        }
+      
+
+        .text-wrapper_3 {
+          background: url(./img/SketchPngcd0ec39e2818988fb119091f1bc206bff3605bb986386db33c507f5ef755ba01.png) 0px -1px no-repeat;background-size: 54px 32px;padding: 0 0 2px 1px
+        }
+      
+
+        .text_8 {
+          width: 52.00px;height: 29.00px;overflow-wrap: break-word;color: rgba(255,0,0,0.9);font-size: 10.00px;font-family: PingFangSC-Medium;font-weight: 500;text-align: left;line-height: 14.00px
+        }
+      
+
+        .thumbnail_3 {
+          position: absolute;left: 14.00px;top: 61.00px;width: 11.00px;height: 11.00px
+        }
+      
+
+        .thumbnail_4 {
+          position: absolute;left: 14.00px;top: 259.00px;width: 11.00px;height: 11.00px
+        }
+      

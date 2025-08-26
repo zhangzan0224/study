@@ -1,0 +1,70 @@
+
+        .page {
+          background-color: rgba(241,243,246,1.000000);position: relative;width: 375.00px;height: 812.00px;overflow: hidden
+        }
+      
+
+        .box_1 {
+          background-color: rgba(255,255,255,1.000000);padding: 14px 14px 0 0
+        }
+      
+
+        .box_2 {
+          margin-left: 21.00px
+        }
+      
+
+        .text_1 {
+          overflow-wrap: break-word;color: rgba(0,0,0,1);font-size: 15.00px;letter-spacing: -0.30000001192092896px;font-family: Helvetica, "Microsoft YaHei", Arial, sans-serif;font-weight: NaN;text-align: center;white-space: nowrap;line-height: 18.00px
+        }
+      
+
+        .thumbnail_1 {
+          width: 17.00px;height: 11.00px;margin: 4px 0 3px 219px
+        }
+      
+
+        .thumbnail_2 {
+          width: 15.00px;height: 11.00px;margin: 3px 0 4px 5px
+        }
+      
+
+        .image_1 {
+          width: 25.00px;height: 12.00px;margin: 3px 0 3px 5px
+        }
+      
+
+        .box_3 {
+          width: 251.00px;margin: 12px 110px 0 0
+        }
+      
+
+        .label_1 {
+          width: 40.00px;height: 44.00px
+        }
+      
+
+        .text_2 {
+          overflow-wrap: break-word;color: rgba(0,0,0,0.9);font-size: 18.00px;font-family: PingFangSC-Medium;font-weight: 500;text-align: center;white-space: nowrap;line-height: 18.00px;margin-top: 13.00px
+        }
+      
+
+        .image_2 {
+          width: 375.00px;height: 530.00px;margin-top: 53.00px
+        }
+      
+
+        .box_4 {
+          background: url(./img/SketchPnge54b934e067b2fd16dc1508cdbb48721408591f35ebedb5f61284ee2a18b4aef.png) 0px -7px no-repeat;background-size: 375px 77px;margin-top: 71.00px;padding: 15px 10px 15px 10px
+        }
+      
+
+        .text-wrapper_1 {
+          background: url(./img/SketchPng2b777cbb2ad415b14e32ff062b34cf1dbc25968ddc0a0e3b539b538635f20055.png) 100% no-repeat;background-size: 100% 100%;padding: 9px 137px 9px 138px
+        }
+      
+
+        .text_3 {
+          overflow-wrap: break-word;color: rgba(255,255,255,1);font-size: 16.00px;font-family: PingFangSC-Regular;font-weight: NaN;text-align: center;white-space: nowrap;line-height: 22.00px
+        }
+      
