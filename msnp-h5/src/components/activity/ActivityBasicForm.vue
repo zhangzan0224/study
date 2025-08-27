@@ -45,6 +45,21 @@
             <FormField label="医院fe编码" type="input" v-model="localFormData.feHospitalId" placeholder="请输入医院fe编码" :disabled="true" />
           </template>
 
+          <!-- 健财中心时展示 场馆名称 -->
+          <template v-if="showVenueNameField">
+            <FormField label="场馆名称" type="input" v-model="localFormData.centerName" placeholder="请输入场馆名称" />
+          </template>
+
+          <!-- 养老社区、拜博、职场、酒店、其他 时展示 场地信息 -->
+          <template v-if="showSiteInfoField">
+            <FormField label="场地信息" type="textarea" v-model="localFormData.activeVenueDetail" placeholder="请输入场地信息" :rows="3" />
+          </template>
+
+          <!-- 新规则：当为 养老社区 时展示 社区名称 -->
+          <template v-if="showCommunityNameField">
+            <FormField label="社区名称" type="input" v-model="localFormData.communityName" placeholder="请输入社区名称" />
+          </template>
+
           <FormField label="活动省市" :required="true" :type="locationFieldType" v-model="localFormData.location" :placeholder="locationPlaceholder" :disabled="locationDisabled" @select-click="showLocationPicker" />
 
           <!-- 扩展字段 - 仅在 NewActivity 中显示 -->
@@ -352,6 +367,22 @@ const showActiveLocationFields = computed(() => {
   return localFormData.value.activeVenue === 'HEALTH_HOSP'
 })
 
+// 是否显示场馆名称（健财中心）
+const showVenueNameField = computed(() => {
+  return localFormData.value.activeVenue === 'WEALTH_CENTER'
+})
+
+// 是否显示场地信息（养老社区、拜博、职场、酒店、其他）
+const showSiteInfoField = computed(() => {
+  const siteInfoVenues = ['COMMUNITY', 'BYBO', 'WORK_PLACE', 'HOTEL', 'OTHER']
+  return siteInfoVenues.includes(localFormData.value.activeVenue)
+})
+
+// 是否显示社区名称（仅 养老社区）
+const showCommunityNameField = computed(() => {
+  return localFormData.value.activeVenue === 'COMMUNITY'
+})
+
 
 
 // 监听器
@@ -401,8 +432,25 @@ watch([() => localFormData.value.category, () => localFormData.value.healthRelat
 
 // 监听活动场地变化，清空活动位置相关字段
 watch(() => localFormData.value.activeVenue, (newVenue, oldVenue) => {
+  // 当选择为 健保通医院 时，预先拉取医院等级列表
+  if (newVenue === 'HEALTH_HOSP' && hospitalLevelOptions.value.length === 0) {
+    queryHospitalLevel()
+  }
   if (newVenue !== oldVenue && newVenue !== 'HEALTH_HOSP') {
     clearActiveLocationFields()
+  }
+  // 非健财中心时清空场馆名称
+  if (newVenue !== oldVenue && newVenue !== 'WEALTH_CENTER') {
+    clearVenueNameField()
+  }
+  // 非需要展示场地信息的场地时清空场地信息
+  const needSiteInfo = ['COMMUNITY', 'BYBO', 'WORK_PLACE', 'HOTEL', 'OTHER']
+  if (newVenue !== oldVenue && !needSiteInfo.includes(newVenue)) {
+    clearSiteInfoField()
+  }
+  // 非养老社区时清空社区名称
+  if (newVenue !== oldVenue && newVenue !== 'COMMUNITY') {
+    clearCommunityNameField()
   }
 })
 
@@ -699,9 +747,27 @@ const onVenueConfirm = ({ selectedOptions }) => {
   }
 
   localFormData.value.activeVenue = selectVenue.value
-  // 如果选择的不是健保通医院，清空活动位置相关字段
-  if (selectVenue.value !== 'HEALTH_HOSP') {
+  // 按照显隐规则同步清空或预取：
+  // 健保通医院：预取医院等级；否则清空活动位置相关字段
+  if (selectVenue.value === 'HEALTH_HOSP') {
+    if (hospitalLevelOptions.value.length === 0) {
+      queryHospitalLevel()
+    }
+  } else {
     clearActiveLocationFields()
+  }
+  // 非健财中心清空场馆名称
+  if (selectVenue.value !== 'WEALTH_CENTER') {
+    clearVenueNameField()
+  }
+  // 非需展示场地信息类别清空场地信息
+  const needSiteInfo = ['COMMUNITY', 'BYBO', 'WORK_PLACE', 'HOTEL', 'OTHER']
+  if (!needSiteInfo.includes(selectVenue.value)) {
+    clearSiteInfoField()
+  }
+  // 非养老社区清空社区名称
+  if (selectVenue.value !== 'COMMUNITY') {
+    clearCommunityNameField()
   }
   showVenuePickerPopup.value = false
 }
@@ -1090,6 +1156,21 @@ const clearActiveLocationFields = () => {
   // 重置字段可编辑性
   localFormData.value._disableHospitalLevel = false
   // 医院fe编码字段始终禁用，不需要重置
+}
+
+// 清空场馆名称
+const clearVenueNameField = () => {
+  localFormData.value.centerName = ''
+}
+
+// 清空场地信息
+const clearSiteInfoField = () => {
+  localFormData.value.activeVenueDetail = ''
+}
+
+// 清空社区名称
+const clearCommunityNameField = () => {
+  localFormData.value.communityName = ''
 }
 
 const showStrategyPicker = () => {
