@@ -47,7 +47,7 @@
 
           <!-- 健财中心时展示 场馆名称 -->
           <template v-if="showVenueNameField">
-            <FormField label="场馆名称" type="input" v-model="localFormData.centerName" placeholder="请输入场馆名称" />
+            <FormField label="场馆名称" :required="true" type="input" v-model="localFormData.centerName" placeholder="请输入场馆名称搜索" @input="onVenueNameInput" />
           </template>
 
           <!-- 养老社区、拜博、职场、酒店、其他 时展示 场地信息 -->
@@ -86,91 +86,47 @@
 
     <!-- 分公司选择器弹窗 -->
     <van-popup v-model:show="showBranchPickerPopup" position="bottom" round>
-      <van-picker 
-        :columns="branchOptions" 
-        @confirm="onBranchConfirm" 
-        @cancel="onBranchCancel" 
-        :default-index="0"
-        title="选择分公司"
-      />
+      <van-picker :columns="branchOptions" @confirm="onBranchConfirm" @cancel="onBranchCancel" :default-index="0" title="选择分公司" />
     </van-popup>
 
     <!-- 中支选择器弹窗 -->
     <van-popup v-model:show="showsubBranchPickerPopup" position="bottom" round>
-      <van-picker 
-        :columns="subBranchOption" 
-        @confirm="onSubBranchConfirm" 
-        @cancel="onSubBranchCancel" 
-        :default-index="0"
-        title="选择中支"
-      />
+      <van-picker :columns="subBranchOption" @confirm="onSubBranchConfirm" @cancel="onSubBranchCancel" :default-index="0" title="选择中支" />
     </van-popup>
 
     <!-- 活动类别选择器弹窗 -->
     <van-popup v-model:show="showCategoryPickerPopup" position="bottom" round>
-      <van-picker 
-        :columns="categoryOptions" 
-        @confirm="onCategoryConfirm" 
-        @cancel="onCategoryCancel" 
-        :default-index="0"
-        title="选择活动类别"
-      />
+      <van-picker :columns="categoryOptions" @confirm="onCategoryConfirm" @cancel="onCategoryCancel" :default-index="0" title="选择活动类别" />
     </van-popup>
 
     <!-- 健保通相关选择器弹窗 -->
     <van-popup v-model:show="showHealthRelatePickerPopup" position="bottom" round>
-      <van-picker 
-        :columns="healthRelateOptions" 
-        @confirm="onHealthRelateConfirm" 
-        @cancel="onHealthRelateCancel" 
-        :default-index="0"
-        title="选择是否健保通相关"
-      />
+      <van-picker :columns="healthRelateOptions" @confirm="onHealthRelateConfirm" @cancel="onHealthRelateCancel" :default-index="0" title="选择是否健保通相关" />
     </van-popup>
 
     <!-- 活动场地选择器弹窗 -->
     <van-popup v-model:show="showVenuePickerPopup" position="bottom" round>
-      <van-picker 
-        :columns="venueOptions" 
-        @confirm="onVenueConfirm" 
-        @cancel="onVenueCancel" 
-        :default-index="0"
-        title="选择活动场地"
-      />
+      <van-picker :columns="venueOptions" @confirm="onVenueConfirm" @cancel="onVenueCancel" :default-index="0" title="选择活动场地" />
     </van-popup>
 
     <!-- 活动位置选择器弹窗 -->
     <van-popup v-model:show="showActiveLocationPickerPopup" position="bottom" round>
-      <van-picker 
-        :columns="activeLocationOptions" 
-        @confirm="onActiveLocationConfirm" 
-        @cancel="onActiveLocationCancel" 
-        :default-index="0"
-        title="选择活动位置"
-      />
+      <van-picker :columns="activeLocationOptions" @confirm="onActiveLocationConfirm" @cancel="onActiveLocationCancel" :default-index="0" title="选择活动位置" />
     </van-popup>
 
     <!-- 医院级别选择器弹窗 -->
     <van-popup v-model:show="showHospitalLevelPickerPopup" position="bottom" round>
-      <van-picker 
-        :columns="hospitalLevelOptions" 
-        @confirm="onHospitalLevelConfirm" 
-        @cancel="onHospitalLevelCancel" 
-        :default-index="0"
-        title="选择医院级别"
-      />
+      <van-picker :columns="hospitalLevelOptions" @confirm="onHospitalLevelConfirm" @cancel="onHospitalLevelCancel" :default-index="0" title="选择医院级别" />
     </van-popup>
 
     <!-- 医院搜索结果选择器弹窗 -->
     <van-popup v-model:show="showHospitalSearchResultsPopup" position="bottom" round>
-      <van-picker 
-        :columns="hospitalSearchResults" 
-        @confirm="onHospitalSearchResultConfirm" 
-        @cancel="onHospitalSearchResultCancel" 
-        :default-index="0"
-        title="选择医院"
-        @open="onHospitalSearchPickerOpen"
-      />
+      <van-picker :columns="hospitalSearchResults" @confirm="onHospitalSearchResultConfirm" @cancel="onHospitalSearchResultCancel" :default-index="0" title="选择医院" @open="onHospitalSearchPickerOpen" />
+    </van-popup>
+
+    <!-- 场馆名称搜索结果选择器弹窗 -->
+    <van-popup v-model:show="showVenueNameSearchResultsPopup" position="bottom" round>
+      <van-picker :columns="venueNameSearchResults" @confirm="onVenueNameSearchResultConfirm" @cancel="onVenueNameSearchResultCancel" :default-index="0" title="选择场馆名称" @open="onVenueNameSearchPickerOpen" />
     </van-popup>
 
     <!-- 开始时间 PickerGroup 弹窗（日期+时间） -->
@@ -265,6 +221,7 @@ const showVenuePickerPopup = ref(false)
 const showActiveLocationPickerPopup = ref(false)
 const showHospitalLevelPickerPopup = ref(false)
 const showHospitalSearchResultsPopup = ref(false)
+const showVenueNameSearchResultsPopup = ref(false) // 新增：场馆名称搜索结果弹窗
 
 // 活动类别选项
 const categoryOptions = ref([
@@ -294,6 +251,11 @@ const hospitalSearchOptions = ref([])
 const hospitalSearchTimer = ref(null)
 const hospitalSearchResults = ref([])
 const hospitalSearchData = ref([]) // 存储完整的医院数据
+
+// 场馆名称搜索相关
+const venueNameSearchTimer = ref(null)
+const venueNameSearchResults = ref([])
+const venueNameSearchData = ref([]) // 存储完整的场馆名称数据
 
 // 活动场地选项配置 - 使用字典代码
 // 这样设计的好处：
@@ -332,7 +294,7 @@ onMounted(() => {
     const { t: et } = splitDateTime(localFormData.value.endTime)
     endTimeArray.value = et
   }
-  
+
   // 预加载活动场地数据
   queryActiveVenue()
 })
@@ -341,6 +303,9 @@ onMounted(() => {
 onUnmounted(() => {
   if (hospitalSearchTimer.value) {
     clearTimeout(hospitalSearchTimer.value)
+  }
+  if (venueNameSearchTimer.value) {
+    clearTimeout(venueNameSearchTimer.value)
   }
 })
 
@@ -591,10 +556,10 @@ const queryActiveVenue = async () => {
     //     { dictName: '其他', dictCd: 'OTHER' }
     //   ]
     // }
-    
+
     // 模拟后端接口调用，实际使用时请替换为真实的API调用
     await new Promise(resolve => setTimeout(resolve, 300))
-    
+
     // 模拟返回数据
     const mockData = [
       { dictName: '健保通医院', dictCd: 'HEALTH_HOSP' },
@@ -605,25 +570,25 @@ const queryActiveVenue = async () => {
       { dictName: '酒店', dictCd: 'HOTEL' },
       { dictName: '其他', dictCd: 'OTHER' }
     ]
-    
+
     const code = 200
     const data = mockData
-    
+
     if (code === 200 && data) {
       activeVenueAll.value = data.map(item => ({ text: item.dictName, value: item.dictCd }))
       const activeVenueMap = new Map()
       activeVenueAll.value.forEach(item => activeVenueMap.set(item.value, item))
-      
+
       activeVenueArr1.value = venueOptionsConfig.activeVenueNameArr1.map(n => {
         const find = activeVenueMap.get(n)
         return find || null
       }).filter(Boolean)
-      
+
       activeVenueArr2.value = venueOptionsConfig.activeVenueNameArr2.map(n => {
         const find = activeVenueMap.get(n)
         return find || null
       }).filter(Boolean)
-      
+
       activeVenueArr3.value = venueOptionsConfig.activeVenueNameArr3.map(n => {
         const find = activeVenueMap.get(n)
         return find || null
@@ -640,7 +605,7 @@ const queryHospitalLevel = async () => {
   try {
     // 模拟API调用
     // const { code, data } = await getHospitalLevelList()
-    
+
     // 模拟数据 - 使用你提供的数据结构
     const mockData = [
       { catId: "hospitalLevel", catName: "医院等级", dictCd: "10", dictName: "一级" },
@@ -658,10 +623,10 @@ const queryHospitalLevel = async () => {
       { catId: "hospitalLevel", catName: "医院等级", dictCd: "00", dictName: "其他" },
       { catId: "hospitalLevel", catName: "医院等级", dictCd: "3d", dictName: "三级特等" }
     ]
-    
+
     const code = 200
     const data = mockData
-    
+
     if (code === 200 && data) {
       hospitalLevelOptions.value = data.map(item => ({ text: item.dictName, value: item.dictCd }))
     }
@@ -676,17 +641,17 @@ const queryActiveLocation = async () => {
   try {
     // 模拟API调用
     // const { code, data } = await getActiveLocationList()
-    
+
     // 模拟数据 - 使用你提供的数据结构
     const mockData = [
       { catId: "activeLocation", catName: "活动位置", dictCd: "1", dictName: "院内" },
       { catId: "activeLocation", catName: "活动位置", dictCd: "2", dictName: "驿站" },
       { catId: "activeLocation", catName: "活动位置", dictCd: "3", dictName: "VIP室" }
     ]
-    
+
     const code = 200
     const data = mockData
-    
+
     if (code === 200 && data) {
       activeLocationOptions.value = data.map(item => ({ text: item.dictName, value: item.dictCd }))
     }
@@ -703,16 +668,16 @@ const loadVenueOptions = async () => {
       message: '加载活动场地选项...',
       forbidClick: true,
     })
-    
+
     // 获取当前的活动类别和是否健保通相关
     const category = localFormData.value.category
     const healthRelate = localFormData.value.healthRelate
-    
+
     // 如果还没有加载过活动场地数据，先加载
     if (activeVenueAll.value.length === 0) {
       await queryActiveVenue()
     }
-    
+
     // 根据配置动态组合活动场地选项
     if (category === '1') { // 超体场景
       if (healthRelate === '1') { // 是健保通相关
@@ -727,10 +692,10 @@ const loadVenueOptions = async () => {
     } else {
       venueOptions.value = []
     }
-    
+
     closeToast()
     showVenuePickerPopup.value = true
-    
+
   } catch (error) {
     closeToast()
     showFailToast('加载活动场地选项失败')
@@ -780,7 +745,7 @@ const onVenueCancel = () => {
 // 活动位置选择器方法
 const showActiveLocationPicker = async () => {
   if (!props.editable) return
-  
+
   try {
     // 如果还没有加载过活动位置数据，先加载
     if (activeLocationOptions.value.length === 0) {
@@ -791,7 +756,7 @@ const showActiveLocationPicker = async () => {
       await queryActiveLocation()
       closeToast()
     }
-    
+
     showActiveLocationPickerPopup.value = true
   } catch (error) {
     closeToast()
@@ -802,7 +767,7 @@ const showActiveLocationPicker = async () => {
 
 const onActiveLocationConfirm = ({ selectedOptions }) => {
   const selectLocation = selectedOptions && selectedOptions[0]
-  
+
   if (selectLocation && selectLocation.text) {
     localFormData.value.activeLocation = selectLocation.value
   }
@@ -816,7 +781,7 @@ const onActiveLocationCancel = () => {
 // 医院级别选择器方法
 const showHospitalLevelPicker = async () => {
   if (!props.editable) return
-  
+
   try {
     // 如果还没有加载过医院级别数据，先加载
     if (hospitalLevelOptions.value.length === 0) {
@@ -827,7 +792,7 @@ const showHospitalLevelPicker = async () => {
       await queryHospitalLevel()
       closeToast()
     }
-    
+
     showHospitalLevelPickerPopup.value = true
   } catch (error) {
     closeToast()
@@ -838,7 +803,7 @@ const showHospitalLevelPicker = async () => {
 
 const onHospitalLevelConfirm = (event) => {
   console.log('医院级别确认事件:', event)
-  
+
   // 处理不同的事件数据结构
   let selectLevel
   if (event && event.selectedOptions && event.selectedOptions[0]) {
@@ -852,7 +817,7 @@ const onHospitalLevelConfirm = (event) => {
     showHospitalLevelPickerPopup.value = false
     return
   }
-  
+
   if (selectLevel && selectLevel.text) {
     localFormData.value.hospitalLevel = selectLevel.value
   }
@@ -868,7 +833,7 @@ const onHospitalInput = async (inputValue) => {
   console.log('=== 医院名称输入事件 ===')
   console.log('原始 inputValue:', inputValue)
   console.log('inputValue 类型:', typeof inputValue)
-  
+
   // 处理 InputEvent 对象，获取实际输入值
   let searchValue
   if (inputValue && typeof inputValue === 'object' && inputValue.target) {
@@ -881,21 +846,21 @@ const onHospitalInput = async (inputValue) => {
     // 如果是直接的值，直接使用
     searchValue = String(inputValue || '').trim()
   }
-  
+
   console.log('处理后的 searchValue:', searchValue)
-  
+
   // 清空之前的定时器
   if (hospitalSearchTimer.value) {
     clearTimeout(hospitalSearchTimer.value)
   }
-  
+
   // 如果输入为空，清空搜索结果
   if (!searchValue) {
     hospitalSearchResults.value = []
     console.log('输入为空，清空搜索结果')
     return
   }
-  
+
   console.log('开始防抖搜索，500ms后执行...')
   // 防抖搜索：用户停止输入500ms后才执行搜索
   hospitalSearchTimer.value = setTimeout(async () => {
@@ -911,10 +876,10 @@ const searchHospital = async (searchValue) => {
       message: '搜索医院中...',
       forbidClick: true,
     })
-    
+
     // 模拟API调用
     // const { code, data } = await searchHospitalAPI(searchValue)
-    
+
     // 模拟后端数据 - 这里应该是从后端API获取的真实数据
     const backendData = [
       {
@@ -936,15 +901,15 @@ const searchHospital = async (searchValue) => {
         isCustom: false
       }
     ]
-    
+
     // 检查后端数据中是否已经存在用户输入的医院名称
-    const existingHospital = backendData.find(hospital => 
+    const existingHospital = backendData.find(hospital =>
       hospital.hospitalName.toLowerCase() === searchValue.toLowerCase()
     )
-    
+
     // 构建最终的数据
     let mockData = [...backendData]
-    
+
     // 如果后端数据中没有相同的医院名称，才添加用户输入的作为自定义选项
     if (!existingHospital) {
       mockData.unshift({
@@ -954,32 +919,32 @@ const searchHospital = async (searchValue) => {
         isCustom: true
       })
     }
-    
+
     const code = 200
     const data = mockData
-    
+
     if (code === 200 && data) {
       console.log('=== 搜索医院结果处理 ===')
       console.log('原始数据 data:', data)
-      
+
       // 存储完整的医院数据
       hospitalSearchData.value = data
       console.log('存储的完整数据 hospitalSearchData.value:', hospitalSearchData.value)
-      
+
       // 为 van-picker 创建简化的选项格式（只包含 text 和 value）
       const pickerOptions = data.map(item => ({
         text: item.hospitalName,
         value: item.feHospitalId // 使用 fe编码 作为 value
       }))
-      
+
       console.log('转换后的 pickerOptions:', pickerOptions)
       console.log('pickerOptions 类型:', typeof pickerOptions)
       console.log('pickerOptions 是否为数组:', Array.isArray(pickerOptions))
-      
+
       // 显示搜索结果选择器
       showHospitalSearchResults(pickerOptions)
     }
-    
+
     closeToast()
   } catch (error) {
     closeToast()
@@ -994,22 +959,22 @@ const showHospitalSearchResults = (options) => {
   console.log('传入的 options:', options)
   console.log('options 类型:', typeof options)
   console.log('options 是否为数组:', Array.isArray(options))
-  
+
   // 使用 vant 的 Picker 组件显示搜索结果
   // 确保数据格式正确：van-picker 需要 columns 格式
   hospitalSearchResults.value = options
-  
+
   console.log('设置后的 hospitalSearchResults.value:', hospitalSearchResults.value)
   console.log('hospitalSearchResults.value 类型:', typeof hospitalSearchResults.value)
   console.log('hospitalSearchResults.value 是否为数组:', Array.isArray(hospitalSearchResults.value))
-  
+
   showHospitalSearchResultsPopup.value = true
 }
 
 // 医院搜索结果选择器确认
 const onHospitalSearchResultConfirm = (event) => {
   console.log('医院搜索结果确认事件:', event)
-  
+
   // 处理不同的事件数据结构
   let selectedOption
   if (event && event.selectedOptions && event.selectedOptions[0]) {
@@ -1023,29 +988,29 @@ const onHospitalSearchResultConfirm = (event) => {
     showHospitalSearchResultsPopup.value = false
     return
   }
-  
+
   console.log('选中的医院选项:', selectedOption)
-  
+
   if (selectedOption) {
     // 根据选中的 fe编码 找到完整的医院数据
     const selectedHospital = hospitalSearchData.value.find(
       hospital => hospital.feHospitalId === selectedOption.value
     )
-    
+
     if (selectedHospital) {
       localFormData.value.hospitalName = selectedHospital.hospitalName
       localFormData.value.hospitalLevel = selectedHospital.hospitalLevel || ''
       localFormData.value.feHospitalId = selectedHospital.feHospitalId || ''
-      
+
       // 根据是否自定义医院设置字段可编辑性
       updateHospitalFieldsEditability(selectedHospital.isCustom)
-      
-              console.log('选中的医院信息:', {
-          name: selectedHospital.hospitalName,
-          level: selectedHospital.hospitalLevel,
-          feCode: selectedHospital.feHospitalId,
-          isCustom: selectedHospital.isCustom
-        })
+
+      console.log('选中的医院信息:', {
+        name: selectedHospital.hospitalName,
+        level: selectedHospital.hospitalLevel,
+        feCode: selectedHospital.feHospitalId,
+        isCustom: selectedHospital.isCustom
+      })
     } else {
       console.error('未找到对应的医院数据:', selectedOption)
     }
@@ -1074,7 +1039,7 @@ const onHospitalSearchPickerOpen = () => {
 // 更新医院字段的可编辑性
 const updateHospitalFieldsEditability = (isCustom) => {
   console.log('更新医院字段可编辑性，isCustom:', isCustom)
-  
+
   if (!isCustom) {
     // 从后端搜索结果选择，禁用医院级别
     localFormData.value._disableHospitalLevel = true
@@ -1084,8 +1049,201 @@ const updateHospitalFieldsEditability = (isCustom) => {
     localFormData.value._disableHospitalLevel = false
     console.log('自定义医院：允许修改医院级别字段')
   }
-  
+
   // 医院fe编码字段始终禁用，不需要动态控制
+}
+
+// 场馆名称搜索相关方法
+const onVenueNameInput = async (inputValue) => {
+  console.log('=== 场馆名称输入事件 ===')
+  console.log('原始 inputValue:', inputValue)
+  console.log('inputValue 类型:', typeof inputValue)
+
+  // 处理 InputEvent 对象，获取实际输入值
+  let searchValue
+  if (inputValue && typeof inputValue === 'object' && inputValue.target) {
+    // 如果是 InputEvent 对象，从 target.value 获取值
+    searchValue = String(inputValue.target.value || '').trim()
+  } else if (inputValue && typeof inputValue === 'object' && inputValue.detail) {
+    // 如果是 Vant 的事件对象，从 detail 获取值
+    searchValue = String(inputValue.detail || '').trim()
+  } else {
+    // 如果是直接的值，直接使用
+    searchValue = String(inputValue || '').trim()
+  }
+
+  console.log('处理后的 searchValue:', searchValue)
+
+  // 清空之前的定时器
+  if (venueNameSearchTimer.value) {
+    clearTimeout(venueNameSearchTimer.value)
+  }
+
+  // 如果输入为空，清空搜索结果
+  if (!searchValue) {
+    venueNameSearchResults.value = []
+    console.log('输入为空，清空搜索结果')
+    return
+  }
+
+  console.log('开始防抖搜索，500ms后执行...')
+  // 防抖搜索：用户停止输入500ms后才执行搜索
+  venueNameSearchTimer.value = setTimeout(async () => {
+    console.log('执行搜索，搜索值:', searchValue)
+    await searchVenueName(searchValue)
+  }, 500)
+}
+
+// 搜索场馆名称
+const searchVenueName = async (searchValue) => {
+  try {
+    showLoadingToast({
+      message: '搜索场馆中...',
+      forbidClick: true,
+    })
+
+    // 模拟API调用
+    // const { code, data } = await searchVenueNameAPI(searchValue)
+
+    // 模拟后端数据 - 这里应该是从后端API获取的真实数据
+    const backendData = [
+      {
+        centerName: `${searchValue}分部`,
+        isCustom: false
+      },
+      {
+        centerName: `${searchValue}总部`,
+        isCustom: false
+      },
+      {
+        centerName: `${searchValue}中心`,
+        isCustom: false
+      }
+    ]
+
+    // 检查后端数据中是否已经存在用户输入的场馆名称
+    const existingVenue = backendData.find(venue =>
+      venue.centerName.toLowerCase() === searchValue.toLowerCase()
+    )
+
+    // 构建最终的数据
+    let mockData = [...backendData]
+
+    // 如果后端数据中没有相同的场馆名称，才添加用户输入的作为自定义选项
+    if (!existingVenue) {
+      mockData.unshift({
+        centerName: searchValue,
+        isCustom: true
+      })
+    }
+
+    const code = 200
+    const data = mockData
+
+    if (code === 200 && data) {
+      console.log('=== 搜索场馆名称结果处理 ===')
+      console.log('原始数据 data:', data)
+
+      // 存储完整的场馆名称数据
+      venueNameSearchData.value = data
+      console.log('存储的完整数据 venueNameSearchData.value:', venueNameSearchData.value)
+
+      // 为 van-picker 创建简化的选项格式（只包含 text 和 value）
+      const pickerOptions = data.map(item => ({
+        text: item.centerName,
+        value: item.centerName // 使用场馆名称作为 value
+      }))
+
+      console.log('转换后的 pickerOptions:', pickerOptions)
+      console.log('pickerOptions 类型:', typeof pickerOptions)
+      console.log('pickerOptions 是否为数组:', Array.isArray(pickerOptions))
+
+      // 显示搜索结果选择器
+      showVenueNameSearchResults(pickerOptions)
+    }
+
+    closeToast()
+  } catch (error) {
+    closeToast()
+    showFailToast('搜索场馆名称失败')
+    console.error('Failed to search venue name:', error)
+  }
+}
+
+// 显示场馆名称搜索结果选择器
+const showVenueNameSearchResults = (options) => {
+  console.log('=== 显示场馆名称搜索结果选择器 ===')
+  console.log('传入的 options:', options)
+  console.log('options 类型:', typeof options)
+  console.log('options 是否为数组:', Array.isArray(options))
+
+  // 使用 vant 的 Picker 组件显示搜索结果
+  // 确保数据格式正确：van-picker 需要 columns 格式
+  venueNameSearchResults.value = options
+
+  console.log('设置后的 venueNameSearchResults.value:', venueNameSearchResults.value)
+  console.log('venueNameSearchResults.value 类型:', typeof venueNameSearchResults.value)
+  console.log('venueNameSearchResults.value 是否为数组:', Array.isArray(venueNameSearchResults.value))
+
+  showVenueNameSearchResultsPopup.value = true
+}
+
+// 场馆名称搜索结果选择器确认
+const onVenueNameSearchResultConfirm = (event) => {
+  console.log('场馆名称搜索结果确认事件:', event)
+
+  // 处理不同的事件数据结构
+  let selectedOption
+  if (event && event.selectedOptions && event.selectedOptions[0]) {
+    selectedOption = event.selectedOptions[0]
+  } else if (event && event.value) {
+    selectedOption = event.value
+  } else if (event && event.text) {
+    selectedOption = event
+  } else {
+    console.error('无法解析选择结果:', event)
+    showVenueNameSearchResultsPopup.value = false
+    return
+  }
+
+  console.log('选中的场馆名称选项:', selectedOption)
+
+  if (selectedOption) {
+    // 根据选中的场馆名称找到完整的场馆数据
+    const selectedVenue = venueNameSearchData.value.find(
+      venue => venue.centerName === selectedOption.value
+    )
+
+    if (selectedVenue) {
+      localFormData.value.centerName = selectedVenue.centerName
+
+      console.log('选中的场馆信息:', {
+        name: selectedVenue.centerName,
+        isCustom: selectedVenue.isCustom
+      })
+    } else {
+      console.error('未找到对应的场馆名称数据:', selectedOption)
+    }
+  }
+  showVenueNameSearchResultsPopup.value = false
+}
+
+// 场馆名称搜索结果选择器取消
+const onVenueNameSearchResultCancel = () => {
+  showVenueNameSearchResultsPopup.value = false
+}
+
+// 场馆名称搜索结果选择器打开时的调试信息
+const onVenueNameSearchPickerOpen = () => {
+  console.log('=== 场馆名称搜索结果选择器打开 ===')
+  console.log('当前 venueNameSearchResults.value:', venueNameSearchResults.value)
+  console.log('当前 venueNameSearchResults.value 类型:', typeof venueNameSearchResults.value)
+  console.log('当前 venueNameSearchResults.value 是否为数组:', Array.isArray(venueNameSearchResults.value))
+  if (Array.isArray(venueNameSearchResults.value)) {
+    console.log('数组长度:', venueNameSearchResults.value.length)
+    console.log('第一个元素:', venueNameSearchResults.value[0])
+    console.log('第一个元素类型:', typeof venueNameSearchResults.value[0])
+  }
 }
 
 // 数据加载与处理

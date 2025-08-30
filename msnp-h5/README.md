@@ -1,19 +1,108 @@
-# msnp-h5
+# MSNP H5 活动管理系统
 
-## Project setup
-```
+## 功能特性
+
+### 场馆名称和医院名称搜索功能
+
+本系统支持场馆名称和医院名称的自定义创建和从后端获取，提供智能搜索和选择功能。
+
+#### 场馆名称搜索
+
+- **位置**: 当活动场地选择为"健财中心"时显示
+- **功能**: 
+  - 支持输入搜索现有场馆
+  - 自动从后端获取匹配的场馆列表
+  - 支持自定义创建新场馆名称
+  - 防抖搜索，提升用户体验
+- **使用方式**: 在输入框中输入场馆名称，系统会自动搜索并显示结果选择器
+
+#### 医院名称搜索
+
+- **位置**: 当活动场地选择为"健保通医院"时显示
+- **功能**:
+  - 支持输入搜索现有医院
+  - 自动从后端获取匹配的医院列表（包含医院级别、FE编码等信息）
+  - 支持自定义创建新医院名称
+  - 智能字段控制（选择后端医院时自动填充相关信息）
+- **使用方式**: 在输入框中输入医院名称，系统会自动搜索并显示结果选择器
+
+#### 技术实现
+
+- **防抖搜索**: 用户停止输入500ms后执行搜索，减少不必要的API调用
+- **智能匹配**: 自动检测用户输入是否与后端数据重复
+- **自定义选项**: 如果后端没有匹配数据，自动添加用户输入作为自定义选项
+- **数据同步**: 选择结果后自动同步相关字段数据
+
+#### API接口
+
+系统提供了完整的API接口文件 `src/api/venue.js`，包含：
+
+- `searchHospital(searchValue)` - 搜索医院
+- `searchVenueName(searchValue)` - 搜索场馆名称
+- `getHospitalLevelList()` - 获取医院级别列表
+- `getActiveLocationList()` - 获取活动位置列表
+- `getActiveVenueList()` - 获取活动场地列表
+
+#### 配置说明
+
+- 场馆名称字段设置为必填
+- 支持实时搜索和结果选择
+- 搜索结果以弹窗形式展示
+- 支持键盘输入和触摸选择
+
+## 开发说明
+
+### 环境要求
+
+- Node.js >= 14
+- Vue 3
+- Vant UI
+
+### 安装依赖
+
+```bash
+npm install
+# 或
 pnpm install
 ```
 
-### Compiles and hot-reloads for development
-```
+### 运行项目
+
+```bash
+npm run serve
+# 或
 pnpm run serve
 ```
 
-### Compiles and minifies for production
-```
+### 构建项目
+
+```bash
+npm run build
+# 或
 pnpm run build
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## 项目结构
+
+```
+src/
+├── api/
+│   └── venue.js          # 场馆和医院相关API接口
+├── components/
+│   ├── activity/
+│   │   └── ActivityBasicForm.vue  # 活动基本信息表单
+│   └── base/
+│       └── FormField.vue          # 通用表单字段组件
+├── views/
+│   └── activity/         # 活动相关页面
+└── main.js               # 应用入口文件
+```
+
+## 注意事项
+
+1. 场馆名称和医院名称搜索功能需要后端API支持
+2. 当前使用模拟数据，实际使用时请替换为真实的API调用
+3. 搜索功能支持防抖，提升用户体验
+4. 自定义创建的数据会与后端数据区分处理
+
+
