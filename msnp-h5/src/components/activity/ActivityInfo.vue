@@ -1,7 +1,7 @@
 <template>
   <div class="activity-info">
     <!-- 活动基本信息表单 -->
-    <ActivityBasicForm ref="activityBasicFormRef" v-model:formData="formData" :editable="editable" :show-header="true" :show-extended-fields="true" :location-config="locationConfig" @branch-selected="handleBranchSelected" @branch-changed="handleBranchChanged" @branch-cleared="handleBranchCleared" />
+    <ActivityBasicForm ref="activityBasicFormRef" v-model:formData="formData" :editable="editable" :show-header="true" :show-extended-fields="true" :location-config="locationConfig" :is-admin="isAdmin" @branch-selected="handleBranchSelected" @branch-changed="handleBranchChanged" @branch-cleared="handleBranchCleared" />
 
     <!-- 讲师信息 -->
     <div v-if="shouldShowExpertInfo" class="expert-info-section">
@@ -60,6 +60,9 @@ const locationConfig = ref({
   placeholder: '请选择',
   disabled: false
 })
+
+// 管理员权限判断（实际项目中应该从用户登录信息或API获取）
+const isAdmin = ref(true) // 临时设置为true，实际项目中需要根据用户角色判断
 
 // 计算属性
 const shouldShowExpertInfo = computed(() => {
