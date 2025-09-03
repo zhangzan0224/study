@@ -1,42 +1,14 @@
 <template>
   <div class="hospital-search-picker">
-    <FormField 
-      label="医院名称" 
-      :required="true" 
-      type="select" 
-      :placeholder="editable ? '请选择或输入医院名称' : hospitalName" 
-      :disabled="!editable" 
-      :model-value="hospitalName"
-      @select-click="showHospitalSearchPopup" 
-    />
-    
-    <FormField 
-      label="医院级别" 
-      :required="true" 
-      type="select" 
-      :placeholder="editable ? '请选择' : hospitalLevelText" 
-      :disabled="!editable || disableHospitalLevel" 
-      :model-value="hospitalLevelText"
-      @select-click="showHospitalLevelPicker" 
-    />
-    
-    <FormField 
-      label="医院fe编码" 
-      type="input" 
-      v-model="feHospitalId" 
-      placeholder="请输入医院fe编码" 
-      :disabled="true" 
-    />
+    <FormField label="医院名称" :required="true" type="select" :placeholder="editable ? '请选择或输入医院名称' : hospitalName" :disabled="!editable" :model-value="hospitalName" @select-click="showHospitalSearchPopup" />
+
+    <FormField label="医院级别" :required="true" type="select" :placeholder="editable ? '请选择' : ''" :disabled="!editable || disableHospitalLevel" :model-value="hospitalLevel" :options="hospitalLevelOptions" @select-click="showHospitalLevelPicker" />
+
+    <FormField label="医院fe编码" type="input" v-model="feHospitalId" placeholder="请输入医院fe编码" :disabled="true" />
 
     <!-- 医院级别选择器弹窗 -->
     <van-popup v-model:show="showHospitalLevelPickerPopup" position="bottom" round>
-      <van-picker
-        :columns="hospitalLevelOptions"
-        @confirm="onHospitalLevelConfirm"
-        @cancel="onHospitalLevelCancel"
-        :default-index="hospitalLevelDefaultIndex"
-        title="选择医院级别"
-      />
+      <van-picker :columns="hospitalLevelOptions" @confirm="onHospitalLevelConfirm" @cancel="onHospitalLevelCancel" :default-index="hospitalLevelDefaultIndex" title="选择医院级别" />
     </van-popup>
 
     <!-- 医院搜索结果选择器弹窗 -->
@@ -48,34 +20,18 @@
           <van-button type="primary" size="small" @click="onHospitalSearchConfirm">确定</van-button>
         </div>
         <div class="search-section">
-          <van-search
-            v-model="searchKeyword"
-            placeholder="搜索医院名称或输入自定义名称"
-            @input="onSearchInput"
-            @clear="onSearchClear"
-          />
+          <van-search v-model="searchKeyword" placeholder="搜索医院名称或输入自定义名称" @input="onSearchInput" @clear="onSearchClear" />
         </div>
         <div class="options-section">
           <!-- 自定义输入选项 -->
-          <div 
-            v-if="showCustomOption"
-            class="custom-option"
-            :class="{ active: selectedHospital && selectedHospital.isCustom }"
-            @click="selectCustomHospital"
-          >
+          <div v-if="showCustomOption" class="custom-option" :class="{ active: selectedHospital && selectedHospital.isCustom }" @click="selectCustomHospital">
             <van-icon name="add-o" />
             <span>自己创建：{{ searchKeyword }}</span>
           </div>
 
           <!-- 搜索结果列表 -->
           <div class="hospital-list">
-            <div 
-              v-for="hospital in filteredHospitals" 
-              :key="hospital.feHospitalId || hospital.hospitalName"
-              class="hospital-item"
-              :class="{ active: selectedHospital && (selectedHospital.feHospitalId || selectedHospital.hospitalName) === (hospital.feHospitalId || hospital.hospitalName) }"
-              @click="selectHospital(hospital)"
-            >
+            <div v-for="hospital in filteredHospitals" :key="hospital.feHospitalId || hospital.hospitalName" class="hospital-item" :class="{ active: selectedHospital && (selectedHospital.feHospitalId || selectedHospital.hospitalName) === (hospital.feHospitalId || hospital.hospitalName) }" @click="selectHospital(hospital)">
               <div class="hospital-main-info">
                 <div class="hospital-name">{{ hospital.hospitalName }}</div>
                 <div class="hospital-details">
@@ -97,7 +53,7 @@
 </template>
 
 <script setup>
-import { ref, computed, watch, onUnmounted, defineProps, defineEmits } from 'vue'
+import { ref, computed, watch, onUnmounted, defineProps, defineEmits, onMounted } from 'vue'
 import { showLoadingToast, closeToast, showFailToast } from 'vant'
 import FormField from '@/components/base/FormField.vue'
 
@@ -111,7 +67,7 @@ const props = defineProps({
 
 const emit = defineEmits([
   'update:hospitalName',
-  'update:hospitalLevel', 
+  'update:hospitalLevel',
   'update:feHospitalId',
   'update:disableHospitalLevel',
   'hospital-selected'
@@ -145,10 +101,7 @@ const disableHospitalLevel = computed({
   set: (val) => emit('update:disableHospitalLevel', val)
 })
 
-const hospitalLevelText = computed(() => {
-  const found = hospitalLevelOptions.value.find(o => o.value === props.hospitalLevel)
-  return found ? found.text : ''
-})
+// 移除 hospitalLevelText，展示由 FormField + options 负责
 
 const hospitalLevelDefaultIndex = computed(() => {
   const idx = hospitalLevelOptions.value.findIndex(o => o.value === props.hospitalLevel)
@@ -159,36 +112,33 @@ const filteredHospitals = computed(() => {
   if (!searchKeyword.value.trim()) {
     return hospitalSearchData.value
   }
-  
+
   const keyword = searchKeyword.value.toLowerCase()
-  return hospitalSearchData.value.filter(hospital => 
+  return hospitalSearchData.value.filter(hospital =>
     hospital.hospitalName.toLowerCase().includes(keyword)
   )
 })
 
 const showCustomOption = computed(() => {
-  return searchKeyword.value.trim() && 
-         !filteredHospitals.value.some(hospital => 
-           hospital.hospitalName.toLowerCase() === searchKeyword.value.trim().toLowerCase()
-         )
+  return searchKeyword.value.trim() &&
+    !filteredHospitals.value.some(hospital =>
+      hospital.hospitalName.toLowerCase() === searchKeyword.value.trim().toLowerCase()
+    )
 })
 
 
 
+// Immediately load hospital level options on component setup
+// queryHospitalLevel()
+
 const showHospitalLevelPicker = async () => {
   if (!props.editable) return
-  try {
-    if (hospitalLevelOptions.value.length === 0) {
-      showLoadingToast({ message: '加载医院级别数据...', forbidClick: true })
-      await queryHospitalLevel()
-      closeToast()
-    }
-    showHospitalLevelPickerPopup.value = true
-  } catch (error) {
-    closeToast()
-    showFailToast('加载医院级别数据失败')
-    console.error('Failed to load hospital level options:', error)
+  // Data is already loaded or is loading, just show the popup
+  if (hospitalLevelOptions.value.length === 0) {
+    showFailToast('医院级别数据仍在加载中')
+    return
   }
+  showHospitalLevelPickerPopup.value = true
 }
 
 const onHospitalLevelConfirm = ({ selectedOptions }) => {
@@ -210,7 +160,7 @@ const showHospitalSearchPopup = () => {
   searchKeyword.value = props.hospitalName || ''
   hospitalSearchData.value = []
   initializeSelectedHospital()
-  
+
   showHospitalSearchResultsPopup.value = true
 }
 
@@ -244,7 +194,7 @@ const selectCustomHospital = () => {
 const onSearchInput = () => {
   // Clear selection when searching
   if (selectedHospital.value && !selectedHospital.value.isCustom) {
-    const stillExists = filteredHospitals.value.some(h => 
+    const stillExists = filteredHospitals.value.some(h =>
       (h.feHospitalId || h.hospitalName) === (selectedHospital.value.feHospitalId || selectedHospital.value.hospitalName)
     )
     if (!stillExists) {
@@ -263,18 +213,22 @@ const onHospitalSearchConfirm = () => {
     showFailToast('请选择或输入医院名称')
     return
   }
-  
+
   hospitalName.value = selectedHospital.value.hospitalName
   hospitalLevel.value = selectedHospital.value.hospitalLevel || ''
   feHospitalId.value = selectedHospital.value.feHospitalId || ''
+  console.log('selectedHospital.value', selectedHospital.value)
+  console.log('hospitalLevel.value', hospitalLevel.value)
+  console.log('feHospitalId.value', feHospitalId.value)
+  console.log('hospitalName.value', hospitalName.value)
   updateHospitalFieldsEditability(selectedHospital.value.isCustom || false)
-  
+
   emit('hospital-selected', {
     hospitalName: selectedHospital.value.hospitalName,
     isCustom: selectedHospital.value.isCustom || false,
     hospitalData: selectedHospital.value.isCustom ? null : selectedHospital.value
   })
-  
+
   showHospitalSearchResultsPopup.value = false
 }
 
@@ -294,7 +248,7 @@ const searchHospital = async (searchValue) => {
 
   try {
     showLoadingToast({ message: '正在搜索...', forbidClick: true, duration: 0 })
-    
+
     // Simulate a backend API call
     await new Promise(resolve => setTimeout(resolve, 500))
 
@@ -350,6 +304,10 @@ watch(searchKeyword, (newValue) => {
   }, 500)
 })
 
+onMounted(() => {
+  queryHospitalLevel()
+})
+
 onUnmounted(() => {
   if (hospitalSearchTimer.value) {
     clearTimeout(hospitalSearchTimer.value)
@@ -358,7 +316,9 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-.hospital-search-picker { padding: 0; }
+.hospital-search-picker {
+  padding: 0;
+}
 
 .hospital-picker-content {
   height: 60vh;

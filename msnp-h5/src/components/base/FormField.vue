@@ -17,7 +17,7 @@
 
     <!-- 选择器 -->
     <template v-else-if="type === 'select'">
-      <van-field :model-value="selectDisplayValue" :required="required" :label="label" :placeholder="placeholder" readonly is-link input-align="right" :label-width="labelWidth" @click="handleSelectClick" :name="name" :rules="computedRules" :class="[fieldClasses, { 'field-placeholder': !modelValue }, 'select-field']" />
+      <van-field :model-value="selectDisplayValue" :required="required" :label="label" :placeholder="placeholder" readonly is-link input-align="right" :label-width="labelWidth" @click="handleSelectClick" :name="name" :rules="computedRules" :class="[fieldClasses, { 'field-placeholder': !modelValue }, 'select-field']" :options="options" />
     </template>
 
     <!-- 只读文本 -->
