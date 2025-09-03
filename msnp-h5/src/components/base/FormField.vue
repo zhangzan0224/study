@@ -22,7 +22,8 @@
 
     <!-- 只读文本 -->
     <template v-else-if="type === 'text'">
-      <van-field :model-value="modelValue || placeholder" :required="required" :label="label" readonly input-align="right" :label-width="labelWidth" :name="name" :rules="computedRules" :class="[fieldClasses, { 'field-placeholder': !modelValue }]" />
+      <van-field :model-value="modelValue || placeholder" :required="required" :label="label" readonly input-align="right" :label-width="labelWidth" :name="name" :rules="computedRules" :class="[fieldClasses, { 'field-placeholder': !modelValue }]">
+      </van-field>
     </template>
 
     <div v-if="showDivider" class="field-divider"></div>
@@ -43,7 +44,7 @@ const props = defineProps({
   },
   type: {
     type: String,
-    default: 'input', // input, textarea, select, text
+    default: 'input',
     validator: value => ['input', 'textarea', 'select', 'text'].includes(value)
   },
   placeholder: {
@@ -103,9 +104,6 @@ const inputValue = computed({
   }
 })
 
-// 已由 selectDisplayValue 取代
-
-// 选择器展示值：当未选择时给空字符串，避免用占位符占位，从而使校验正常识别为空
 const selectDisplayValue = computed(() => {
   if (props.type !== 'select') return props.modelValue || props.placeholder
   if (!props.modelValue) return ''
@@ -137,21 +135,26 @@ const handleSelectClick = () => {
   }
 }
 
-const handleInput = (value) => {
-  emit('input', value)
+const handleInput = (value, event) => {
+  // Vant 4 的 input 事件会同时传递 value 和 event
+  // 我们可以通过检查 event.isComposing 来过滤输入法组词过程中的事件
+  if (event && event.isComposing) {
+    return
+  }
+  emit('input', value, event)
 }
 
-const handleBlur = (value) => {
-  emit('blur', value)
+const handleBlur = (event) => {
+  emit('blur', event)
 }
 </script>
 
 <style scoped>
+/* 样式保持不变 */
 .form-field {
   background-color: #ffffff;
 }
 
-/* 覆盖 Vant Field 样式以匹配设计稿 */
 .form-field :deep(.van-field) {
   padding: 15px 0;
   background-color: transparent;
@@ -177,23 +180,19 @@ const handleBlur = (value) => {
   color: rgba(153, 153, 153, 1);
 }
 
-/* 选择器校验错误信息右对齐 */
 .select-field :deep(.van-field__error-message) {
   text-align: right;
 }
 
-/* 选择器占位符样式 */
 .field-placeholder :deep(.van-field__control) {
   color: rgba(153, 153, 153, 1) !important;
 }
 
-/* 文本域容器样式 */
 .textarea-field {
   padding: 15px 0;
   background-color: #ffffff;
 }
 
-/* 文本域标签样式 */
 .textarea-label {
   color: rgba(51, 51, 51, 1);
   font-size: 15px;
@@ -208,7 +207,6 @@ const handleBlur = (value) => {
   margin-right: 4px;
 }
 
-/* 文本域控件样式 */
 .textarea-control {
   padding: 0 !important;
 }
@@ -234,7 +232,6 @@ const handleBlur = (value) => {
   color: rgba(153, 153, 153, 1);
 }
 
-/* 字符计数样式 */
 .form-field :deep(.van-field__word-limit) {
   color: rgba(51, 51, 51, 1);
   font-size: 14px;
@@ -242,7 +239,6 @@ const handleBlur = (value) => {
   margin-top: 11px;
 }
 
-/* 文本域字符计数位置调整 */
 .textarea-control :deep(.van-field__word-limit) {
   color: rgba(51, 51, 51, 1);
   font-size: 14px;
@@ -251,27 +247,15 @@ const handleBlur = (value) => {
   text-align: right;
 }
 
-/* 必填标记样式 */
-/* .form-field.has-required :deep(.van-field__label) {
-  color: rgba(51, 51, 51, 1);
-}
-
-.form-field.has-required :deep(.van-field__label::first-letter) {
-  color: rgba(255, 0, 0, 0.9);
-} */
-
-/* 选择器箭头 */
 .form-field :deep(.van-field--clickable .van-field__right-icon) {
   width: 18px;
   height: 18px;
 }
 
-/* 禁用状态 */
 .field-disabled :deep(.van-field__control) {
   color: rgba(153, 153, 153, 1);
 }
 
-/* 分割线 */
 .field-divider {
   background-color: rgba(242, 242, 242, 1);
   width: 100%;
@@ -279,12 +263,7 @@ const handleBlur = (value) => {
   margin: 0 auto;
 }
 
-/* 响应式调整 */
 @media (max-width: 375px) {
-  .form-field :deep(.van-field) {
-    /* padding: 15px 10px; */
-  }
-
   .textarea-field {
     padding: 15px 0;
   }

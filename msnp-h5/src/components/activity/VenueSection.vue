@@ -34,12 +34,10 @@
 
     <!-- 健财中心时展示 场馆名称 -->
     <template v-if="showVenueNameField">
-      <FormField 
-        label="场馆名称" 
-        type="input" 
-        v-model="centerName" 
-        placeholder="请输入场馆名称" 
-        :disabled="!editable"
+      <VenueNamePicker
+        v-model:centerName="centerName"
+        :editable="editable"
+        @venue-selected="handleVenueSelected"
       />
     </template>
 
@@ -110,6 +108,7 @@ import { showLoadingToast, closeToast, showFailToast } from 'vant'
 import FormField from '@/components/base/FormField.vue'
 import HospitalSearchPicker from '@/components/activity/HospitalSearchPicker.vue'
 import LocationPicker from '@/components/activity/LocationPicker.vue'
+import VenueNamePicker from '@/components/activity/VenueNamePicker.vue'
 
 const props = defineProps({
   activeVenue: { type: String, default: '' },
@@ -333,6 +332,19 @@ const handleHospitalSelected = (hospital) => {
   }
 }
 
+const handleVenueSelected = (venueInfo) => {
+  if (venueInfo) {
+    // 处理场馆基本信息
+    centerName.value = venueInfo.centerName
+    
+    // 如果选择的是系统中的场馆（非自定义），可以处理其他相关信息
+    if (!venueInfo.isCustom && venueInfo.venueData) {
+      // 可以根据需要处理场馆的其他信息，比如地址等
+      // 这里暂时不处理地址，保持现有逻辑
+    }
+  }
+}
+
 const clearActiveLocationFields = () => {
   activeLocation.value = ''
   hospitalName.value = ''
@@ -342,7 +354,9 @@ const clearActiveLocationFields = () => {
   // 注意：不清空地址，因为其他场地也需要
 }
 
-const clearVenueNameField = () => { centerName.value = '' }
+const clearVenueNameField = () => { 
+  centerName.value = ''
+}
 const clearSiteInfoField = () => { activeVenueDetail.value = '' }
 const clearCommunityNameField = () => { communityName.value = '' }
 

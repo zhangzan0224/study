@@ -3,11 +3,11 @@
     <FormField 
       label="医院名称" 
       :required="true" 
-      type="input" 
-      v-model="hospitalName" 
-      placeholder="请输入医院名称搜索" 
-      :disabled="!editable"
-      @input="onHospitalInput" 
+      type="select" 
+      :placeholder="editable ? '请选择或输入医院名称' : hospitalName" 
+      :disabled="!editable" 
+      :model-value="hospitalName"
+      @select-click="showHospitalSearchPopup" 
     />
     
     <FormField 
@@ -41,20 +41,63 @@
 
     <!-- 医院搜索结果选择器弹窗 -->
     <van-popup v-model:show="showHospitalSearchResultsPopup" position="bottom" round>
-      <van-picker
-        :columns="hospitalSearchResults"
-        @confirm="onHospitalSearchResultConfirm"
-        @cancel="onHospitalSearchResultCancel"
-        :default-index="0"
-        title="选择医院"
-        @open="onHospitalSearchPickerOpen"
-      />
+      <div class="hospital-picker-content">
+        <div class="picker-header">
+          <van-button type="default" size="small" @click="onHospitalSearchCancel">取消</van-button>
+          <div class="picker-title">选择医院</div>
+          <van-button type="primary" size="small" @click="onHospitalSearchConfirm">确定</van-button>
+        </div>
+        <div class="search-section">
+          <van-search
+            v-model="searchKeyword"
+            placeholder="搜索医院名称或输入自定义名称"
+            @input="onSearchInput"
+            @clear="onSearchClear"
+          />
+        </div>
+        <div class="options-section">
+          <!-- 自定义输入选项 -->
+          <div 
+            v-if="showCustomOption"
+            class="custom-option"
+            :class="{ active: selectedHospital && selectedHospital.isCustom }"
+            @click="selectCustomHospital"
+          >
+            <van-icon name="add-o" />
+            <span>自己创建：{{ searchKeyword }}</span>
+          </div>
+
+          <!-- 搜索结果列表 -->
+          <div class="hospital-list">
+            <div 
+              v-for="hospital in filteredHospitals" 
+              :key="hospital.feHospitalId || hospital.hospitalName"
+              class="hospital-item"
+              :class="{ active: selectedHospital && (selectedHospital.feHospitalId || selectedHospital.hospitalName) === (hospital.feHospitalId || hospital.hospitalName) }"
+              @click="selectHospital(hospital)"
+            >
+              <div class="hospital-main-info">
+                <div class="hospital-name">{{ hospital.hospitalName }}</div>
+                <div class="hospital-details">
+                  <span v-if="hospital.hospitalLevel">级别: {{ hospital.hospitalLevel }}</span>
+                  <span v-if="hospital.location">{{ hospital.location }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 空状态 -->
+          <div v-if="filteredHospitals.length === 0 && !showCustomOption" class="empty-state">
+            <van-empty description="暂无匹配的医院" />
+          </div>
+        </div>
+      </div>
     </van-popup>
   </div>
 </template>
 
 <script setup>
-import { ref, computed, watch, defineProps, defineEmits } from 'vue'
+import { ref, computed, watch, onUnmounted, defineProps, defineEmits } from 'vue'
 import { showLoadingToast, closeToast, showFailToast } from 'vant'
 import FormField from '@/components/base/FormField.vue'
 
@@ -71,18 +114,17 @@ const emit = defineEmits([
   'update:hospitalLevel', 
   'update:feHospitalId',
   'update:disableHospitalLevel',
-  'hospital-selected' // 当医院被选中时发出
+  'hospital-selected'
 ])
 
-// 响应式数据
 const showHospitalLevelPickerPopup = ref(false)
 const showHospitalSearchResultsPopup = ref(false)
 const hospitalLevelOptions = ref([])
-const hospitalSearchResults = ref([])
 const hospitalSearchData = ref([])
 const hospitalSearchTimer = ref(null)
+const searchKeyword = ref('')
+const selectedHospital = ref(null)
 
-// 计算属性
 const hospitalName = computed({
   get: () => props.hospitalName,
   set: (val) => emit('update:hospitalName', val)
@@ -113,20 +155,34 @@ const hospitalLevelDefaultIndex = computed(() => {
   return idx >= 0 ? idx : 0
 })
 
-// 方法
+const filteredHospitals = computed(() => {
+  if (!searchKeyword.value.trim()) {
+    return hospitalSearchData.value
+  }
+  
+  const keyword = searchKeyword.value.toLowerCase()
+  return hospitalSearchData.value.filter(hospital => 
+    hospital.hospitalName.toLowerCase().includes(keyword)
+  )
+})
+
+const showCustomOption = computed(() => {
+  return searchKeyword.value.trim() && 
+         !filteredHospitals.value.some(hospital => 
+           hospital.hospitalName.toLowerCase() === searchKeyword.value.trim().toLowerCase()
+         )
+})
+
+
+
 const showHospitalLevelPicker = async () => {
   if (!props.editable) return
-  
   try {
     if (hospitalLevelOptions.value.length === 0) {
-      showLoadingToast({
-        message: '加载医院级别数据...',
-        forbidClick: true,
-      })
+      showLoadingToast({ message: '加载医院级别数据...', forbidClick: true })
       await queryHospitalLevel()
       closeToast()
     }
-    
     showHospitalLevelPickerPopup.value = true
   } catch (error) {
     closeToast()
@@ -135,20 +191,8 @@ const showHospitalLevelPicker = async () => {
   }
 }
 
-const onHospitalLevelConfirm = (event) => {
-  let selectLevel
-  if (event && event.selectedOptions && event.selectedOptions[0]) {
-    selectLevel = event.selectedOptions[0]
-  } else if (event && event.value) {
-    selectLevel = event.value
-  } else if (event && event.text) {
-    selectLevel = event
-  } else {
-    console.error('无法解析医院级别选择结果:', event)
-    showHospitalLevelPickerPopup.value = false
-    return
-  }
-  
+const onHospitalLevelConfirm = ({ selectedOptions }) => {
+  const selectLevel = selectedOptions && selectedOptions[0]
   if (selectLevel && selectLevel.text) {
     hospitalLevel.value = selectLevel.value
   }
@@ -159,320 +203,151 @@ const onHospitalLevelCancel = () => {
   showHospitalLevelPickerPopup.value = false
 }
 
-const onHospitalInput = async (inputValue) => {
-  // 处理 InputEvent 对象，获取实际输入值
-  let searchValue
-  if (inputValue && typeof inputValue === 'object' && inputValue.target) {
-    searchValue = String(inputValue.target.value || '').trim()
-  } else if (inputValue && typeof inputValue === 'object' && inputValue.detail) {
-    searchValue = String(inputValue.detail || '').trim()
+const showHospitalSearchPopup = () => {
+  if (!props.editable) return
+
+  // Reset state when opening the popup
+  searchKeyword.value = props.hospitalName || ''
+  hospitalSearchData.value = []
+  initializeSelectedHospital()
+  
+  showHospitalSearchResultsPopup.value = true
+}
+
+const initializeSelectedHospital = () => {
+  if (props.hospitalName) {
+    const hospital = hospitalSearchData.value.find(h => h.hospitalName === props.hospitalName)
+    if (hospital) {
+      selectedHospital.value = hospital
+    } else {
+      selectedHospital.value = {
+        hospitalName: props.hospitalName,
+        isCustom: true
+      }
+    }
   } else {
-    searchValue = String(inputValue || '').trim()
+    selectedHospital.value = null
   }
-  
-  // 清空之前的定时器
-  if (hospitalSearchTimer.value) {
-    clearTimeout(hospitalSearchTimer.value)
+}
+
+const selectHospital = (hospital) => {
+  selectedHospital.value = hospital
+}
+
+const selectCustomHospital = () => {
+  selectedHospital.value = {
+    hospitalName: searchKeyword.value.trim(),
+    isCustom: true
   }
-  
-  // 如果输入为空，清空搜索结果和相关字段
-  if (!searchValue) {
-    hospitalSearchResults.value = []
-    // 清空医院级别和 fe 编码
-    hospitalLevel.value = ''
-    feHospitalId.value = ''
-    // 重置字段可编辑性
-    disableHospitalLevel.value = false
+}
+
+const onSearchInput = () => {
+  // Clear selection when searching
+  if (selectedHospital.value && !selectedHospital.value.isCustom) {
+    const stillExists = filteredHospitals.value.some(h => 
+      (h.feHospitalId || h.hospitalName) === (selectedHospital.value.feHospitalId || selectedHospital.value.hospitalName)
+    )
+    if (!stillExists) {
+      selectedHospital.value = null
+    }
+  }
+}
+
+const onSearchClear = () => {
+  searchKeyword.value = ''
+  selectedHospital.value = null
+}
+
+const onHospitalSearchConfirm = () => {
+  if (!selectedHospital.value) {
+    showFailToast('请选择或输入医院名称')
     return
   }
   
-  // 防抖搜索：用户停止输入500ms后才执行搜索
-  hospitalSearchTimer.value = setTimeout(async () => {
-    await searchHospital(searchValue)
-  }, 500)
+  hospitalName.value = selectedHospital.value.hospitalName
+  hospitalLevel.value = selectedHospital.value.hospitalLevel || ''
+  feHospitalId.value = selectedHospital.value.feHospitalId || ''
+  updateHospitalFieldsEditability(selectedHospital.value.isCustom || false)
+  
+  emit('hospital-selected', {
+    hospitalName: selectedHospital.value.hospitalName,
+    isCustom: selectedHospital.value.isCustom || false,
+    hospitalData: selectedHospital.value.isCustom ? null : selectedHospital.value
+  })
+  
+  showHospitalSearchResultsPopup.value = false
+}
+
+const onHospitalSearchCancel = () => {
+  showHospitalSearchResultsPopup.value = false
+  searchKeyword.value = props.hospitalName || ''
+  initializeSelectedHospital()
 }
 
 const searchHospital = async (searchValue) => {
+  const searchTerm = String(searchValue || '').trim()
+
+  if (!searchTerm) {
+    hospitalSearchData.value = []
+    return
+  }
+
   try {
-    showLoadingToast({
-      message: '搜索医院中...',
-      forbidClick: true,
-    })
+    showLoadingToast({ message: '正在搜索...', forbidClick: true, duration: 0 })
     
-    // 模拟后端数据
+    // Simulate a backend API call
+    await new Promise(resolve => setTimeout(resolve, 500))
+
     const backendData = [
       {
-        "city": "110100",
-        "cityName": "市辖区",
-        "comBranch": "10",
-        "comCoy": "1",
-        "createTime": "2021-08-17 23:50:01",
-        "endTime": null,
-        "hosAddress": "北京市东城区东交民巷1号",
-        "hosAliasName": "",
-        "hosAliass": [],
-        "hosState": "1",
-        "hospitalLicId": "11",
-        "hospitalName": `${searchValue}协和医院`,
-        "hospitalType": "",
-        "id": "H001",
-        "isDepositfreeHos": "N",
-        "isDirectHos": "",
-        "isEmrAttr": "",
-        "isHealthHost": "N",
-        "isSelfbuiltHost": "Y",
-        "isSocialHos": "",
-        "levelname": "",
-        "levelnum": "3a",
-        "netType": "医院",
-        "province": "110000",
-        "provinceName": "北京市",
-        "startTime": "2021-08-17 00:00:00",
-        "stateCode": "1",
-        "updatetime": "2021-08-17 15:58:18"
+        hospitalName: `${searchTerm}第一医院`,
+        hospitalLevel: '3a',
+        feHospitalId: 'H001',
+        isCustom: false,
+        location: '上海-上海市',
       },
       {
-        "city": "420100",
-        "cityName": "武汉市",
-        "comBranch": "10",
-        "comCoy": "1",
-        "createTime": "2021-08-17 23:50:01",
-        "endTime": null,
-        "hosAddress": "湖北省武汉市解放大道1095号",
-        "hosAliasName": "",
-        "hosAliass": [],
-        "hosState": "1",
-        "hospitalLicId": "11",
-        "hospitalName": `${searchValue}同济医院`,
-        "hospitalType": "",
-        "id": "H002",
-        "isDepositfreeHos": "N",
-        "isDirectHos": "",
-        "isEmrAttr": "",
-        "isHealthHost": "N",
-        "isSelfbuiltHost": "Y",
-        "isSocialHos": "",
-        "levelname": "",
-        "levelnum": "3a",
-        "netType": "医院",
-        "province": "420000",
-        "provinceName": "湖北省",
-        "startTime": "2021-08-17 00:00:00",
-        "stateCode": "1",
-        "updatetime": "2021-08-17 15:58:18"
-      },
-      {
-        "city": "",
-        "cityName": "",
-        "comBranch": "10",
-        "comCoy": "1",
-        "createTime": "2021-08-17 23:50:01",
-        "endTime": null,
-        "hosAddress": "西藏自治区拉萨市",
-        "hosAliasName": "",
-        "hosAliass": [],
-        "hosState": "1",
-        "hospitalLicId": "11",
-        "hospitalName": `${searchValue}西藏军区总医院`,
-        "hospitalType": "",
-        "id": "H003",
-        "isDepositfreeHos": "N",
-        "isDirectHos": "",
-        "isEmrAttr": "",
-        "isHealthHost": "N",
-        "isSelfbuiltHost": "Y",
-        "isSocialHos": "",
-        "levelname": "",
-        "levelnum": "3a",
-        "netType": "医院",
-        "province": "540000",
-        "provinceName": "西藏自治区",
-        "startTime": "2021-08-17 00:00:00",
-        "stateCode": "1",
-        "updatetime": "2021-08-17 15:58:18"
-      },
-      {
-        "city": "",
-        "cityName": "",
-        "comBranch": "10",
-        "comCoy": "1",
-        "createTime": "2021-08-17 23:50:01",
-        "endTime": null,
-        "hosAddress": "香港特别行政区中环",
-        "hosAliasName": "",
-        "hosAliass": [],
-        "hosState": "1",
-        "hospitalLicId": "11",
-        "hospitalName": `${searchValue}香港玛丽医院`,
-        "hospitalType": "",
-        "id": "H004",
-        "isDepositfreeHos": "N",
-        "isDirectHos": "",
-        "isEmrAttr": "",
-        "isHealthHost": "N",
-        "isSelfbuiltHost": "Y",
-        "isSocialHos": "",
-        "levelname": "",
-        "levelnum": "3a",
-        "netType": "医院",
-        "province": "810000",
-        "provinceName": "香港特别行政区",
-        "startTime": "2021-08-17 00:00:00",
-        "stateCode": "1",
-        "updatetime": "2021-08-17 15:58:18"
+        hospitalName: `${searchTerm}中心医院`,
+        hospitalLevel: '2a',
+        feHospitalId: 'H002',
+        isCustom: false,
+        location: '北京-北京市',
       }
     ]
-    
-    // 检查后端数据中是否已经存在用户输入的医院名称
-    const existingHospital = backendData.find(hospital => 
-      hospital.hospitalName.toLowerCase() === searchValue.toLowerCase()
-    )
-    
-    // 构建最终的数据
-    let mockData = [...backendData]
-    
-    // 如果后端数据中没有相同的医院名称，才添加用户输入的作为自定义选项
-    if (!existingHospital) {
-      mockData.unshift({
-        hospitalName: searchValue,
-        levelnum: '', // 使用 levelnum 字段
-        id: '', // 使用 id 字段
-        isCustom: true
-      })
-    }
-    
-    const code = 200
-    const data = mockData
-    
-    if (code === 200 && data) {
-      // 存储完整的医院数据
-      hospitalSearchData.value = data
-      
-      // 为 van-picker 创建简化的选项格式
-      const pickerOptions = data.map(item => ({
-        text: item.hospitalName,
-        value: item.id || item.feHospitalId || '' // 优先使用 id 字段，兼容 feHospitalId
-      }))
-      
-      // 显示搜索结果选择器
-      showHospitalSearchResults(pickerOptions)
-    }
-    
+    hospitalSearchData.value = backendData
     closeToast()
   } catch (error) {
     closeToast()
-    showFailToast('搜索医院失败')
+    showFailToast('搜索失败')
     console.error('Failed to search hospital:', error)
   }
 }
 
-const showHospitalSearchResults = (options) => {
-  hospitalSearchResults.value = options
-  showHospitalSearchResultsPopup.value = true
-}
-
-const onHospitalSearchResultConfirm = (event) => {
-  let selectedOption
-  if (event && event.selectedOptions && event.selectedOptions[0]) {
-    selectedOption = event.selectedOptions[0]
-  } else if (event && event.value) {
-    selectedOption = event.value
-  } else if (event && event.text) {
-    selectedOption = event
-  } else {
-    console.error('无法解析选择结果:', event)
-    showHospitalSearchResultsPopup.value = false
-    return
-  }
-  
-  if (selectedOption) {
-    // 根据选中的 fe编码 找到完整的医院数据
-    const selectedHospital = hospitalSearchData.value.find(
-      hospital => (hospital.id || hospital.feHospitalId) === selectedOption.value
-    )
-    
-    if (selectedHospital) {
-      hospitalName.value = selectedHospital.hospitalName
-      // 使用 levelnum 字段作为医院级别
-      hospitalLevel.value = selectedHospital.levelnum || ''
-      // 使用 id 字段作为 fe 编码
-      feHospitalId.value = selectedHospital.id || ''
-      
-      // 根据是否自定义医院设置字段可编辑性
-      updateHospitalFieldsEditability(selectedHospital.isCustom)
-
-      // 发出事件，传递完整的医院信息
-      emit('hospital-selected', selectedHospital)
-    } else {
-      console.error('未找到对应的医院数据:', selectedOption)
-    }
-  }
-  showHospitalSearchResultsPopup.value = false
-}
-
-const onHospitalSearchResultCancel = () => {
-  showHospitalSearchResultsPopup.value = false
-}
-
-const onHospitalSearchPickerOpen = () => {
-  console.log('=== 医院搜索结果选择器打开 ===')
-}
-
 const updateHospitalFieldsEditability = (isCustom) => {
-  if (!isCustom) {
-    // 从后端搜索结果选择，禁用医院级别
-    disableHospitalLevel.value = true
-  } else {
-    // 自定义输入，允许修改医院级别
-    disableHospitalLevel.value = false
-  }
+  disableHospitalLevel.value = !isCustom
 }
 
 const queryHospitalLevel = async () => {
   try {
-    // 模拟数据
     const mockData = [
-      { catId: "hospitalLevel", catName: "医院等级", dictCd: "10", dictName: "一级" },
-      { catId: "hospitalLevel", catName: "医院等级", dictCd: "1a", dictName: "一级甲等" },
-      { catId: "hospitalLevel", catName: "医院等级", dictCd: "1b", dictName: "一级乙等" },
-      { catId: "hospitalLevel", catName: "医院等级", dictCd: "1c", dictName: "一级丙等" },
-      { catId: "hospitalLevel", catName: "医院等级", dictCd: "20", dictName: "二级" },
-      { catId: "hospitalLevel", catName: "医院等级", dictCd: "2a", dictName: "二级甲等" },
-      { catId: "hospitalLevel", catName: "医院等级", dictCd: "2b", dictName: "二级乙等" },
-      { catId: "hospitalLevel", catName: "医院等级", dictCd: "2c", dictName: "二级丙等" },
-      { catId: "hospitalLevel", catName: "医院等级", dictCd: "30", dictName: "三级" },
-      { catId: "hospitalLevel", catName: "医院等级", dictCd: "3a", dictName: "三级甲等" },
-      { catId: "hospitalLevel", catName: "医院等级", dictCd: "3b", dictName: "三级乙等" },
-      { catId: "hospitalLevel", catName: "医院等级", dictCd: "3c", dictName: "三级丙等" },
-      { catId: "hospitalLevel", catName: "医院等级", dictCd: "00", dictName: "其他" },
-      { catId: "hospitalLevel", catName: "医院等级", dictCd: "3d", dictName: "三级特等" }
+      { dictCd: "1a", dictName: "一级甲等" },
+      { dictCd: "2a", dictName: "二级甲等" },
+      { dictCd: "3a", dictName: "三级甲等" }
     ]
-    
-    const code = 200
-    const data = mockData
-    
-    if (code === 200 && data) {
-      hospitalLevelOptions.value = data.map(item => ({ text: item.dictName, value: item.dictCd }))
-    }
+    hospitalLevelOptions.value = mockData.map(item => ({ text: item.dictName, value: item.dictCd }))
   } catch (error) {
     console.error('Failed to query hospital level:', error)
     showFailToast('获取医院级别列表失败')
   }
 }
 
-// 监听医院名称变化，当手动输入时重置字段可编辑性
-watch(() => props.hospitalName, (newName, oldName) => {
-  if (newName !== oldName && hospitalSearchResults.value && !hospitalSearchResults.value.some(option => option.text === newName)) {
-    disableHospitalLevel.value = false
+watch(searchKeyword, (newValue) => {
+  if (hospitalSearchTimer.value) {
+    clearTimeout(hospitalSearchTimer.value)
   }
-})
-
-// 组件卸载时清理定时器
-import { onUnmounted, onMounted } from 'vue'
-
-onMounted(() => {
-  // 组件挂载时加载医院级别数据
-  queryHospitalLevel()
+  hospitalSearchTimer.value = setTimeout(() => {
+    searchHospital(newValue)
+  }, 500)
 })
 
 onUnmounted(() => {
@@ -484,4 +359,122 @@ onUnmounted(() => {
 
 <style scoped>
 .hospital-search-picker { padding: 0; }
+
+.hospital-picker-content {
+  height: 60vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.picker-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  border-bottom: 1px solid #eee;
+  flex-shrink: 0;
+}
+
+.picker-title {
+  font-size: 16px;
+  font-weight: 500;
+  color: #323233;
+}
+
+.search-section {
+  padding: 12px 16px;
+  border-bottom: 1px solid #eee;
+  flex-shrink: 0;
+}
+
+.options-section {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px 0;
+}
+
+.custom-option {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid #f5f5f5;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.custom-option:hover {
+  background-color: #f8f8f8;
+}
+
+.custom-option.active {
+  background-color: #e8f4ff;
+  color: #1989fa;
+}
+
+.custom-option .van-icon {
+  margin-right: 8px;
+  font-size: 16px;
+}
+
+.hospital-list {
+  padding: 0;
+}
+
+.hospital-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid #f5f5f5;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.hospital-item:hover {
+  background-color: #f8f8f8;
+}
+
+.hospital-item.active {
+  background-color: #e8f4ff;
+  color: #1989fa;
+}
+
+.hospital-main-info {
+  flex: 1;
+}
+
+.hospital-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #323233;
+  margin-bottom: 4px;
+}
+
+.hospital-item.active .hospital-name {
+  color: #1989fa;
+}
+
+.hospital-details {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: #969799;
+}
+
+.hospital-details span {
+  padding: 2px 6px;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+}
+
+.hospital-item.active .hospital-details span {
+  background-color: #e8f4ff;
+  color: #1989fa;
+}
+
+.empty-state {
+  padding: 40px 16px;
+  text-align: center;
+}
 </style>
