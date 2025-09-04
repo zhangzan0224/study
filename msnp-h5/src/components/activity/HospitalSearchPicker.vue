@@ -156,10 +156,16 @@ const onHospitalLevelCancel = () => {
 const showHospitalSearchPopup = () => {
   if (!props.editable) return
 
-  // Reset state when opening the popup
+  // Set the search keyword to the current value.
+  // This will trigger the watcher, which calls searchHospital.
   searchKeyword.value = props.hospitalName || ''
-  hospitalSearchData.value = []
-  initializeSelectedHospital()
+  
+  // If the keyword is empty, we need to handle it immediately
+  // because the watcher won't fire for an unchanged empty string.
+  if (!searchKeyword.value) {
+      hospitalSearchData.value = []
+      selectedHospital.value = null
+  }
 
   showHospitalSearchResultsPopup.value = true
 }
@@ -269,6 +275,7 @@ const searchHospital = async (searchValue) => {
       }
     ]
     hospitalSearchData.value = backendData
+    initializeSelectedHospital()
     closeToast()
   } catch (error) {
     closeToast()
@@ -299,6 +306,12 @@ watch(searchKeyword, (newValue) => {
   if (hospitalSearchTimer.value) {
     clearTimeout(hospitalSearchTimer.value)
   }
+
+  // If the search input is cleared, reset the selection.
+  if (!newValue.trim()) {
+    selectedHospital.value = null;
+  }
+
   hospitalSearchTimer.value = setTimeout(() => {
     searchHospital(newValue)
   }, 500)

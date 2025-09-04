@@ -55,12 +55,10 @@
 
     <!-- 新规则：当为 养老社区 时展示 社区名称 -->
     <template v-if="showCommunityNameField">
-      <FormField 
-        label="社区名称" 
-        type="input" 
-        v-model="communityName" 
-        placeholder="请输入社区名称" 
-        :disabled="!editable"
+      <CommunityNamePicker
+        v-model="communityName"
+        :editable="editable"
+        @community-selected="handleCommunitySelected"
       />
     </template>
 
@@ -109,6 +107,7 @@ import FormField from '@/components/base/FormField.vue'
 import HospitalSearchPicker from '@/components/activity/HospitalSearchPicker.vue'
 import LocationPicker from '@/components/activity/LocationPicker.vue'
 import VenueNamePicker from '@/components/activity/VenueNamePicker.vue'
+import CommunityNamePicker from '@/components/activity/CommunityNamePicker.vue'
 
 const props = defineProps({
   activeVenue: { type: String, default: '' },
@@ -344,6 +343,15 @@ const handleVenueSelected = (venueInfo) => {
     }
   }
 }
+
+const handleCommunitySelected = (community) => {
+  if (community) {
+    // Auto-fill the detailed address when a community is selected
+    if (community.address) {
+      detailAddress.value = community.address;
+    }
+  }
+};
 
 const clearActiveLocationFields = () => {
   activeLocation.value = ''
