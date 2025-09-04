@@ -75,17 +75,17 @@
 
             <ActiveTypePicker v-model="localFormData.activeType" :editable="editable" :rules="formRules.activeType" />
 
-            <HeldTypePicker v-model="localFormData.heldType" :editable="editable" :rules="formRules.heldType" />
+            <HeldTypePicker v-model="localFormData.heldType" :editable="heldTypeEditable" :rules="formRules.heldType" />
 
-            <FormField label="是否生成签到二维码" :required="true" type="select" v-model="localFormData.signQrcode" placeholder="请选择" @select-click="showQRCodePicker" name="signQrcode" :rules="formRules.signQrcode" />
+            <SignQrcodePicker v-model="localFormData.signQrcode" :editable="editable" :rules="formRules.signQrcode" />
 
-            <FormField label="活动说明" type="textarea" v-model="localFormData.activeRemark" placeholder="请输入" :max-length="50" :rows="2" name="activeRemark" :rules="formRules.activeRemark" />
+            <FormField label="活动说明" :required="isActiveRemarkRequired" type="textarea" v-model="localFormData.activeRemark" placeholder="请输入" :max-length="50" :rows="2" name="activeRemark" :rules="formRules.activeRemark" />
 
             <FormField label="直播链接" type="input" v-model="localFormData.liveUrl" placeholder="请输入" :show-divider="false" name="liveUrl" :rules="formRules.liveUrl" />
 
-            <FormField label="是否对外发布" :required="true" type="select" v-model="localFormData.isPublish" placeholder="请选择" @select-click="showPublicReleasePicker" name="isPublish" :rules="formRules.isPublish" />
+            <IsPublishPicker v-model="localFormData.isPublish" :rules="formRules.isPublish" />
 
-            <FormField label="活是否包含中医特色服务" :required="true" label-width="200px" type="select" v-model="localFormData.hasSpecialServer" placeholder="请选择" @select-click="showTraditionalMedicinePicker" :show-divider="false" name="hasSpecialServer" :rules="formRules.hasSpecialServer" />
+            <HasSpecialServerPicker v-model="localFormData.hasSpecialServer" :rules="formRules.hasSpecialServer" />
             
             <!-- 试点中支 子组件 (Assuming no validation rule was provided for this) -->
             <TrialSubbranchPicker v-model="localFormData.trialSubbranch" :editable="editable" :is-admin="isAdmin" />
@@ -113,6 +113,9 @@ import ChannelPicker from '@/components/activity/ChannelPicker.vue'
 import CategoryPicker from '@/components/activity/CategoryPicker.vue'
 import HeldTypePicker from '@/components/activity/HeldTypePicker.vue'
 import ActiveTypePicker from '@/components/activity/ActiveTypePicker.vue'
+import SignQrcodePicker from '@/components/activity/SignQrcodePicker.vue'
+import IsPublishPicker from '@/components/activity/IsPublishPicker.vue'
+import HasSpecialServerPicker from '@/components/activity/HasSpecialServerPicker.vue'
 import { getFormRules } from './validationRules.js'
 
 const formRef = ref(null)
@@ -192,6 +195,48 @@ const locationPlaceholder = computed(() => {
 const locationDisabled = computed(() => {
   return !props.editable || props.locationConfig.disabled
 })
+
+const heldTypeEditable = computed(() => {
+  const t = localFormData.value.activeType
+  return t !== 'FREE_CLINIC'
+})
+
+// 活动说明是否必填（理赔发布会/其他/体检/客权体检/产说会/医汇通相关/区域绿通相关）
+const isActiveRemarkRequired = computed(() => (
+  [
+    'CLAIM', // 理赔发布会
+    'OTHER', // 其他
+    'HEALTH_CHECK', // 体检
+    'CUSTOMER_CHECK', // 客权体检
+    'PRODUCT', // 产说会
+    'MEDLINK', // 医汇通相关
+    'REGION_GREEN' // 区域绿通相关
+  ].includes(localFormData.value.activeType)
+))
+
+// 当活动内容变化时，按照规则设置活动方式默认值
+watch(() => localFormData.value.activeType, (newType) => {
+  switch (newType) {
+    case 'FREE_CLINIC': // 义诊
+      localFormData.value.heldType = 'OFFLINE'
+      break
+    case 'OTHER': // 其他
+      localFormData.value.heldType = ''
+      break
+    case 'HEALTH_CHECK': // 体检
+    case 'CUSTOMER_CHECK': // 客权体检
+    case 'PRODUCT': // 产说会
+      localFormData.value.heldType = 'OFFLINE'
+      break
+    case 'MEDLINK': // 医汇通相关
+    case 'REGION_GREEN': // 区域绿通相关
+      localFormData.value.heldType = 'ONLINE'
+      break
+    default:
+      // 其他类型不强制设置
+      break
+  }
+}, { immediate: true })
 
 // 监听器
 const isSyncingFromProps = ref(false)

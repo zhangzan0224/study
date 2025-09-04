@@ -175,11 +175,26 @@ export const getFormRules = (formData) => {
       message: '请选择签到二维码',
       trigger: 'onChange'
     }],
-    activeRemark: [{
-      validator: (val) => !val || val.length <= 50,
-      message: '不能超过50个汉字及符号',
-      trigger: 'onChange'
-    }],
+    activeRemark: [
+      ...([
+        'CLAIM', // 理赔发布会
+        'OTHER', // 其他
+        'HEALTH_CHECK', // 体检
+        'CUSTOMER_CHECK', // 客权体检
+        'PRODUCT', // 产说会
+        'MEDLINK', // 医汇通相关
+        'REGION_GREEN' // 区域绿通相关
+      ].includes(formData.activeType) ? [{
+        required: true,
+        message: '请输入活动说明',
+        trigger: 'onBlur'
+      }] : []),
+      {
+        validator: (val) => !val || val.length <= 50,
+        message: '不能超过50个汉字及符号',
+        trigger: 'onChange'
+      }
+    ],
     centerName: [{
         required: true,
         message: '请选择或输入场馆名称',
