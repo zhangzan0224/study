@@ -73,7 +73,7 @@
           <!-- 扩展字段 - 仅在 NewActivity 中显示 -->
           <template v-if="showExtendedFields">
 
-            <FormField label="活动内容" :required="true" type="select" v-model="localFormData.activeType" placeholder="健康讲座" @select-click="showContentPicker" name="activeType" :rules="formRules.activeType" />
+            <ActiveTypePicker v-model="localFormData.activeType" :editable="editable" :rules="formRules.activeType" />
 
             <HeldTypePicker v-model="localFormData.heldType" :editable="editable" :rules="formRules.heldType" />
 
@@ -112,6 +112,7 @@ import HealthRelatePicker from '@/components/activity/HealthRelatePicker.vue'
 import ChannelPicker from '@/components/activity/ChannelPicker.vue'
 import CategoryPicker from '@/components/activity/CategoryPicker.vue'
 import HeldTypePicker from '@/components/activity/HeldTypePicker.vue'
+import ActiveTypePicker from '@/components/activity/ActiveTypePicker.vue'
 import { getFormRules } from './validationRules.js'
 
 const formRef = ref(null)

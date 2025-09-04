@@ -84,3 +84,90 @@ export const getVenueList = async () => {
     "timestamp": Date.now()
   };
 };
+
+/**
+ * 获取活动内容列表
+ */
+export const getActiveTypeList = async () => {
+  await new Promise(resolve => setTimeout(resolve, 200))
+  return {
+    code: 200,
+    data: [{
+        catId: "activeType",
+        catName: "活动内容",
+        dictCd: "HEALTH_LECTURE",
+        dictName: "健康讲座"
+      },
+      {
+        catId: "activeType",
+        catName: "活动内容",
+        dictCd: "HEALTH_CHECK",
+        dictName: "体检"
+      },
+      {
+        catId: "activeType",
+        catName: "活动内容",
+        dictCd: "CUSTOMER_CHECK",
+        dictName: "客权体检"
+      },
+      {
+        catId: "activeType",
+        catName: "活动内容",
+        dictCd: "FREE_CLINIC",
+        dictName: "义诊"
+      },
+      {
+        catId: "activeType",
+        catName: "活动内容",
+        dictCd: "PRODUCT",
+        dictName: "产说会"
+      },
+      {
+        catId: "activeType",
+        catName: "活动内容",
+        dictCd: "CONFERENCE",
+        dictName: "签约发布会"
+      },
+      {
+        catId: "activeType",
+        catName: "活动内容",
+        dictCd: "CLAIM",
+        dictName: "理赔发布会"
+      },
+      {
+        catId: "activeType",
+        catName: "活动内容",
+        dictCd: "MEDLINK",
+        dictName: "医汇通相关"
+      },
+      {
+        catId: "activeType",
+        catName: "活动内容",
+        dictCd: "REGION_GREEN",
+        dictName: "区域绿通相关"
+      },
+      {
+        catId: "activeType",
+        catName: "活动内容",
+        dictCd: "PRODUCT_INTRODUCTION",
+        dictName: "圈层营销-产品推介会"
+      },
+      {
+        catId: "activeType",
+        catName: "活动内容",
+        dictCd: "PRODUCT_VISIT",
+        dictName: "圈层营销-超体参观"
+      },
+      {
+        catId: "activeType",
+        catName: "活动内容",
+        dictCd: "OTHER",
+        dictName: "其他"
+      }
+    ],
+    debugMessage: "",
+    message: "",
+    success: true,
+    timestamp: Date.now()
+  }
+}
