@@ -2,6 +2,8 @@
   <div class="venue-section">
     <!-- 活动场地 -->
     <FormField 
+      name="activeVenue"
+      :rules="props.rules.activeVenue"
       label="活动场地" 
       :required="true" 
       type="select" 
@@ -14,6 +16,8 @@
     <!-- 活动位置相关字段 - 仅在活动场地选择为健保通医院时显示 -->
     <template v-if="showActiveLocationFields">
       <FormField 
+        name="activeLocation"
+        :rules="props.rules.activeLocation"
         label="活动位置" 
         :required="true" 
         type="select" 
@@ -28,6 +32,8 @@
         v-model:feHospitalId="feHospitalId"
         v-model:disableHospitalLevel="disableHospitalLevel"
         :editable="editable"
+        :hospital-name-rules="props.rules.hospitalName"
+        :hospital-level-rules="props.rules.hospitalLevel"
         @hospital-selected="handleHospitalSelected"
       />
     </template>
@@ -37,6 +43,7 @@
       <VenueNamePicker
         v-model:centerName="centerName"
         :editable="editable"
+        :rules="props.rules.centerName"
         @venue-selected="handleVenueSelected"
       />
     </template>
@@ -44,6 +51,8 @@
     <!-- 养老社区、拜博、职场、酒店、其他 时展示 场地信息 -->
     <template v-if="showSiteInfoField">
       <FormField 
+        name="activeVenueDetail"
+        :rules="props.rules.activeVenueDetail"
         label="场地信息" 
         type="textarea" 
         v-model="activeVenueDetail" 
@@ -58,6 +67,7 @@
       <CommunityNamePicker
         v-model="communityName"
         :editable="editable"
+        :rules="props.rules.communityName"
         @community-selected="handleCommunitySelected"
       />
     </template>
@@ -123,7 +133,8 @@ const props = defineProps({
   healthRelate: { type: String, default: '' },
   editable: { type: Boolean, default: true },
   location: { type: String, default: '' },
-  detailAddress: { type: String, default: '' }
+  detailAddress: { type: String, default: '' },
+  rules: { type: Object, default: () => ({}) }
 })
 
 const emit = defineEmits([

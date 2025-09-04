@@ -1,6 +1,8 @@
 <template>
   <div class="venue-name-picker">
     <FormField 
+      name="centerName"
+      :rules="props.rules"
       label="场馆名称" 
       :required="true" 
       type="select" 
@@ -94,7 +96,8 @@ import { getVenueList } from '@/api/activity.js'
 
 const props = defineProps({
   centerName: { type: String, default: '' },
-  editable: { type: Boolean, default: true }
+  editable: { type: Boolean, default: true },
+  rules: { type: Array, default: () => [] }
 })
 
 const emit = defineEmits([

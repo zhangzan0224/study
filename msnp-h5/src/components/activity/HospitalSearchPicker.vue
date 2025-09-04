@@ -1,8 +1,8 @@
 <template>
   <div class="hospital-search-picker">
-    <FormField label="医院名称" :required="true" type="select" :placeholder="editable ? '请选择或输入医院名称' : hospitalName" :disabled="!editable" :model-value="hospitalName" @select-click="showHospitalSearchPopup" />
+    <FormField name="hospitalName" :rules="props.hospitalNameRules" label="医院名称" :required="true" type="select" :placeholder="editable ? '请选择或输入医院名称' : hospitalName" :disabled="!editable" :model-value="hospitalName" @select-click="showHospitalSearchPopup" />
 
-    <FormField label="医院级别" :required="true" type="select" :placeholder="editable ? '请选择' : ''" :disabled="!editable || disableHospitalLevel" :model-value="hospitalLevel" :options="hospitalLevelOptions" @select-click="showHospitalLevelPicker" />
+    <FormField name="hospitalLevel" :rules="props.hospitalLevelRules" label="医院级别" :required="true" type="select" :placeholder="editable ? '请选择' : ''" :disabled="!editable || disableHospitalLevel" :model-value="hospitalLevel" :options="hospitalLevelOptions" @select-click="showHospitalLevelPicker" />
 
     <FormField label="医院fe编码" type="input" v-model="feHospitalId" placeholder="请输入医院fe编码" :disabled="true" />
 
@@ -62,7 +62,9 @@ const props = defineProps({
   hospitalLevel: { type: String, default: '' },
   feHospitalId: { type: String, default: '' },
   disableHospitalLevel: { type: Boolean, default: false },
-  editable: { type: Boolean, default: true }
+  editable: { type: Boolean, default: true },
+  hospitalNameRules: { type: Array, default: () => [] },
+  hospitalLevelRules: { type: Array, default: () => [] }
 })
 
 const emit = defineEmits([

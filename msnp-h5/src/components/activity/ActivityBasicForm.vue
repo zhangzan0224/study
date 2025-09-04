@@ -14,17 +14,19 @@
           <BranchSubbranchPicker 
             v-model:branchCode="localFormData.branchCode"
             v-model:subbranchCode="localFormData.subbranchCode"
+            :branch-rules="formRules.branchCode"
+            :subbranch-rules="formRules.subbranchCode"
             :editable="editable"
             @branch-selected="handleBranchSelected"
             @branch-changed="handleBranchChanged"
             @branch-cleared="handleBranchCleared"
           />
 
-          <StrategyPicker v-model="localFormData.strategy" :editable="editable" :branch-code="localFormData.branchCode" />
+          <StrategyPicker v-model="localFormData.strategy" :editable="editable" :branch-code="localFormData.branchCode" :rules="formRules.strategy" />
 
-          <FormField label="活动名称" :required="true" type="textarea" v-model="localFormData.name" placeholder="请输入活动名称" :max-length="30" :disabled="!editable" :rows="2" name="name" />
+          <FormField label="活动名称" :required="true" type="textarea" v-model="localFormData.name" placeholder="请输入活动名称" :max-length="30" :disabled="!editable" :rows="2" name="activeName" :rules="formRules.activeName" />
 
-          <ChannelPicker v-model="localFormData.channel" :editable="editable" />
+          <ChannelPicker v-model="localFormData.activeChannel" :editable="editable" :rules="formRules.activeChannel" name="activeChannel" />
 
           <DateTimeRangePicker
             v-model:startTime="localFormData.startTime"
@@ -33,9 +35,9 @@
             @validate-field="handleValidateField"
           />
 
-          <CategoryPicker v-model="localFormData.category" :editable="editable" />
+          <CategoryPicker v-model="localFormData.activeCategory" :editable="editable" :rules="formRules.activeCategory" name="activeCategory" />
 
-          <HealthRelatePicker v-model="localFormData.healthRelate" :editable="editable" />
+          <HealthRelatePicker v-model="localFormData.healthRelate" :editable="editable" :rules="formRules.healthRelate" name="healthRelate" />
 
           <VenueSection
             v-model:activeVenue="localFormData.activeVenue"
@@ -47,30 +49,41 @@
             v-model:centerName="localFormData.centerName"
             v-model:activeVenueDetail="localFormData.activeVenueDetail"
             v-model:communityName="localFormData.communityName"
-            :category="localFormData.category"
+            :category="localFormData.activeCategory"
             :healthRelate="localFormData.healthRelate"
             :editable="editable"
             v-model:location="localFormData.location"
             v-model:detailAddress="localFormData.detailAddress"
+            :rules="{
+              activeVenue: formRules.activeVenue,
+              activeLocation: formRules.activeLocation,
+              hospitalName: formRules.hospitalName,
+              hospitalLevel: formRules.hospitalLevel,
+              centerName: formRules.centerName,
+              activeVenueDetail: formRules.activeVenueDetail,
+              communityName: formRules.communityName,
+              address: formRules.address
+            }"
           />
 
           <!-- 扩展字段 - 仅在 NewActivity 中显示 -->
           <template v-if="showExtendedFields">
 
-            <FormField label="活动内容" :required="true" type="select" v-model="localFormData.content" placeholder="健康讲座" @select-click="showContentPicker" />
+            <FormField label="活动内容" :required="true" type="select" v-model="localFormData.heldType" placeholder="健康讲座" @select-click="showContentPicker" name="heldType" :rules="formRules.heldType" />
 
-            <FormField label="活动方式" :required="true" type="select" v-model="localFormData.method" placeholder="请选择" @select-click="showMethodPicker" />
+            <FormField label="活动方式" :required="true" type="select" v-model="localFormData.activeType" placeholder="请选择" @select-click="showMethodPicker" name="activeType" :rules="formRules.activeType" />
 
-            <FormField label="是否生成签到二维码" :required="true" type="select" v-model="localFormData.generateQRCode" placeholder="请选择" @select-click="showQRCodePicker" />
+            <FormField label="是否生成签到二维码" :required="true" type="select" v-model="localFormData.signQrcode" placeholder="请选择" @select-click="showQRCodePicker" name="signQrcode" :rules="formRules.signQrcode" />
 
-            <FormField label="活动说明" type="textarea" v-model="localFormData.description" placeholder="请输入" :max-length="30" :rows="2" />
+            <FormField label="活动说明" type="textarea" v-model="localFormData.activeRemark" placeholder="请输入" :max-length="50" :rows="2" name="activeRemark" :rules="formRules.activeRemark" />
 
-            <FormField label="直播链接" type="input" v-model="localFormData.liveLink" placeholder="请输入" :show-divider="false" />
+            <FormField label="直播链接" type="input" v-model="localFormData.liveUrl" placeholder="请输入" :show-divider="false" name="liveUrl" :rules="formRules.liveUrl" />
 
-            <FormField label="是否对外发布" :required="true" type="select" v-model="localFormData.publicRelease" placeholder="请选择" @select-click="showPublicReleasePicker" />
+            <FormField label="是否对外发布" :required="true" type="select" v-model="localFormData.isPublish" placeholder="请选择" @select-click="showPublicReleasePicker" name="isPublish" :rules="formRules.isPublish" />
 
-            <FormField label="活是否包含中医特色服务" :required="true" label-width="200px" type="select" v-model="localFormData.traditionalMedicine" placeholder="请选择" @select-click="showTraditionalMedicinePicker" :show-divider="false" />
-            <!-- 试点中支 子组件 -->
+            <FormField label="活是否包含中医特色服务" :required="true" label-width="200px" type="select" v-model="localFormData.hasSpecialServer" placeholder="请选择" @select-click="showTraditionalMedicinePicker" :show-divider="false" name="hasSpecialServer" :rules="formRules.hasSpecialServer" />
+            
+            <!-- 试点中支 子组件 (Assuming no validation rule was provided for this) -->
             <TrialSubbranchPicker v-model="localFormData.trialSubbranch" :editable="editable" :is-admin="isAdmin" />
           </template>
         </div>
@@ -94,6 +107,7 @@ import ActivityNameInput from '@/components/activity/ActivityNameInput.vue'
 import HealthRelatePicker from '@/components/activity/HealthRelatePicker.vue'
 import ChannelPicker from '@/components/activity/ChannelPicker.vue'
 import CategoryPicker from '@/components/activity/CategoryPicker.vue'
+import { formRules } from './validationRules.js'
 
 const formRef = ref(null)
 const categoryPickerRef = ref(null)

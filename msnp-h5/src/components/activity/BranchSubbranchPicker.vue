@@ -2,7 +2,7 @@
   <div class="branch-subbranch-picker">
     <FormField
       name="branchCode"
-      :rules="[{ required: true, message: '请选择分公司' }]"
+      :rules="props.branchRules"
       label="分公司"
       :required="true"
       type="select"
@@ -15,7 +15,7 @@
 
     <FormField
       name="subbranchCode"
-      :rules="[{ required: true, message: '请选择中支' }]"
+      :rules="props.subbranchRules"
       label="中支"
       :required="true"
       type="select"
@@ -58,7 +58,9 @@ import FormField from '@/components/base/FormField.vue'
 const props = defineProps({
   branchCode: { type: String, default: '' },
   subbranchCode: { type: String, default: '' },
-  editable: { type: Boolean, default: true }
+  editable: { type: Boolean, default: true },
+  branchRules: { type: Array, default: () => [] },
+  subbranchRules: { type: Array, default: () => [] }
 })
 
 const emit = defineEmits(['update:branchCode', 'update:subbranchCode', 'branch-selected'])

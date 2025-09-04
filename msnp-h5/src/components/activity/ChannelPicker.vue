@@ -1,6 +1,8 @@
 <template>
   <div class="channel-picker">
     <FormField
+      name="activeChannel"
+      :rules="props.rules"
       label="活动渠道"
       :required="true"
       type="select"
@@ -28,7 +30,8 @@ import FormField from '@/components/base/FormField.vue'
 
 const props = defineProps({
   modelValue: { type: String, default: '' },
-  editable: { type: Boolean, default: true }
+  editable: { type: Boolean, default: true },
+  rules: { type: Array, default: () => [] }
 })
 
 const emit = defineEmits(['update:modelValue'])

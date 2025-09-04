@@ -1,6 +1,8 @@
 <template>
   <div class="strategy-picker">
     <FormField
+      name="strategy"
+      :rules="props.rules"
       label="战略划分"
       :required="true"
       type="text"
@@ -18,7 +20,8 @@ import FormField from '@/components/base/FormField.vue'
 const props = defineProps({
   modelValue: { type: String, default: '' },
   editable: { type: Boolean, default: true },
-  branchCode: { type: String, default: '' }
+  branchCode: { type: String, default: '' },
+  rules: { type: Array, default: () => [] }
 })
 
 const emit = defineEmits(['update:modelValue'])

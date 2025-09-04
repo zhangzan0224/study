@@ -1,6 +1,8 @@
 <template>
   <div class="community-name-picker">
     <FormField 
+      name="communityName"
+      :rules="props.rules"
       label="社区名称" 
       :required="true" 
       type="select" 
@@ -28,7 +30,8 @@ import { showLoadingToast, closeToast, showFailToast } from 'vant';
 
 const props = defineProps({
   modelValue: { type: String, default: '' },
-  editable: { type: Boolean, default: true }
+  editable: { type: Boolean, default: true },
+  rules: { type: Array, default: () => [] }
 });
 
 const emit = defineEmits(['update:modelValue', 'community-selected']);
