@@ -8,10 +8,7 @@
       type="select" 
       :placeholder="editable ? '请选择' : startTime" 
       :disabled="!editable" 
-      :rules="[
-        { required: true, message: '请选择开始时间' },
-        { validator: validateStartBeforeEnd }
-      ]"
+      :rules="props.startTimeRules"
       :value="startTime"
       @select-click="showStartTimePicker" 
     />
@@ -24,10 +21,7 @@
       type="select" 
       :placeholder="editable ? '请选择' : endTime" 
       :disabled="!editable" 
-      :rules="[
-        { required: true, message: '请选择结束时间' },
-        { validator: validateEndAfterStart }
-      ]"
+      :rules="props.endTimeRules"
       :value="endTime"
       @select-click="showEndTimePicker" 
     />
@@ -67,7 +61,9 @@ import FormField from '@/components/base/FormField.vue'
 const props = defineProps({
   startTime: { type: String, default: '' },
   endTime: { type: String, default: '' },
-  editable: { type: Boolean, default: true }
+  editable: { type: Boolean, default: true },
+  startTimeRules: { type: Array, default: () => [] },
+  endTimeRules: { type: Array, default: () => [] }
 })
 
 const emit = defineEmits(['update:startTime', 'update:endTime'])
@@ -119,28 +115,7 @@ const toDateObj = (dArr, tArr) => {
   return new Date(y, m, d, hh, mm, 0, 0)
 }
 
-// 校验函数
-const validateEndAfterStart = (val) => {
-  const endVal = val || ''
-  const startVal = props.startTime || ''
-  if (!endVal || !startVal) return true
-  const { d: sd, t: st } = splitDateTime(startVal)
-  const { d: ed, t: et } = splitDateTime(endVal)
-  const sDate = toDateObj(sd, st)
-  const eDate = toDateObj(ed, et)
-  return eDate.getTime() > sDate.getTime() || '结束时间需晚于开始时间'
-}
 
-const validateStartBeforeEnd = (val) => {
-  const startVal = val || ''
-  const endVal = props.endTime || ''
-  if (!startVal || !endVal) return true
-  const { d: sd, t: st } = splitDateTime(startVal)
-  const { d: ed, t: et } = splitDateTime(endVal)
-  const sDate = toDateObj(sd, st)
-  const eDate = toDateObj(ed, et)
-  return sDate.getTime() < eDate.getTime() || '开始时间需早于结束时间'
-}
 
 // 方法
 const showStartTimePicker = () => {

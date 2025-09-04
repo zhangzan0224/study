@@ -1,8 +1,10 @@
 <template>
   <div class="location-picker">
     <FormField
+      name="location"
+      :rules="props.rules"
       label="活动省市"
-      :required="true"
+      :required="required"
       type="select"
       :placeholder="editable ? '请选择' : displayText"
       :disabled="!editable"
@@ -31,7 +33,9 @@ import FormField from '@/components/base/FormField.vue'
 
 const props = defineProps({
   modelValue: { type: String, default: '' }, // e.g., "110100" (城市码值) 或 "810000" (省份码值)
-  editable: { type: Boolean, default: true }
+  editable: { type: Boolean, default: true },
+  required: { type: Boolean, default: false },
+  rules: { type: Array, default: () => [] }
 })
 
 const emit = defineEmits(['update:modelValue'])

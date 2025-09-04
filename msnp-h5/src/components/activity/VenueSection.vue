@@ -58,7 +58,7 @@
         v-model="activeVenueDetail" 
         placeholder="请输入场地信息" 
         :rows="3" 
-        :disabled="!editable"
+        :disabled="!addressEditable"
       />
     </template>
 
@@ -74,10 +74,12 @@
 
     <!-- 活动省市和详细地址 - 任何场地选择后都显示 -->
     <template v-if="showAddressFields">
-      <LocationPicker v-model="location" :editable="editable" />
+      <LocationPicker v-model="location" :editable="addressEditable" :required="offlineOrBoth" :rules="props.rules.location" />
       <FormField 
+        name="address"
+        :rules="props.rules.address"
         label="详细地址" 
-        :required="true" 
+        :required="offlineOrBoth" 
         type="textarea" 
         v-model="detailAddress" 
         placeholder="请输入详细地址" 
@@ -134,6 +136,7 @@ const props = defineProps({
   editable: { type: Boolean, default: true },
   location: { type: String, default: '' },
   detailAddress: { type: String, default: '' },
+  heldType: { type: String, default: '' },
   rules: { type: Object, default: () => ({}) }
 })
 
@@ -251,6 +254,11 @@ const showSiteInfoField = computed(() => ['COMMUNITY', 'BYBO', 'WORK_PLACE', 'HO
 const showCommunityNameField = computed(() => props.activeVenue === 'COMMUNITY')
 // 活动省市和详细地址一直显示
 const showAddressFields = computed(() => true)
+
+// 是否线下或线上+线下
+const offlineOrBoth = computed(() => ['OFFLINE', 'BOTH'].includes(props.heldType))
+// 地址相关是否可编辑（heldType=ONLINE 时禁用）
+const addressEditable = computed(() => props.editable && offlineOrBoth.value)
 
 // 方法
 const showVenuePicker = () => {

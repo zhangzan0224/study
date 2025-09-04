@@ -32,6 +32,8 @@
             v-model:startTime="localFormData.startTime"
             v-model:endTime="localFormData.endTime"
             :editable="editable"
+            :start-time-rules="formRules.startTime"
+            :end-time-rules="formRules.endTime"
             @validate-field="handleValidateField"
           />
 
@@ -54,6 +56,7 @@
             :editable="editable"
             v-model:location="localFormData.location"
             v-model:detailAddress="localFormData.detailAddress"
+            :heldType="localFormData.heldType"
             :rules="{
               activeVenue: formRules.activeVenue,
               activeLocation: formRules.activeLocation,
@@ -62,6 +65,7 @@
               centerName: formRules.centerName,
               activeVenueDetail: formRules.activeVenueDetail,
               communityName: formRules.communityName,
+              location: formRules.location,
               address: formRules.address
             }"
           />
@@ -69,9 +73,9 @@
           <!-- 扩展字段 - 仅在 NewActivity 中显示 -->
           <template v-if="showExtendedFields">
 
-            <FormField label="活动内容" :required="true" type="select" v-model="localFormData.heldType" placeholder="健康讲座" @select-click="showContentPicker" name="heldType" :rules="formRules.heldType" />
+            <FormField label="活动内容" :required="true" type="select" v-model="localFormData.activeType" placeholder="健康讲座" @select-click="showContentPicker" name="activeType" :rules="formRules.activeType" />
 
-            <FormField label="活动方式" :required="true" type="select" v-model="localFormData.activeType" placeholder="请选择" @select-click="showMethodPicker" name="activeType" :rules="formRules.activeType" />
+            <HeldTypePicker v-model="localFormData.heldType" :editable="editable" :rules="formRules.heldType" />
 
             <FormField label="是否生成签到二维码" :required="true" type="select" v-model="localFormData.signQrcode" placeholder="请选择" @select-click="showQRCodePicker" name="signQrcode" :rules="formRules.signQrcode" />
 
@@ -107,9 +111,13 @@ import ActivityNameInput from '@/components/activity/ActivityNameInput.vue'
 import HealthRelatePicker from '@/components/activity/HealthRelatePicker.vue'
 import ChannelPicker from '@/components/activity/ChannelPicker.vue'
 import CategoryPicker from '@/components/activity/CategoryPicker.vue'
-import { formRules } from './validationRules.js'
+import HeldTypePicker from '@/components/activity/HeldTypePicker.vue'
+import { getFormRules } from './validationRules.js'
 
 const formRef = ref(null)
+// Create a computed property to generate reactive rules
+const formRules = computed(() => getFormRules(localFormData.value))
+
 const categoryPickerRef = ref(null)
 const healthRelatePickerRef = ref(null)
 
