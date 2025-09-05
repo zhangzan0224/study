@@ -171,3 +171,28 @@ export const getActiveTypeList = async () => {
     timestamp: Date.now()
   }
 }
+
+/**
+ * 根据中支编码获取试点中支当前值（Mock）
+ * 固定选项：0=否，1=一期，2=二期；接口仅返回当前值
+ * @param {string} subbranchCode 中支编码
+ * 返回结构：{ code, success, data: { current } }
+ */
+export const getTrialSubbranchValue = async (subbranchCode) => {
+  await new Promise(resolve => setTimeout(resolve, 300))
+  let current = '0'
+  if (subbranchCode === 'SZ001') {
+    current = '1'
+  } else if (subbranchCode === 'BJ002') {
+    current = '2'
+  }
+  return {
+    code: 200,
+    success: true,
+    message: 'OK',
+    data: {
+      current
+    },
+    timestamp: Date.now()
+  }
+}

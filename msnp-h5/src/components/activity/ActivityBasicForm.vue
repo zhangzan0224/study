@@ -88,7 +88,7 @@
             <HasSpecialServerPicker v-model="localFormData.hasSpecialServer" :rules="formRules.hasSpecialServer" />
             
             <!-- 试点中支 子组件 (Assuming no validation rule was provided for this) -->
-            <TrialSubbranchPicker v-model="localFormData.trialSubbranch" :editable="editable" :is-admin="isAdmin" />
+            <TrialSubbranchPicker v-model="localFormData.trialSubbranch" :editable="editable" :is-admin="isAdmin" :subbranch-code="localFormData.subbranchCode" />
           </template>
         </div>
       </van-form>
