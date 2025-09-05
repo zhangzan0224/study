@@ -83,9 +83,9 @@
 
             <FormField label="直播链接" type="input" v-model="localFormData.liveUrl" placeholder="请输入" :show-divider="false" name="liveUrl" :rules="formRules.liveUrl" />
 
-            <IsPublishPicker v-model="localFormData.isPublish" :rules="formRules.isPublish" />
+            <IsPublishPicker v-model="localFormData.isPublish" :editable="editable" :rules="formRules.isPublish" />
 
-            <HasSpecialServerPicker v-model="localFormData.hasSpecialServer" :rules="formRules.hasSpecialServer" />
+            <HasSpecialServerPicker v-model="localFormData.hasSpecialServer" :editable="editable" :rules="formRules.hasSpecialServer" />
             
             <!-- 试点中支 子组件 (Assuming no validation rule was provided for this) -->
             <TrialSubbranchPicker v-model="localFormData.trialSubbranch" :editable="editable" :is-admin="isAdmin" :subbranch-code="localFormData.subbranchCode" />
