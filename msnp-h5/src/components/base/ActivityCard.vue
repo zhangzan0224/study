@@ -33,23 +33,39 @@
       </div>
     </div>
     
-    <!-- 活动详情信息 -->
+    <!-- 活动详情信息（逐行渲染，防止长文本导致不对齐） -->
     <div class="activity-details">
-      <div class="detail-labels">
-        <div class="detail-item">活动编号</div>
-        <div class="detail-item">分公司</div>
-        <div class="detail-item">中支</div>
-        <div class="detail-item">医院名称</div>
-        <div class="detail-item">活动状态</div>
-      </div>
-      <div class="detail-values">
-        <div class="detail-item">{{ activity.code }}</div>
-        <div class="detail-item">{{ activity.branch }}</div>
-        <div class="detail-item">{{ activity.department }}</div>
-        <div class="detail-item">{{ activity.hospital || '-' }}</div>
-        <div class="detail-item status-item">
-          {{ activity.status }}
-          <img v-if="activity.statusIcon" :src="activity.statusIcon" alt="" class="status-icon" />
+      <div
+        class="detail-row"
+        v-for="item in detailList"
+        :key="item.label"
+      >
+        <div class="detail-label">{{ item.label }}</div>
+        <div class="detail-value">
+          <!-- 活动编号，增加复制功能 -->
+          <template v-if="item.isCode">
+            <span class="activity-code-text">{{ item.value }}</span>
+            <svg 
+              class="copy-icon"
+              @click.stop="handleCopyCode(item.value)"
+              viewBox="0 0 1024 1024" 
+              xmlns="http://www.w3.org/2000/svg" 
+              width="16" 
+              height="16"
+            >
+              <path d="M768 832a128 128 0 0 1-128 128H192A128 128 0 0 1 64 832V384a128 128 0 0 1 128-128v64a64 64 0 0 0-64 64v448a64 64 0 0 0 64 64h448a64 64 0 0 0 64-64h64z" fill="#666"></path>
+              <path d="M832 64H384a128 128 0 0 0-128 128v448a128 128 0 0 0 128 128h448a128 128 0 0 0 128-128V192A128 128 0 0 0 832 64zm64 576a64 64 0 0 1-64 64H384a64 64 0 0 1-64-64V192a64 64 0 0 1 64-64h448a64 64 0 0 1 64 64v448z" fill="#666"></path>
+            </svg>
+          </template>
+          <!-- 活动状态 -->
+          <template v-else-if="item.isStatus">
+            <span class="status-text">{{ item.value }}</span>
+            <img v-if="activity.statusIcon" :src="activity.statusIcon" alt="" class="status-icon" />
+          </template>
+          <!-- 其他普通文本 -->
+          <template v-else>
+            {{ item.value }}
+          </template>
         </div>
       </div>
     </div>
@@ -85,6 +101,8 @@
 </template>
 
 <script>
+import { showToast } from 'vant'
+
 const tagHash = {
     '高客战略': 'tag-highend',
     '个险': 'tag-insurance',
@@ -111,6 +129,16 @@ export default {
         { label: '反馈人数', value: this.activity.feedbackCount || '0' },
         { label: '评价人数', value: this.activity.ratingCount || '0' }
       ];
+    },
+    // 将详情行转为一行一组，避免左右两列在长文本换行时错位
+    detailList() {
+      return [
+        { label: '活动编号', value: this.activity.code || '-', isCode: true },
+        { label: '分公司', value: this.activity.branch || '-' },
+        { label: '中支', value: this.activity.department || '-' },
+        { label: '医院名称', value: this.activity.hospital || '-' },
+        { label: '活动状态', value: this.activity.status || '-', isStatus: true }
+      ];
     }
   },
   methods: {
@@ -135,6 +163,20 @@ export default {
     },
     handleEdit() {
       this.$emit('edit', this.activity);
+    },
+    // 复制活动编号
+    async handleCopyCode(code) {
+      if (!code || code === '-') {
+        showToast('无活动编号可复制');
+        return;
+      }
+      try {
+        await navigator.clipboard.writeText(code);
+        showToast('复制成功');
+      } catch (err) {
+        console.error('Failed to copy: ', err);
+        showToast('复制失败，请稍后重试');
+      }
     }
   }
 }
@@ -254,50 +296,58 @@ export default {
   border-radius: 50%;
 }
 
+/* 详情：改为一行一个 label + value，避免换行错位 */
 .activity-details {
   display: flex;
+  flex-direction: column;
   padding: 0 20px;
 }
 
-.detail-labels,
-.detail-values {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
+.detail-row {
+  display: grid;
+  grid-template-columns: 56px 1fr; /* 与原先 label 宽度保持一致 */
+  column-gap: 20px;
 }
 
-.detail-labels {
-  width: 56px;
-}
-
-.detail-values {
-  flex: 1;
-  margin-left: 20px;
-}
-
-.detail-item {
+.detail-label,
+.detail-value {
   font-size: 14px;
   font-family: 'PingFang SC', sans-serif;
-  line-height: 30px;
+  color: #333333;
+  line-height: 22px;
+  padding: 4px 0; /* 提升可读性并让行高自适应 */
+  display: flex; /* 用于对齐复制图标 */
+  align-items: center; /* 垂直居中对齐 */
 }
 
-.detail-labels .detail-item {
+.detail-label {
   color: #666666;
 }
 
-.detail-values .detail-item {
-  color: #333333;
+.detail-value {
+  /* 允许中文与长单词换行，避免溢出并保持与 label 对齐 */
+  white-space: pre-wrap;
+  word-break: break-word; /* 对中文更友好 */
+  overflow-wrap: anywhere;
 }
 
-.status-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+.activity-code-text {
+  flex-grow: 1; /* 文本占据剩余空间 */
 }
+
+.copy-icon {
+  cursor: pointer;
+  margin-left: 8px;
+  flex-shrink: 0; /* 防止图标被压缩 */
+}
+
+.status-text { /* 状态文本仍为普通内联元素，可换行 */ }
 
 .status-icon {
   width: 11px;
   height: 12px;
+  margin-left: 8px;
+  vertical-align: text-bottom;
 }
 
 .divider {
