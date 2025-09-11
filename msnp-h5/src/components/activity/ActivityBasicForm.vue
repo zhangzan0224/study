@@ -214,56 +214,43 @@ const isActiveRemarkRequired = computed(() => (
   ].includes(localFormData.value.activeType)
 ))
 
-// 当活动内容变化时，按照规则设置活动方式默认值
-watch(() => localFormData.value.activeType, (newType) => {
-  switch (newType) {
+// 规则：根据活动内容规范 heldType；避免被父组件同步时“清空”覆盖
+const resolveHeldTypeByActiveType = (type) => {
+  switch (type) {
     case 'FREE_CLINIC': // 义诊
-      localFormData.value.heldType = 'OFFLINE'
-      break
+      return 'OFFLINE'
     case 'OTHER': // 其他
-      localFormData.value.heldType = ''
-      break
+      return ''
     case 'HEALTH_CHECK': // 体检
     case 'CUSTOMER_CHECK': // 客权体检
     case 'PRODUCT': // 产说会
-      localFormData.value.heldType = 'OFFLINE'
-      break
+      return 'OFFLINE'
     case 'MEDLINK': // 医汇通相关
     case 'REGION_GREEN': // 区域绿通相关
-      localFormData.value.heldType = 'ONLINE'
-      break
+      return 'ONLINE'
     default:
-      // 其他类型不强制设置
-      break
+      return undefined // 不强制
+  }
+}
+
+// 当活动内容或 heldType 变化时，对齐到规范值，防止外部同步把值置空
+watch([
+  () => localFormData.value.activeType,
+  () => localFormData.value.heldType
+], ([newType, currHeld]) => {
+  const desired = resolveHeldTypeByActiveType(newType)
+  if (desired !== undefined && desired !== currHeld) {
+    localFormData.value.heldType = desired
   }
 }, { immediate: true })
 
 // 监听器
-const isSyncingFromProps = ref(false)
-
-watch(() => props.formData, (newVal) => {
-  isSyncingFromProps.value = true
-  localFormData.value = { ...newVal }
-  // 同步 props 时也补齐内部控制字段默认值
-  if (localFormData.value._disableHospitalLevel === undefined) {
-    localFormData.value._disableHospitalLevel = false
-  }
-  nextTick(() => {
-    isSyncingFromProps.value = false
-  })
-}, { deep: true })
-
+// 不再深度监听父 formData，避免子改父再反推回来的抖动/覆盖。
+// 仅在初始化时从 props 拷贝，之后以本地为准并通过 v-model 同步给父级。
 watch(localFormData, (newVal) => {
-  if (isSyncingFromProps.value) return
   emit('update:formData', newVal)
   emit('form-change', newVal)
 }, { deep: true })
-
-watch(() => props.editable, (newVal) => {
-  if (newVal) {
-    localFormData.value = { ...props.formData }
-  }
-})
 
 // 监听活动类别和是否健保通相关变化，清空活动场地选择
 watch([() => localFormData.value.category, () => localFormData.value.healthRelate], ([newCategory, newHealthRelate], [oldCategory, oldHealthRelate]) => {

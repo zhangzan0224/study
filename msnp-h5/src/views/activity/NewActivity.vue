@@ -18,18 +18,35 @@
     <div class="form-content">
       <!-- 活动基本信息 -->
       <div class="form-section">
-        <ActivityBasicForm ref="activityBasicFormRef" v-model:formData="formData" :editable="true" :show-header="true" :show-extended-fields="true" @branch-selected="handleBranchSelected" @branch-changed="handleBranchChanged" @branch-cleared="handleBranchCleared" />
+        <ActivityBasicForm ref="activityBasicFormRef" v-model:formData="formData" :editable="true" :show-header="true" :show-extended-fields="true" @form-change="handleFormChange" @branch-selected="handleBranchSelected" @branch-changed="handleBranchChanged" @branch-cleared="handleBranchCleared" />
       </div>
 
       <!-- 讲师信息 -->
-      <div v-if="shouldShowExpertInfo" class="expert-form-section">
+      <div v-if="shouldShowExpertInfo" :key="formData.activeType" class="expert-form-section">
         <div class="section-header">
           <span class="section-title">讲师信息</span>
           <div class="header-divider"></div>
         </div>
 
-        <div v-for="(expert, index) in formData.experts" :key="index" class="expert-section">
-          <ExpertForm :expert="expert" :index="index" @update="updateExpert" @remove="removeExpert" :show-remove="formData.experts.length > 1" />
+        <!-- 每位讲师使用独立的 van-form，避免字段 name 重复导致的校验冲突 -->
+        <div v-for="(expert, index) in formData.experts" :key="expert.id" class="expert-section">
+          <van-form
+            :key="formData.activeType + '-' + expert.id"
+            :ref="el => setExpertFormRef(el, index)"
+            :show-error="true"
+            :show-error-message="true"
+            :scroll-to-error="true"
+          >
+            <component
+              :is="isFreeClinic ? FreeClinicExpertForm : ExpertForm"
+              :expert="expert"
+              :key="formData.activeType + '-' + expert.id"
+              :index="index"
+              :show-remove="formData.experts.length > 1 && index > 0"
+              @update="updateExpert"
+              @remove="removeExpert"
+            />
+          </van-form>
         </div>
 
         <div class="add-expert-wrapper">
@@ -51,17 +68,24 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { showToast, showSuccessToast, showFailToast } from 'vant'
 import NavigationBar from '@/components/base/NavigationBar.vue'
 import ActivityBasicForm from '@/components/activity/ActivityBasicForm.vue'
 import ExpertForm from '@/components/activity/ExpertForm.vue'
+import FreeClinicExpertForm from '@/components/activity/FreeClinicExpertForm.vue'
 
 const router = useRouter()
 
 // 响应式数据
 const activityBasicFormRef = ref(null)
+const expertFormRefs = ref([])
+const setExpertFormRef = (el, index) => {
+  if (el) {
+    expertFormRefs.value[index] = el
+  }
+}
 const formData = ref({
   branchCode: '',
   subbracnCode: '',
@@ -79,8 +103,8 @@ const formData = ref({
   feHospitalId: '',
   location: '',
   detailAddress: '',
-  content: '健康讲座',
-  method: '',
+  activeType: '',
+  heldType: '',
   generateQRCode: '',
   description: '',
   liveLink: '',
@@ -92,9 +116,15 @@ const formData = ref({
 // 计算属性
 const shouldShowExpertInfo = computed(() => {
   // 根据活动内容判断是否需要显示讲师信息
-  const content = formData.value.content
-  return content === '健康讲座' || content === '义诊'
+  const activeType = formData.value.activeType
+  return activeType === 'HEALTH_LECTURE' || activeType === 'FREE_CLINIC'
 })
+
+// 是否为义诊，用于切换到 FreeClinicExpertForm（姓名为输入框）
+const isFreeClinic = computed(() => formData.value.activeType === 'FREE_CLINIC')
+
+// 判断是否为需要讲师信息的活动类型
+const isExpertType = (t) => t === 'HEALTH_LECTURE' || t === 'FREE_CLINIC'
 
 // 生命周期
 onMounted(() => {
@@ -104,14 +134,30 @@ onMounted(() => {
   }
 })
 
+// 监听活动类型切换，清空/初始化讲师信息，兼容通过 DevTools 直接修改数据的场景
+watch(
+  () => formData.value.activeType,
+  (nextType, prevType) => {
+    if (isExpertType(prevType) && nextType !== prevType) {
+      formData.value.experts = []
+      expertFormRefs.value = []
+    }
+    if (isExpertType(nextType) && formData.value.experts.length === 0) {
+      initializeExperts()
+    }
+  }
+)
+
 // 方法
 const handleBack = () => {
   router.back()
 }
 
 const handleFormChange = (newFormData) => {
+  // 合并表单数据
   formData.value = { ...formData.value, ...newFormData }
-  // 如果活动内容变化，需要检查是否需要初始化讲师信息
+
+  // 如当前需要展示讲师信息且为空，则初始化一个空专家项
   if (shouldShowExpertInfo.value && formData.value.experts.length === 0) {
     initializeExperts()
   }
@@ -164,7 +210,7 @@ const loadDepartmentsByBranch = async (branchCode) => {
 const initializeExperts = () => {
   if (formData.value.experts.length === 0) {
     formData.value.experts.push({
-      id: 1,
+      id: Date.now(),
       photo: '',
       name: '',
       title: '',
@@ -194,6 +240,11 @@ const updateExpert = (index, expertData) => {
 }
 
 const removeExpert = (index) => {
+  // 首位讲师不可删除
+  if (index === 0) {
+    showFailToast('首位讲师不可删除')
+    return
+  }
   if (formData.value.experts.length > 1) {
     formData.value.experts.splice(index, 1)
   }
@@ -201,25 +252,64 @@ const removeExpert = (index) => {
 
 // 表单提交
 const handleSave = async () => {
+  const errorMsgs = []
+
+  // 校验基本信息表单（不阻断后续校验）
   try {
     await activityBasicFormRef.value?.validate?.()
   } catch (e) {
     const first = Array.isArray(e) ? e[0] : null
-    if (first && first.message) showFailToast(first.message)
+    if (first && first.message) errorMsgs.push(first.message)
+  }
+  // 校验讲师表单（仅当需要展示时，全部并行校验，不因单个报错而中断）
+  if (shouldShowExpertInfo.value) {
+    const forms = expertFormRefs.value.filter(f => f && typeof f.validate === 'function')
+    const results = await Promise.allSettled(forms.map(f => f.validate()))
+    results.forEach(r => {
+      if (r.status === 'rejected') {
+        const first = Array.isArray(r.reason) ? r.reason[0] : null
+        if (first && first.message) errorMsgs.push(first.message)
+      }
+    })
+  }
+
+  if (errorMsgs.length) {
+    // 可以合并展示，或只提示第一个
+    showFailToast(errorMsgs[0])
     return
   }
+
   console.log('Save activity:', formData.value)
   showSuccessToast('保存成功')
 }
 
 const handleSubmit = async () => {
+  const errorMsgs = []
+
+  // 校验基本信息（不阻断后续校验）
   try {
     await activityBasicFormRef.value?.validate?.()
   } catch (e) {
-    // const first = Array.isArray(e) ? e[0] : null
-    // if (first && first.message) showFailToast(first.message)
+    const first = Array.isArray(e) ? e[0] : null
+    if (first && first.message) errorMsgs.push(first.message)
+  }
+  // 校验讲师信息（按需），并行校验所有讲师表单
+  if (shouldShowExpertInfo.value) {
+    const forms = expertFormRefs.value.filter(f => f && typeof f.validate === 'function')
+    const results = await Promise.allSettled(forms.map(f => f.validate()))
+    results.forEach(r => {
+      if (r.status === 'rejected') {
+        const first = Array.isArray(r.reason) ? r.reason[0] : null
+        if (first && first.message) errorMsgs.push(first.message)
+      }
+    })
+  }
+
+  if (errorMsgs.length) {
+    showFailToast(errorMsgs[0])
     return
   }
+
   console.log('Submit activity:', formData.value)
   showSuccessToast('提交成功')
 }
