@@ -1,95 +1,34 @@
 <template>
   <div class="expert-form">
     <!-- 照片上传（封装为组件，使用 Vant Uploader） -->
-    <ExpertPhotoUploader
-      v-model="localExpert.photo"
-      :editable="true"
-      @update:modelValue="handleUpdate"
-    />
-    
-    <!-- 模式切换：选择讲师 / 手动录入 -->
+    <ExpertPhotoUploader v-model="localExpert.photo" :editable="true" @update:modelValue="handleUpdate" />
 
+    <!-- 模式切换：选择讲师 / 手动录入 -->
 
     <!-- 基本信息 -->
     <div class="info-section">
-      <ExpertSearchPicker
-        v-model="localExpert.name"
-        :rules="expertRules.doctorName"
-        @expert-selected="onExpertSelected"
-      />
-      
-      <FormField 
-        label="职称"
-        :required="true"
-        type="select"
-        v-model="localExpert.title"
-        placeholder="请选择"
-        name="titleType"
-        :rules="expertRules.titleType"
-        :disabled="disableTitle"
-        @select-click="openTitlePicker"
-      />
-      
+      <ExpertSearchPicker v-model:modelValue="localExpert.name" v-model:selectedExpertId="localExpert.id" :rules="expertRules.doctorName" @expert-selected="onExpertSelected" />
+
+      <FormField label="职称" :required="true" type="select" v-model="localExpert.title" placeholder="请选择" name="titleType" :rules="expertRules.titleType" :disabled="disableTitle" @select-click="openTitlePicker" />
+
       <!-- 医院：仅展示/选择医院名称（无级别与FE编码）；选择系统讲师时只读展示 -->
       <template v-if="isManual">
-        <HospitalNameOnlyPicker
-          v-model="localExpert.hospital"
-          :editable="!disableHospital"
-          :rules="expertRules.hospitalName"
-          @hospital-selected="handleUpdate"
-        />
+        <HospitalNameOnlyPicker v-model="localExpert.hospital" :editable="!disableHospital" :rules="expertRules.hospitalName" @hospital-selected="handleUpdate" />
       </template>
       <template v-else>
-        <FormField 
-          label="医院"
-          :required="true"
-          type="input"
-          v-model="localExpert.hospital"
-          placeholder="请输入或选择"
-          name="hospitalName"
-          :rules="expertRules.hospitalName"
-          :disabled="true"
-          @input="handleUpdate"
-        />
+        <FormField label="医院" :required="true" type="input" v-model="localExpert.hospital" placeholder="请输入或选择" name="hospitalName" :rules="expertRules.hospitalName" :disabled="true" @input="handleUpdate" />
       </template>
-      
-      <FormField 
-        label="科室"
-        type="input"
-        v-model="localExpert.department"
-        placeholder="请输入"
-        name="department"
-        :rules="expertRules.department"
-        :disabled="disableDepartment"
-        @input="handleUpdate"
-      />
-      
-      <FormField 
-        label="介绍"
-        type="textarea"
-        v-model="localExpert.introduction"
-        placeholder="请输入"
-        :max-length="200"
-        :rows="4"
-        :show-divider="false"
-        name="introduce"
-        :rules="expertRules.introduce"
-        :disabled="disableIntroduction"
-        @input="handleUpdate"
-      />
+
+      <FormField label="科室" type="input" v-model="localExpert.department" placeholder="请输入" name="department" :rules="expertRules.department" :disabled="disableDepartment" @input="handleUpdate" />
+
+      <FormField label="介绍" type="textarea" v-model="localExpert.introduction" placeholder="请输入" :max-length="200" :rows="4" :show-divider="false" name="introduce" :rules="expertRules.introduce" :disabled="disableIntroduction" @input="handleUpdate" />
 
       <!-- 职称选择弹窗 -->
       <van-popup v-model:show="showTitlePopup" position="bottom" round>
-        <van-picker
-          :columns="titleOptions"
-          @confirm="onTitleConfirm"
-          @cancel="() => showTitlePopup=false"
-          :default-index="titleDefaultIndex"
-          title="选择职称"
-        />
+        <van-picker :columns="titleOptions" @confirm="onTitleConfirm" @cancel="() => showTitlePopup=false" :default-index="titleDefaultIndex" title="选择职称" />
       </van-popup>
     </div>
-    
+
     <!-- 删除按钮 -->
     <div v-if="showRemove" class="remove-section">
       <button class="remove-btn" @click="handleRemove">

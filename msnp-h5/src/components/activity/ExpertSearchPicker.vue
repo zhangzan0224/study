@@ -1,16 +1,6 @@
 <template>
   <div class="expert-search-picker">
-    <FormField
-      name="doctorName"
-      :rules="props.rules"
-      label="姓名"
-      :required="true"
-      type="select"
-      :placeholder="editable ? '请选择或输入姓名' : modelValue"
-      :disabled="!editable"
-      :model-value="modelValue"
-      @select-click="openPopup"
-    />
+    <FormField name="doctorName" :rules="props.rules" label="姓名" :required="true" type="select" :placeholder="editable ? '请选择或输入姓名' : modelValue" :disabled="!editable" :model-value="modelValue" @select-click="openPopup" />
 
     <van-popup v-model:show="showPopup" position="bottom" round>
       <div class="picker-content">
@@ -56,11 +46,12 @@ import FormField from '@/components/base/FormField.vue'
 
 const props = defineProps({
   modelValue: { type: String, default: '' },
+  selectedExpertId: { type: String, default: '' },
   editable: { type: Boolean, default: true },
   rules: { type: Array, default: () => [] }
 })
 
-const emit = defineEmits(['update:modelValue', 'expert-selected'])
+const emit = defineEmits(['update:modelValue', 'update:selectedExpertId', 'expert-selected'])
 
 const showPopup = ref(false)
 const keyword = ref('')
@@ -68,14 +59,16 @@ const selected = ref(null)
 const list = ref([])
 let searchTimer = null
 
-const openPopup = () => {
+const openPopup = async () => {
   if (!props.editable) return
   keyword.value = props.modelValue || ''
-  if (!keyword.value) {
-    list.value = []
-    selected.value = null
-  }
+  selected.value = null
   showPopup.value = true
+  if (keyword.value.trim()) {
+    await doSearch(true)
+  } else {
+    list.value = []
+  }
 }
 
 const filtered = computed(() => {
@@ -121,21 +114,24 @@ function onConfirm() {
   if (!selected.value) return
   if (selected.value.isCustom) {
     emit('update:modelValue', selected.value.name)
+    emit('update:selectedExpertId', '')
     emit('expert-selected', { isCustom: true, expertData: null })
   } else {
     emit('update:modelValue', selected.value.name)
+    emit('update:selectedExpertId', selected.value.id)
     emit('expert-selected', { isCustom: false, expertData: selected.value })
   }
   showPopup.value = false
 }
 
-async function doSearch() {
+async function doSearch(preselect = false) {
   const kw = keyword.value.trim()
   if (!kw) {
     list.value = []
     return
   }
-  // Mock 后端：根据关键字返回3条示例数据
+  // TODO: 调用后端接口，根据关键字返回讲师列表
+  // Mock 数据：根据关键字返回3条示例数据
   list.value = [
     {
       id: 'E001',
@@ -162,25 +158,114 @@ async function doSearch() {
       expertise: '脑血管病急救与康复'
     }
   ]
+
+  if (preselect) {
+    tryPreselect()
+  }
+}
+
+function tryPreselect() {
+  // 1) 优先根据已选中的唯一ID进行预选
+  const id = (props.selectedExpertId || '').trim()
+  if (id) {
+    const byId = list.value.find(i => String(i.id) === String(id))
+    if (byId) {
+      selected.value = byId
+      return
+    }
+  }
+  // 2) 其次根据当前姓名进行匹配（先精确，再模糊唯一）
+  const name = (props.modelValue || '').trim()
+  if (!name) return
+  const lower = name.toLowerCase()
+  const exact = list.value.find(i => i.name && i.name.toLowerCase() === lower)
+  if (exact) {
+    selected.value = exact
+    return
+  }
+  const fuzzy = list.value.filter(i => i.name && i.name.toLowerCase().includes(lower))
+  if (fuzzy.length === 1) {
+    selected.value = fuzzy[0]
+  }
 }
 </script>
 
 <style scoped>
-.expert-search-picker { padding: 0; }
-.picker-content { height: 60vh; display: flex; flex-direction: column; }
-.picker-header { display: flex; align-items: center; justify-content: space-between; padding: 16px; border-bottom: 1px solid #eee; flex-shrink: 0; }
-.picker-title { font-size: 16px; font-weight: 500; color: #323233; }
-.search-section { padding: 12px 16px; border-bottom: 1px solid #eee; flex-shrink: 0; }
-.options-section { flex: 1; overflow-y: auto; padding: 8px 0; }
-.custom-option { display: flex; align-items: center; padding: 12px 16px; border-bottom: 1px solid #f5f5f5; cursor: pointer; }
-.custom-option.active { background-color: #e8f4ff; color: #1989fa; }
-.expert-list { padding: 0; }
-.expert-item { padding: 12px 16px; border-bottom: 1px solid #f5f5f5; cursor: pointer; }
-.expert-item.active { background-color: #e8f4ff; color: #1989fa; }
-.line1 { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
-.name { font-size: 14px; font-weight: 600; }
-.title { font-size: 12px; color: #666; }
-.line2 { font-size: 12px; color: #666; }
-.empty-state { padding: 40px 16px; text-align: center; }
+.expert-search-picker {
+  padding: 0;
+}
+.picker-content {
+  height: 60vh;
+  display: flex;
+  flex-direction: column;
+}
+.picker-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  border-bottom: 1px solid #eee;
+  flex-shrink: 0;
+}
+.picker-title {
+  font-size: 16px;
+  font-weight: 500;
+  color: #323233;
+}
+.search-section {
+  padding: 12px 16px;
+  border-bottom: 1px solid #eee;
+  flex-shrink: 0;
+}
+.options-section {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px 0;
+}
+.custom-option {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid #f5f5f5;
+  cursor: pointer;
+}
+.custom-option.active {
+  background-color: #e8f4ff;
+  color: #1989fa;
+}
+.expert-list {
+  padding: 0;
+}
+.expert-item {
+  padding: 12px 16px;
+  border-bottom: 1px solid #f5f5f5;
+  cursor: pointer;
+}
+.expert-item.active {
+  background-color: #e8f4ff;
+  color: #1989fa;
+}
+.line1 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+.name {
+  font-size: 14px;
+  font-weight: 600;
+}
+.title {
+  font-size: 12px;
+  color: #666;
+}
+.line2 {
+  font-size: 12px;
+  color: #666;
+}
+.empty-state {
+  padding: 40px 16px;
+  text-align: center;
+}
 </style>
 
