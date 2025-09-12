@@ -297,8 +297,41 @@ const handleSave = async () => {
     }
   })
 
-  const validators = namesToValidate.map(n => activityBasicFormRef.value?.validate?.(n))
+  // 构建统一的校验 Promise 列表
+  const validators = []
+  if (activityBasicFormRef.value && typeof activityBasicFormRef.value.validate === 'function') {
+    if (namesToValidate.length) {
+      validators.push(...namesToValidate.map(n => activityBasicFormRef.value.validate(n)))
+    }
+  }
 
+  // 讲师“已填写才校验”，一起并行校验
+  if (shouldShowExpertInfo.value) {
+    const isNonEmpty = (v) => {
+      if (v === undefined || v === null) return false
+      if (typeof v === 'string') return v.trim() !== ''
+      if (Array.isArray(v)) return v.length > 0
+      if (typeof v === 'object') return Object.keys(v).length > 0
+      return true
+    }
+    const expertHasAnyInput = (expert) => {
+      if (!expert) return false
+      const keys = ['photo', 'name', 'title', 'hospital', 'department', 'introduction', 'expertId']
+      return keys.some(k => isNonEmpty(expert[k]))
+    }
+
+    const experts = Array.isArray(formData.value.experts) ? formData.value.experts : []
+    experts.forEach((ex, idx) => {
+      if (expertHasAnyInput(ex)) {
+        const f = expertFormRefs.value[idx]
+        if (f && typeof f.validate === 'function') {
+          validators.push(f.validate())
+        }
+      }
+    })
+  }
+
+  // 一次性并行校验所有 Promise
   const results = await Promise.allSettled(validators)
   results.forEach(r => {
     if (r.status === 'rejected') {
@@ -312,7 +345,6 @@ const handleSave = async () => {
   })
 
   if (errorMsgs.length) {
-    // 分别提示：字段下方已有逐项错误提示；这里提示第一个错误摘要
     showFailToast(errorMsgs[0])
     return
   }
@@ -325,7 +357,7 @@ const handleSave = async () => {
 const handleSubmit = async () => {
   const errorMsgs = []
 
-  // 并行校验：基本信息表单 + 讲师表单（如需）
+  // 一次性并行校验：基本信息表单 + 讲师表单（如需）
   const validators = []
   if (activityBasicFormRef.value && typeof activityBasicFormRef.value.validate === 'function') {
     validators.push(activityBasicFormRef.value.validate())
@@ -335,13 +367,17 @@ const handleSubmit = async () => {
     validators.push(...forms.map(f => f.validate()))
   }
 
-  try {
-    await Promise.all(validators)
-  } catch (e) {
-    const first = Array.isArray(e) ? e[0] : null
-    if (first && first.message) errorMsgs.push(first.message)
-    if (!first && e && e.message) errorMsgs.push(e.message)
-  }
+  const results = await Promise.allSettled(validators)
+  results.forEach(r => {
+    if (r.status === 'rejected') {
+      const reason = r.reason
+      if (Array.isArray(reason)) {
+        reason.forEach(err => err?.message && errorMsgs.push(err.message))
+      } else if (reason && reason.message) {
+        errorMsgs.push(reason.message)
+      }
+    }
+  })
 
   if (errorMsgs.length) {
     showFailToast(errorMsgs[0])
