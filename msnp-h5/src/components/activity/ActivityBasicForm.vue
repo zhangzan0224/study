@@ -340,7 +340,8 @@ const showTraditionalMedicinePicker = () => {
 defineExpose({
   resetForm,
   getFormData,
-  validate: () => formRef.value?.validate?.()
+  // 允许父组件按字段名校验（支持 Vant Form 的 validate(name)）
+  validate: (name) => formRef.value?.validate?.(name)
 })
 </script>
 

@@ -49,8 +49,9 @@
           </van-form>
         </div>
 
-        <div class="add-expert-wrapper">
-          <span class="add-expert-text" @click="addExpert">+ 继续添加讲师</span>
+        <div class="add-expert-wrapper" :class="{ disabled: !canAddMoreExperts }" @click="addExpert">
+          <span class="add-expert-text">+ 继续添加讲师</span>
+          <span v-if="!canAddMoreExperts" class="add-expert-tip">（已达上限20人）</span>
         </div>
       </div>
     </div>
@@ -119,6 +120,10 @@ const shouldShowExpertInfo = computed(() => {
   const activeType = formData.value.activeType
   return activeType === 'HEALTH_LECTURE' || activeType === 'FREE_CLINIC'
 })
+
+// 讲师上限控制
+const MAX_EXPERTS = 20
+const canAddMoreExperts = computed(() => (formData.value.experts?.length || 0) < MAX_EXPERTS)
 
 // 是否为义诊，用于切换到 FreeClinicExpertForm（姓名为输入框）
 const isFreeClinic = computed(() => formData.value.activeType === 'FREE_CLINIC')
@@ -223,6 +228,10 @@ const initializeExperts = () => {
 
 // 讲师管理
 const addExpert = () => {
+  if (!canAddMoreExperts.value) {
+    showToast('最多添加20位讲师')
+    return
+  }
   const newExpert = {
     id: Date.now(),
     photo: '',
@@ -254,31 +263,61 @@ const removeExpert = (index) => {
 const handleSave = async () => {
   const errorMsgs = []
 
-  // 校验基本信息表单（不阻断后续校验）
-  try {
-    await activityBasicFormRef.value?.validate?.()
-  } catch (e) {
-    const first = Array.isArray(e) ? e[0] : null
-    if (first && first.message) errorMsgs.push(first.message)
-  }
-  // 校验讲师表单（仅当需要展示时，全部并行校验，不因单个报错而中断）
-  if (shouldShowExpertInfo.value) {
-    const forms = expertFormRefs.value.filter(f => f && typeof f.validate === 'function')
-    const results = await Promise.allSettled(forms.map(f => f.validate()))
-    results.forEach(r => {
-      if (r.status === 'rejected') {
-        const first = Array.isArray(r.reason) ? r.reason[0] : null
-        if (first && first.message) errorMsgs.push(first.message)
+  // 保存草稿：仅校验必填字段 + 已录入的其他字段（不校验未填写的可选项）
+  const requiredNames = ['branchCode', 'subbranchCode', 'activeName', 'startTime', 'endTime']
+  const optionalMap = [
+    { name: 'strategy', key: 'strategy' },
+    { name: 'activeChannel', key: 'activeChannel' },
+    { name: 'activeCategory', key: 'activeCategory' },
+    { name: 'healthRelate', key: 'healthRelate' },
+    { name: 'activeVenue', key: 'activeVenue' },
+    { name: 'activeLocation', key: 'activeLocation' },
+    { name: 'hospitalName', key: 'hospitalName' },
+    { name: 'hospitalLevel', key: 'hospitalLevel' },
+    { name: 'centerName', key: 'centerName' },
+    { name: 'activeVenueDetail', key: 'activeVenueDetail' },
+    { name: 'communityName', key: 'communityName' },
+    { name: 'location', key: 'location' },
+    { name: 'address', key: 'detailAddress' },
+    { name: 'activeType', key: 'activeType' },
+    { name: 'heldType', key: 'heldType' },
+    { name: 'signQrcode', key: 'signQrcode' },
+    { name: 'activeRemark', key: 'activeRemark' },
+    { name: 'liveUrl', key: 'liveUrl' },
+    { name: 'isPublish', key: 'isPublish' },
+    { name: 'hasSpecialServer', key: 'hasSpecialServer' },
+    { name: 'trialSubbranch', key: 'trialSubbranch' }
+  ]
+
+  const namesToValidate = [...requiredNames]
+  optionalMap.forEach(({ name, key }) => {
+    const v = formData.value?.[key]
+    if (v !== undefined && v !== null && String(v).trim() !== '') {
+      namesToValidate.push(name)
+    }
+  })
+
+  const validators = namesToValidate.map(n => activityBasicFormRef.value?.validate?.(n))
+
+  const results = await Promise.allSettled(validators)
+  results.forEach(r => {
+    if (r.status === 'rejected') {
+      const reason = r.reason
+      if (Array.isArray(reason)) {
+        reason.forEach(err => err?.message && errorMsgs.push(err.message))
+      } else if (reason && reason.message) {
+        errorMsgs.push(reason.message)
       }
-    })
-  }
+    }
+  })
 
   if (errorMsgs.length) {
-    // 可以合并展示，或只提示第一个
+    // 分别提示：字段下方已有逐项错误提示；这里提示第一个错误摘要
     showFailToast(errorMsgs[0])
     return
   }
 
+  // 校验通过：停留当前页，生成草稿
   console.log('Save activity:', formData.value)
   showSuccessToast('保存成功')
 }
@@ -286,23 +325,22 @@ const handleSave = async () => {
 const handleSubmit = async () => {
   const errorMsgs = []
 
-  // 校验基本信息（不阻断后续校验）
+  // 并行校验：基本信息表单 + 讲师表单（如需）
+  const validators = []
+  if (activityBasicFormRef.value && typeof activityBasicFormRef.value.validate === 'function') {
+    validators.push(activityBasicFormRef.value.validate())
+  }
+  if (shouldShowExpertInfo.value) {
+    const forms = expertFormRefs.value.filter(f => f && typeof f.validate === 'function')
+    validators.push(...forms.map(f => f.validate()))
+  }
+
   try {
-    await activityBasicFormRef.value?.validate?.()
+    await Promise.all(validators)
   } catch (e) {
     const first = Array.isArray(e) ? e[0] : null
     if (first && first.message) errorMsgs.push(first.message)
-  }
-  // 校验讲师信息（按需），并行校验所有讲师表单
-  if (shouldShowExpertInfo.value) {
-    const forms = expertFormRefs.value.filter(f => f && typeof f.validate === 'function')
-    const results = await Promise.allSettled(forms.map(f => f.validate()))
-    results.forEach(r => {
-      if (r.status === 'rejected') {
-        const first = Array.isArray(r.reason) ? r.reason[0] : null
-        if (first && first.message) errorMsgs.push(first.message)
-      }
-    })
+    if (!first && e && e.message) errorMsgs.push(e.message)
   }
 
   if (errorMsgs.length) {
@@ -442,6 +480,10 @@ const handleSubmit = async () => {
   padding: 8px 0;
   margin: 0 15px;
 }
+.add-expert-wrapper.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
 
 .add-expert-text {
   overflow-wrap: break-word;
@@ -452,6 +494,11 @@ const handleSubmit = async () => {
   white-space: nowrap;
   line-height: 20px;
   cursor: pointer;
+}
+.add-expert-tip {
+  color: #999;
+  font-size: 12px;
+  margin-left: 8px;
 }
 
 /* 操作按钮 */
