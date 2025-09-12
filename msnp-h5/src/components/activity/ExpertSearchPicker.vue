@@ -48,10 +48,11 @@ const props = defineProps({
   modelValue: { type: String, default: '' },
   selectedExpertId: { type: String, default: '' },
   editable: { type: Boolean, default: true },
+  allowCustom: { type: Boolean, default: true },
   rules: { type: Array, default: () => [] }
 })
 
-const emit = defineEmits(['update:modelValue', 'update:selectedExpertId', 'expert-selected'])
+const emit = defineEmits(['update:modelValue', 'update:selectedExpertId', 'expert-selected', 'search-cleared'])
 
 const showPopup = ref(false)
 const keyword = ref('')
@@ -82,6 +83,7 @@ const filtered = computed(() => {
 const showCustomOption = computed(() => {
   const kw = keyword.value.trim()
   if (!kw) return false
+  if (!props.allowCustom) return false
   return !filtered.value.some(i => i.name.toLowerCase() === kw.toLowerCase())
 })
 
@@ -89,6 +91,7 @@ const onSearchInput = () => {
   if (searchTimer) clearTimeout(searchTimer)
   if (!keyword.value.trim()) {
     selected.value = null
+    emit('search-cleared')
   }
   searchTimer = setTimeout(doSearch, 400)
 }
@@ -96,6 +99,7 @@ const onSearchInput = () => {
 const onSearchClear = () => {
   keyword.value = ''
   selected.value = null
+  emit('search-cleared')
 }
 
 function selectExpert(item) {

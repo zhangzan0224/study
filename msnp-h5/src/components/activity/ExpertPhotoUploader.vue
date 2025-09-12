@@ -3,22 +3,32 @@
     <div class="label">照片（最多1张）</div>
     <van-uploader
       :max-count="1"
+      :multiple="false"
       :after-read="onAfterRead"
       :before-read="onBeforeRead"
-      :deletable="editable && !!modelValue && !uploading"
+      :deletable="false"
       :disabled="!editable || uploading"
       :accept="'image/*'"
       :preview-full-image="true"
-      :file-list="fileList"
+      v-model:file-list="uploaderList"
       @delete="onDelete"
       capture="environment"
       image-fit="cover"
-    />
+    >
+      <!-- Vant 4 自定义单图预览覆盖层 -->
+      <template #preview-cover="{ file }">
+        <div class="custom-cover">
+          <van-icon name="eye-o" class="cover-btn" @click.stop="preview(file)" />
+          <van-icon v-if="editable && !uploading" name="delete" class="cover-btn danger" @click.stop="onDelete" />
+        </div>
+      </template>
+    </van-uploader>
   </div>
 </template>
 
 <script setup>
-import { computed, defineProps, defineEmits, ref } from 'vue'
+import { defineProps, defineEmits, ref, watch } from 'vue'
+import { showImagePreview } from 'vant'
 
 const props = defineProps({
   modelValue: { type: String, default: '' }, // 当前图片URL（可为本地 blob: 预览或服务端URL）
@@ -38,23 +48,32 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue', 'upload-start', 'upload-success', 'upload-error'])
 
 const uploading = ref(false)
+// 绑定给 van-uploader 的文件列表（Vant 4 需要用 v-model 绑定）
+const uploaderList = ref([])
 
-// 将单一图片的 url 映射为 van-uploader 的 file-list 结构
-const fileList = computed(() => {
-  if (!props.modelValue) return []
-  const item = { url: props.modelValue }
-  if (uploading.value) {
-    item.status = 'uploading'
-    item.message = '上传中'
-  }
-  return [item]
-})
+// 同步父级传入的 url 到内部 file-list
+watch(
+  () => props.modelValue,
+  (val) => {
+    if (val) {
+      uploaderList.value = [{ url: val }]
+    } else {
+      uploaderList.value = []
+    }
+  },
+  { immediate: true }
+)
 
 function onBeforeRead(file) {
   const limit = props.maxSizeMB * 1024 * 1024
   const f = Array.isArray(file) ? file[0] : file
   if (f && f.size > limit) {
     alert(`图片大小不能超过${props.maxSizeMB}MB`)
+    return false
+  }
+  // 只能上传图片
+  if (f && !/^image\//i.test(f.type)) {
+    alert('只能上传图片文件')
     return false
   }
   return true
@@ -129,6 +148,12 @@ async function onAfterRead(item) {
   }
 }
 
+function preview(file) {
+  const url = file?.url || props.modelValue
+  if (!url) return
+  showImagePreview({ images: [url] })
+}
+
 function onDelete() {
   try {
     if (props.modelValue && props.modelValue.startsWith('blob:')) {
@@ -146,4 +171,26 @@ function onDelete() {
   color: #333;
   margin: 0 0 8px 4px;
 }
+.custom-cover {
+  position: absolute;
+  right: 4px;
+  bottom: 4px;
+  left: 4px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  pointer-events: auto;
+}
+.cover-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 14px;
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+}
+.cover-btn.danger { background: rgba(255, 77, 79, 0.9); }
 </style>
