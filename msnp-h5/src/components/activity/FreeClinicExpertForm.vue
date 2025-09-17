@@ -3,7 +3,7 @@
     <!-- 照片（最多1张，重复上传即替换） -->
     <ExpertPhotoUploader
       v-model="localExpert.photo"
-      :editable="true"
+      :editable="editable"
       @upload-success="onPhotoUploaded"
     />
 
@@ -17,6 +17,7 @@
         placeholder="请输入"
         :name="`doctorName_${index}`"
         :rules="expertRules.doctorName"
+        :disabled="!editable"
         @input="handleUpdate"
       />
 
@@ -29,14 +30,14 @@
         placeholder="请选择"
         :name="`titleType_${index}`"
         :rules="expertRules.titleType"
-        :disabled="false"
+        :disabled="!editable"
         @select-click="openTitlePicker"
       />
 
       <!-- 医院：模糊查询选择，必填 -->
       <HospitalNameOnlyPicker
         v-model="localExpert.hospital"
-        :editable="true"
+        :editable="editable"
         :rules="expertRules.hospitalName"
         :allowCustom="false"
         :name="`hospitalName_${index}`"
@@ -111,6 +112,10 @@ export default {
     showRemove: {
       type: Boolean,
       default: false
+    },
+    editable: {
+      type: Boolean,
+      default: true
     }
   },
   data() {
@@ -189,7 +194,9 @@ export default {
     onTitleConfirm({ selectedOptions }) {
       const sel = selectedOptions && selectedOptions[0]
       if (sel && sel.value) {
+        // 标题使用编码值；同时写入 title 与 titleType，保存时以 titleType 提交
         this.localExpert.title = sel.value
+        this.localExpert.titleType = sel.value
         this.handleUpdate()
       }
       this.showTitlePopup = false

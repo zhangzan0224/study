@@ -3,7 +3,7 @@
     <!-- 活动标题卡片 -->
     <div class="activity-header-card">
       <div class="gradient-bar"></div>
-      <h3 class="activity-title">{{ activity.name }}</h3>
+      <h3 class="activity-title">{{ activity?.name }}</h3>
       
       <!-- 统计数据 -->
       <div class="stats-section">
@@ -54,7 +54,7 @@
         <div class="form-item">
           <div class="item-row">
             <span class="item-label">报名人数(人)</span>
-            <span class="item-value">108</span>
+            <span class="item-value">{{ formData.registrationCount }}</span>
           </div>
           <div class="item-divider"></div>
         </div>
@@ -62,7 +62,9 @@
         <div class="form-item">
           <div class="item-row">
             <span class="item-label">现场实际客户人数(人)</span>
-            <span class="item-value placeholder">请输入</span>
+            <span class="item-value" :class="{ placeholder: !formData.actualCustomerCount }">
+              {{ formData.actualCustomerCount || '请输入' }}
+            </span>
           </div>
           <div class="item-divider"></div>
         </div>
@@ -70,7 +72,9 @@
         <div class="form-item">
           <div class="item-row">
             <span class="item-label">现场实际代理人人数(人)</span>
-            <span class="item-value placeholder">请输入</span>
+            <span class="item-value" :class="{ placeholder: !formData.actualAgentCount }">
+              {{ formData.actualAgentCount || '请输入' }}
+            </span>
           </div>
           <div class="item-divider"></div>
         </div>
@@ -81,7 +85,7 @@
               <span class="required-asterisk">*</span>
               <span class="item-label">现上参与人数(人)</span>
             </div>
-            <span class="item-value">48</span>
+            <span class="item-value">{{ formData.onlineParticipantCount }}</span>
           </div>
           <div class="item-divider"></div>
         </div>
@@ -93,7 +97,9 @@
               <span class="item-label">该活动是否录入其他系统</span>
             </div>
             <div class="select-group">
-              <span class="item-value placeholder">请选择</span>
+              <span class="item-value" :class="{ placeholder: !formData.recordedInOtherSystem }">
+                {{ formData.recordedInOtherSystem || '请选择' }}
+              </span>
               <img src="@/assets/img/arrow-down.png" alt="" class="select-icon" />
             </div>
           </div>
@@ -106,7 +112,9 @@
               <span class="required-asterisk">*</span>
               <span class="item-label">活动费用(元)</span>
             </div>
-            <span class="item-value placeholder">请输入</span>
+            <span class="item-value" :class="{ placeholder: !formData.activityCost }">
+              {{ formData.activityCost || '请输入' }}
+            </span>
           </div>
           <div class="item-divider"></div>
         </div>
@@ -116,9 +124,9 @@
             <span class="textarea-label">活动费用用途</span>
             <div class="textarea-container">
               <div class="textarea-content">
-                <span class="textarea-placeholder">请输入</span>
+                <span class="textarea-placeholder">{{ formData.costPurpose || '请输入' }}</span>
               </div>
-              <div class="char-count">0/300</div>
+              <div class="char-count">{{ (formData.costPurpose || '').length }}/300</div>
             </div>
           </div>
           <div class="item-divider"></div>
@@ -135,14 +143,14 @@
           <button 
             class="option-btn"
             :class="{ active: formData.onSiteSigning === true }"
-            @click="formData.onSiteSigning = true"
+            @click="toggleOnSite(true)"
           >
             是
           </button>
           <button 
             class="option-btn"
             :class="{ active: formData.onSiteSigning === false }"
-            @click="formData.onSiteSigning = false"
+            @click="toggleOnSite(false)"
           >
             否
           </button>
@@ -202,9 +210,9 @@
             <span class="suggestion-label">其他意见或建议</span>
             <div class="textarea-container">
               <div class="textarea-content">
-                <span class="textarea-placeholder">希望可以多多举办活动</span>
+                <span class="textarea-placeholder">{{ formData.evaluation.suggestions || '请输入' }}</span>
               </div>
-              <div class="char-count">10/300</div>
+              <div class="char-count">{{ (formData.evaluation.suggestions || '').length }}/300</div>
               </div>
             </div>
         </div>
@@ -238,32 +246,8 @@
       </div>
     </div>
     
-    <!-- 活动报道 -->
-    <div class="report-section">
-      <div class="section-header">
-        <div class="section-title-group">
-          <span class="section-title">活动报道</span>
-          <span class="section-subtitle">非必填,未来拟对外发布</span>
-        </div>
-        <button class="ai-btn">
-          AI生成报道
-        </button>
-      </div>
-      
-      <div class="section-body">
-        <div class="report-field">
-          <div class="textarea-container">
-            <div class="textarea-content">
-              <span class="textarea-placeholder">请点击"AI生成报道"按钮</span>
-            </div>
-            <div class="char-count">0/2000</div>
-          </div>
-        </div>
-      </div>
-    </div>
-    
     <!-- 操作按钮 -->
-    <div class="action-buttons">
+    <div v-if="!hideActions" class="action-buttons">
       <button class="btn btn-save" @click="handleSave">
         保存
       </button>
@@ -278,6 +262,7 @@
 import FormField from '@/components/base/FormField.vue'
 import StarRating from '@/components/base/StarRating.vue'
 import FileUploader from '@/components/base/FileUploader.vue'
+import { showFailToast, showSuccessToast } from 'vant'
 
 export default {
   name: 'FeedbackForm',
@@ -287,13 +272,14 @@ export default {
     FileUploader
   },
   props: {
-    activity: {
-      type: Object,
-      required: true
-    }
+    activity: { type: Object, required: true },
+    entryMode: { type: String, default: 'detail' },
+    hideActions: { type: Boolean, default: true }
   },
   data() {
     return {
+      inPageEditing: this.entryMode !== 'detail',
+      uploadedFiles: [],
       formData: {
         registrationCount: 108,
         actualCustomerCount: '',
@@ -328,8 +314,9 @@ export default {
     }
   },
   methods: {
-    showSystemPicker() {
-      console.log('Show system picker');
+    toggleOnSite(v) {
+      if (!this.inPageEditing) return
+      this.formData.onSiteSigning = v
     },
     handleSave() {
       this.$emit('save', this.formData);
@@ -337,26 +324,52 @@ export default {
     handleSubmit() {
       this.$emit('submit', this.formData);
     },
+    validate() {
+      const msgs = []
+      // 必填：是否现场签单
+      if (this.formData.onSiteSigning === null || this.formData.onSiteSigning === undefined) {
+        msgs.push('请选择是否现场签单')
+      }
+      // 基础打分至少都给出（这里示例：均需 > 0）
+      const ev = this.formData.evaluation || {}
+      const keys = ['contentSuitability','presentationEffectiveness','businessNeedAlignment','expectationAlignment']
+      keys.forEach(k => {
+        if (!ev[k] || Number(ev[k]) <= 0) msgs.push('请完善活动评价打分')
+      })
+      if (msgs.length) throw new Error(msgs[0])
+      return true
+    },
+    async submitAll(silent = false) {
+      try {
+        this.validate()
+        // TODO: 提交反馈接口
+        if (!silent) showSuccessToast('提交成功')
+        return true
+      } catch (e) {
+        showFailToast(e.message || '校验失败')
+        return false
+      }
+    },
+    async submit(silent = false) {
+      // 统一对外的提交方法
+      return await this.submitAll(silent)
+    },
+    isEditing() { return !!this.inPageEditing },
+    setEditing(v) { this.inPageEditing = !!v },
     // 文件上传相关方法
-    handleFileChange(files) {
-      this.uploadedFiles = files;
-      // 可以在这里处理文件变化的逻辑
-    },
-    handleFileUploadSuccess(file) {
-      console.log('文件上传成功:', file);
-      // 可以在这里处理上传成功的逻辑
-    },
-    handleFileUploadError(error) {
-      console.error('文件上传失败:', error);
-      // 可以在这里处理上传失败的逻辑
-    },
-    handleFileDelete(file, index) {
-      console.log('文件删除:', file, index);
-      // 可以在这里处理文件删除的逻辑
-    },
-    handleFileDownload(file) {
-      console.log('文件下载:', file);
-      // 可以在这里处理文件下载的逻辑
+    handleFileChange(files) { this.uploadedFiles = files },
+    handleFileUploadSuccess(file) { console.log('文件上传成功:', file) },
+    handleFileUploadError(error) { console.error('文件上传失败:', error) },
+    handleFileDelete(file, index) { console.log('文件删除:', file, index) },
+    handleFileDownload(file) { console.log('文件下载:', file) }
+  },
+  mounted() {
+    // 向父组件暴露编辑查询与方法
+    this.$.exposed = {
+      get isEditing() { return !!this.inPageEditing },
+      setEditing: (v) => (this.inPageEditing = !!v),
+      validate: this.validate,
+      submit: this.submitAll
     }
   }
 }

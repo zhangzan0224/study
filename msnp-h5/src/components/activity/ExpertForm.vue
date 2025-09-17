@@ -3,7 +3,7 @@
     <!-- 照片上传（封装为组件，使用 Vant Uploader） -->
     <ExpertPhotoUploader
       v-model="localExpert.photo"
-      :editable="true"
+      :editable="editable"
       @update:modelValue="handleUpdate"
       @upload-start="onPhotoUploadStart"
       @upload-success="onPhotoUploadDone"
@@ -17,7 +17,7 @@
       <ExpertSearchPicker
         v-model:modelValue="localExpert.name"
         v-model:selectedExpertId="localExpert.id"
-        :editable="true"
+        :editable="editable"
         :allow-custom="isManual"
         :rules="expertRules.doctorName"
         @expert-selected="onExpertSelected"
@@ -32,7 +32,7 @@
         placeholder="请选择"
         name="titleType"
         :rules="expertRules.titleType"
-        :disabled="disableTitle"
+        :disabled="!editable || disableTitle"
         @select-click="openTitlePicker"
       />
 
@@ -115,7 +115,8 @@ import ExpertPhotoUploader from '@/components/activity/ExpertPhotoUploader.vue'
 const props = defineProps({
   expert: { type: Object, required: true },
   index: { type: Number, required: true },
-  showRemove: { type: Boolean, default: false }
+  showRemove: { type: Boolean, default: false },
+  editable: { type: Boolean, default: true }
 })
 
 const emit = defineEmits(['update', 'remove'])
@@ -143,18 +144,21 @@ const titleOptions = ref([
 const isManual = computed(() => entryMode.value === 'manual')
 const nameFilled = computed(() => (localExpert.name || '').trim().length > 0)
 const disableTitle = computed(() => {
+  if (!props.editable) return true
   if (!nameFilled.value) return true
   return isManual.value ? false : true
 })
 const disableHospital = computed(() => {
+  if (!props.editable) return true
   if (!nameFilled.value) return true
   return isManual.value ? false : true
 })
 const disableDepartment = computed(() => {
+  if (!props.editable) return true
   if (!nameFilled.value) return true
   return isManual.value ? false : true
 })
-const disableIntroduction = computed(() => !nameFilled.value)
+const disableIntroduction = computed(() => !props.editable || !nameFilled.value)
 
 const titleDefaultIndex = computed(() => {
   const idx = titleOptions.value.findIndex(o => String(o.value) === String(localExpert.title))
@@ -226,7 +230,9 @@ function openTitlePicker() {
 function onTitleConfirm({ selectedOptions }) {
   const sel = selectedOptions && selectedOptions[0]
   if (sel && sel.value) {
+    // 标题使用编码值；同时写入 title 与 titleType，保存时以 titleType 提交
     localExpert.title = sel.value
+    localExpert.titleType = sel.value
     handleUpdate()
   }
   showTitlePopup.value = false
