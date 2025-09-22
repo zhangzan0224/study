@@ -22,15 +22,15 @@
                   <span class="label">审核结论</span>
                   <span class="value">{{ record.conclusion }}</span>
                 </div>
-                <div class="info-row">
+                <div class="info-row info-row--comment">
                   <span class="label">审核意见</span>
-                  <span class="value">{{ record.comment || '无' }}</span>
+                  <span class="value">
+                    <span class="status-badge" :class="record.status">
+                      <span>{{ record.statusText }}</span>
+                    </span>
+                    {{ record.comment || '无' }}
+                  </span>
                 </div>
-              </div>
-
-              <!-- 审核状态标签 -->
-              <div class="status-badge" :class="record.status">
-                <span>{{ record.statusText }}</span>
               </div>
             </div>
           </div>
@@ -179,10 +179,10 @@ export default {
 .record-card {
   background-color: #ffffff;
   border-radius: 8px;
-  padding: 8px 8px 8px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
+  /* 绝对定位徽章 + 仅让“审核意见”一行绕排徽章 */
+  padding: 12px 12px 12px 20px;
+  position: relative;
+  display: block;
 }
 
 .record-info {
@@ -192,6 +192,34 @@ export default {
 .info-row {
   display: flex;
   margin-bottom: 15px;
+}
+
+/* 审核意见一行的布局：左侧固定标签，右侧文本包裹徽章，文字绕排且在徽章下方占满整行 */
+.info-row--comment {
+  display: flex;
+  align-items: flex-start;
+}
+.info-row--comment .label {
+  width: 60px;
+  line-height: 30px;
+}
+.info-row--comment .value-wrap {
+  flex: 1;
+  min-width: 0;
+}
+.info-row--comment .status-badge {
+  float: right;
+  margin-left: 12px;
+}
+.info-row--comment .value {
+  display: block;
+  line-height: 30px;
+  word-break: break-word;
+}
+.info-row--comment .value-wrap::after {
+  content: "";
+  display: block;
+  clear: both;
 }
 
 .info-row:last-child {
@@ -217,14 +245,16 @@ export default {
 
 /* 状态标签 */
 .status-badge {
-  display: flex;
+  float: right;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   padding: 4px 12px;
   border-radius: 12px;
   font-size: 12px;
   font-weight: normal;
-  margin-left: 20px;
+  margin-left: 12px;
+  white-space: nowrap;
 }
 
 .status-badge.approved {

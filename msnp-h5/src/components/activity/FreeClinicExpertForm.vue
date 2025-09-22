@@ -4,6 +4,7 @@
     <ExpertPhotoUploader
       v-model="localExpert.photo"
       :editable="editable"
+      :preview-base-url="PREVIEW_BASE"
       @upload-success="onPhotoUploaded"
     />
 
@@ -201,8 +202,18 @@ export default {
       }
       this.showTitlePopup = false
     },
-    onPhotoUploaded(url) {
-      // 上传成功后已通过 v-model 回写，这里仅透传更新
+    onPhotoUploaded(payload) {
+      // 支持两种返回：字符串 url 或 { url, id }
+      try {
+        if (payload && typeof payload === 'object') {
+          this.localExpert.photo = payload.url || this.localExpert.photo
+          this.localExpert.photoKey = payload.id || this.localExpert.photoKey
+        } else if (typeof payload === 'string') {
+          this.localExpert.photo = payload
+          // 从 url 末段兜底提取 key 作为 id
+          try { const parts = payload.split('/'); this.localExpert.photoKey = parts[parts.length - 1] } catch {}
+        }
+      } catch {}
       this.handleUpdate()
     }
   }

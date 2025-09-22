@@ -34,7 +34,7 @@ const props = defineProps({
   modelValue: { type: String, default: '' }, // 当前图片URL（可为本地 blob: 预览或服务端URL）
   editable: { type: Boolean, default: true },
   maxSizeMB: { type: Number, default: 5 }, // 默认限制 5MB
-  // 可选：自定义上传函数，接收 File，返回 Promise<string>（图片的服务端 URL）
+  // 可选：自定义上传函数，接收 File，返回 Promise<string | {url:string,id?:string}>
   uploadFn: { type: Function, default: null },
   // 可选：直接在组件内完成上传（无需在父组件传入函数）
   uploadUrl: { type: String, default: '' }, // 你的上传接口地址
@@ -42,7 +42,9 @@ const props = defineProps({
   fieldName: { type: String, default: 'file' }, // 后端接收文件的字段名
   requestHeaders: { type: Object, default: null }, // 额外请求头（不要手动设置 Content-Type）
   withCredentials: { type: Boolean, default: false }, // 是否携带凭据（cookie）
-  extraData: { type: Object, default: null } // 额外表单字段
+  extraData: { type: Object, default: null }, // 额外表单字段
+  // 预览域名（可选，当回显仅有 key 时用于拼接预览 URL）
+  previewBaseUrl: { type: String, default: '' }
 })
 
 const emit = defineEmits(['update:modelValue', 'upload-start', 'upload-success', 'upload-error'])
@@ -51,12 +53,29 @@ const uploading = ref(false)
 // 绑定给 van-uploader 的文件列表（Vant 4 需要用 v-model 绑定）
 const uploaderList = ref([])
 
+function buildPreviewUrl(val) {
+  if (!val) return ''
+  // blob: 或 data: 直接返回
+  if (/^(blob:|data:)/i.test(val)) return val
+  // 完整 http(s) URL：进行编码，避免空格/中文/括号导致不显示
+  if (/^https?:\/\//i.test(val)) return encodeURI(val)
+  // 仅有 key 且配置了预览域名
+  if (props.previewBaseUrl) {
+    // 确保 base 以 / 结尾
+    const base = props.previewBaseUrl.endsWith('/') ? props.previewBaseUrl : props.previewBaseUrl + '/'
+    return encodeURI(base + val)
+  }
+  // 回退：原样返回（可能无法显示）
+  return val
+}
+
 // 同步父级传入的 url 到内部 file-list
 watch(
   () => props.modelValue,
   (val) => {
     if (val) {
-      uploaderList.value = [{ url: val }]
+      const url = buildPreviewUrl(val)
+      uploaderList.value = [{ url, isImage: true }]
     } else {
       uploaderList.value = []
     }
@@ -101,13 +120,9 @@ async function internalUpload(file) {
   const json = await res.json()
 
   // 适配你提供的返回结构：
-  // {
-  //   code: 200,
-  //   success: true,
-  //   data: { url: 'http://...' }
-  // }
+  // { code:200, success:true, data:{ id:'key', url:'http://...' } }
   if (json?.code === 200 && json?.success === true && json?.data?.url) {
-    return json.data.url
+    return { url: json.data.url, id: json.data.id || '' }
   }
   throw new Error(json?.message || '上传失败')
 }
@@ -129,12 +144,22 @@ async function onAfterRead(item) {
     emit('upload-start')
 
     // 执行外部上传函数或组件内置上传逻辑
-    const url = props.uploadFn ? await props.uploadFn(f) : await internalUpload(f)
+    const result = props.uploadFn ? await props.uploadFn(f) : await internalUpload(f)
+    let url, id
+    if (typeof result === 'string') {
+      url = result
+      // 从 URL 兜底提取 key 作为 id（最后一个路径段）
+      try { const parts = url.split('/'); id = parts[parts.length - 1] } catch { id = '' }
+    } else if (result && typeof result === 'object') {
+      url = result.url
+      id = result.id || ''
+    }
     if (!url || typeof url !== 'string') throw new Error('未获得有效的图片 URL')
 
     // 用服务端 URL 覆盖预览
     emit('update:modelValue', url)
-    emit('upload-success', url)
+    // 向父级回传 { url, id }，用于保存时仅提交 id（key）
+    emit('upload-success', { url, id })
   } catch (e) {
     console.error(e)
     alert(typeof e?.message === 'string' ? e.message : '上传失败，请重试')
@@ -149,7 +174,7 @@ async function onAfterRead(item) {
 }
 
 function preview(file) {
-  const url = file?.url || props.modelValue
+  const url = file?.url || buildPreviewUrl(props.modelValue)
   if (!url) return
   showImagePreview({ images: [url] })
 }

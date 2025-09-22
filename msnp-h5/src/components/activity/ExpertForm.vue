@@ -4,6 +4,7 @@
     <ExpertPhotoUploader
       v-model="localExpert.photo"
       :editable="editable"
+      :preview-base-url="PREVIEW_BASE"
       @update:modelValue="handleUpdate"
       @upload-start="onPhotoUploadStart"
       @upload-success="onPhotoUploadDone"
@@ -17,7 +18,7 @@
       <ExpertSearchPicker
         v-model:modelValue="localExpert.name"
         v-model:selectedExpertId="localExpert.id"
-        :editable="editable"
+        :editable="editable && !isPhotoUploading"
         :allow-custom="isManual"
         :rules="expertRules.doctorName"
         @expert-selected="onExpertSelected"
@@ -111,6 +112,9 @@ import FormField from '@/components/base/FormField.vue'
 import HospitalNameOnlyPicker from '@/components/activity/HospitalNameOnlyPicker.vue'
 import ExpertSearchPicker from '@/components/activity/ExpertSearchPicker.vue'
 import ExpertPhotoUploader from '@/components/activity/ExpertPhotoUploader.vue'
+
+// 预览域名：优先使用环境变量，其次使用默认域名（与后端返回一致）
+const PREVIEW_BASE = import.meta?.env?.VITE_FILE_BASE_URL || 'http://a1.qoss.tkuat.com/group-msnp/'
 
 const props = defineProps({
   expert: { type: Object, required: true },
@@ -257,8 +261,23 @@ function handleRemove() {
 function onPhotoUploadStart() {
   isPhotoUploading.value = true
 }
-function onPhotoUploadDone() {
+function onPhotoUploadDone(payload) {
+  // payload 可能是字符串 url，或 { url, id }
+  try {
+    if (payload && typeof payload === 'object') {
+      localExpert.photo = payload.url || localExpert.photo
+      localExpert.photoKey = payload.id || localExpert.photoKey
+    } else if (typeof payload === 'string') {
+      localExpert.photo = payload
+      // 从 url 末段兜底提取 key 作为 id
+      try {
+        const parts = payload.split('/')
+        localExpert.photoKey = parts[parts.length - 1]
+      } catch {}
+    }
+  } catch {}
   isPhotoUploading.value = false
+  handleUpdate()
 }
 
 function onExpertSelected(payload) {

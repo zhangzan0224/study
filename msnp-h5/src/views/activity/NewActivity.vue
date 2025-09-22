@@ -82,7 +82,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, watch, defineProps, defineEmits, defineExpose } from 'vue'
+import { ref, computed, onMounted, watch, defineProps, defineEmits, defineExpose, nextTick } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { showToast, showSuccessToast, showFailToast } from 'vant'
 import NavigationBar from '@/components/base/NavigationBar.vue'
@@ -195,6 +195,24 @@ watch(
 )
 
 // 方法
+const scrollToFirstError = async () => {
+  await nextTick()
+  // 常见的 Vant 错误样式选择器
+  const selectors = [
+    '.van-field--error',
+    '.van-field__error-message',
+    '.van-form-item--error',
+    '.van-cell--error'
+  ]
+  let el = null
+  for (const sel of selectors) {
+    el = document.querySelector(sel)
+    if (el) break
+  }
+  if (el && typeof el.scrollIntoView === 'function') {
+    el.scrollIntoView({ behavior: 'smooth', block: 'center' })
+  }
+}
 const normalizeExperts = (rawExperts = [], activeType) => {
   return (rawExperts || []).map((e) => ({
     id: e.id || e.expertId || e.doctorId || Date.now() + Math.random(),
@@ -548,7 +566,7 @@ const handleSave = async () => {
   })
 
   if (errorMsgs.length) {
-    showFailToast(errorMsgs[0])
+    await scrollToFirstError()
     return
   }
 
@@ -645,7 +663,7 @@ const handleDetailSave = async () => {
   })
 
   if (errorMsgs.length) {
-    showFailToast(errorMsgs[0])
+    await scrollToFirstError()
     return
   }
 
@@ -683,7 +701,7 @@ const handleSubmit = async (silent = false) => {
   })
 
   if (errorMsgs.length) {
-    showFailToast(errorMsgs[0])
+    await scrollToFirstError()
     return false
   }
 

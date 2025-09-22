@@ -118,13 +118,26 @@ const toDateObj = (dArr, tArr) => {
 
 
 // 方法
+const getTodayArray = () => {
+  const d = new Date()
+  return [d.getFullYear(), d.getMonth() + 1, d.getDate()]
+}
+
 const showStartTimePicker = () => {
   if (!props.editable) return
+  // 若尚未选择日期，则默认赋值为当天日期
+  if (!Array.isArray(startDateArray.value) || startDateArray.value.length !== 3) {
+    startDateArray.value = getTodayArray()
+  }
   showStartTimePopup.value = true
 }
 
 const showEndTimePicker = () => {
   if (!props.editable) return
+  // 若尚未选择日期，则默认赋值为当天日期
+  if (!Array.isArray(endDateArray.value) || endDateArray.value.length !== 3) {
+    endDateArray.value = getTodayArray()
+  }
   showEndTimePopup.value = true
 }
 
