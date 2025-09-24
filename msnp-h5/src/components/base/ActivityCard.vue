@@ -142,15 +142,49 @@ export default {
     }
   },
   methods: {
+    // 兼容 iOS 15 对 "YYYY-MM-DD HH:mm:ss" 等格式解析不一致的问题
+    // 使用手动解析 + 本地时间构造，避免时区与 NaN 情况
+    parseLocalDate(datetime) {
+      if (datetime == null || datetime === '') return null
+      // 数字或数字字符串（时间戳）
+      if (typeof datetime === 'number' || /^\d+$/.test(String(datetime))) {
+        const ts = Number(datetime)
+        // 10 位视为秒，其他视为毫秒
+        return new Date(ts < 1e12 ? ts * 1000 : ts)
+      }
+      const s = String(datetime).trim()
+      // ISO 字符串（含 T）直接交给原生，兼容性较好
+      if (s.includes('T')) {
+        const d = new Date(s)
+        if (!isNaN(d.getTime())) return d
+      }
+      // 手动解析：YYYY-MM-DD[ HH:mm[:ss]] 或 YYYY/MM/DD ...
+      const [datePartRaw, timePartRaw] = s.split(/[ T]/)
+      const datePart = (datePartRaw || '').replace(/\./g, '-').replace(/\//g, '-')
+      const [y, m, d] = datePart.split('-').map(n => parseInt(n, 10))
+      if (!y || !m || !d) {
+        const d2 = new Date(s)
+        return isNaN(d2.getTime()) ? null : d2
+      }
+      let hh = 0, mm = 0, ss = 0
+      if (timePartRaw) {
+        const [h1, m1, s1] = timePartRaw.split(':').map(n => parseInt(n, 10))
+        if (!isNaN(h1)) hh = h1
+        if (!isNaN(m1)) mm = m1
+        if (!isNaN(s1)) ss = s1
+      }
+      return new Date(y, m - 1, d, hh, mm, ss, 0)
+    },
+    pad2(n) { return String(n).padStart(2, '0') },
     formatTime(datetime) {
-      if (!datetime) return '';
-      const date = new Date(datetime);
-      return date.toTimeString().slice(0, 5);
+      const date = this.parseLocalDate(datetime)
+      if (!date) return ''
+      return `${this.pad2(date.getHours())}:${this.pad2(date.getMinutes())}`
     },
     formatDate(datetime) {
-      if (!datetime) return '';
-      const date = new Date(datetime);
-      return date.toLocaleDateString('zh-CN').replace(/\//g, '/');
+      const date = this.parseLocalDate(datetime)
+      if (!date) return ''
+      return `${date.getFullYear()}-${this.pad2(date.getMonth() + 1)}-${this.pad2(date.getDate())}`
     },
     handleDetail() {
       this.$emit('detail', this.activity);

@@ -22,7 +22,7 @@
       </div>
 
       <!-- 讲师信息 -->
-      <div v-if="shouldShowExpertInfo" :key="formData.activeType" class="expert-form-section">
+      <div v-if="shouldShowExpertInfo && renderExperts" :key="formData.activeType + '-' + expertRenderKey" class="expert-form-section">
         <div class="section-header">
           <span class="section-title">讲师信息</span>
           <div class="header-divider"></div>
@@ -123,6 +123,9 @@ const setExpertComponentRef = (el, index) => {
     expertComponentRefs.value[index] = el
   }
 }
+// 控制讲师区域重新挂载
+const expertRenderKey = ref(0)
+const renderExperts = ref(true)
 const formData = ref({
   branchCode: '',
   subbracnCode: '',
@@ -182,14 +185,33 @@ onMounted(async () => {
 // 监听活动类型切换，清空/初始化讲师信息，兼容通过 DevTools 直接修改数据的场景
 watch(
   () => formData.value.activeType,
-  (nextType, prevType) => {
+  async (nextType, prevType) => {
     if (isExpertType(prevType) && nextType !== prevType) {
+      // 先卸载讲师区域，避免组件复用
+      renderExperts.value = false
+      await nextTick()
+      // 清空讲师与表单 refs
       formData.value.experts = []
       expertFormRefs.value = []
       expertComponentRefs.value = []
+      // 重新初始化（仅当新类型也需要讲师）
+      if (isExpertType(nextType)) {
+        initializeExperts()
+      }
+      // 重新挂载讲师区域
+      expertRenderKey.value++
+      renderExperts.value = true
+      return
     }
-    if (isExpertType(nextType) && formData.value.experts.length === 0) {
-      initializeExperts()
+    // 从非讲师类型切换到需要讲师类型时
+    if (!isExpertType(prevType) && isExpertType(nextType)) {
+      renderExperts.value = false
+      await nextTick()
+      if (formData.value.experts.length === 0) {
+        initializeExperts()
+      }
+      expertRenderKey.value++
+      renderExperts.value = true
     }
   }
 )
@@ -362,17 +384,22 @@ const loadDepartmentsByBranch = async (branchCode) => {
 }
 
 // 初始化讲师信息
+const generateExpertId = () => `${Date.now()}-${Math.random().toString(16).slice(2)}`
 const initializeExperts = () => {
   if (formData.value.experts.length === 0) {
-    formData.value.experts.push({
-      id: Date.now(),
-      photo: '',
-      name: '',
-      title: '',
-      hospital: '',
-      department: '',
-      introduction: ''
-    })
+    // 直接替换数组，确保触发渲染
+    formData.value.experts = [
+      {
+        id: generateExpertId(),
+        photo: '',
+        name: '',
+        title: '',
+        titleType: '',
+        hospital: '',
+        department: '',
+        introduction: ''
+      }
+    ]
   }
 }
 
