@@ -18,7 +18,7 @@
     <div class="form-content">
       <!-- 活动基本信息 -->
       <div class="form-section">
-        <ActivityBasicForm ref="activityBasicFormRef" v-model:formData="formData" :editable="formEditable" :show-header="true" :show-extended-fields="true" @form-change="handleFormChange" @branch-selected="handleBranchSelected" @branch-changed="handleBranchChanged" @branch-cleared="handleBranchCleared" />
+        <ActivityBasicForm :key="'basic-' + basicFormRenderKey" ref="activityBasicFormRef" v-model:formData="basicFormModel" :editable="formEditable" :show-header="true" :show-extended-fields="true" @form-change="handleFormChange" @branch-selected="handleBranchSelected" @branch-changed="handleBranchChanged" @branch-cleared="handleBranchCleared" />
       </div>
 
       <!-- 讲师信息 -->
@@ -126,6 +126,7 @@ const setExpertComponentRef = (el, index) => {
 // 控制讲师区域重新挂载
 const expertRenderKey = ref(0)
 const renderExperts = ref(true)
+const basicFormRenderKey = ref(0)
 const formData = ref({
   branchCode: '',
   subbracnCode: '',
@@ -151,6 +152,14 @@ const formData = ref({
   publicRelease: '',
   traditionalMedicine: '',
   experts: []
+})
+
+// 用于 BasicForm 的 v-model，避免覆盖 experts
+const basicFormModel = computed({
+  get: () => formData.value,
+  set: (v) => {
+    formData.value = { ...formData.value, ...v, experts: formData.value.experts }
+  }
 })
 
 // 计算属性
@@ -305,6 +314,25 @@ const normalizeActivityToFormData = (raw) => {
   }
 }
 
+// 清空讲师表单的校验提示（逐个调用 resetValidation；不支持则重挂载讲师区域）
+const resetExpertFormsValidation = async () => {
+  await nextTick()
+  const forms = Array.isArray(expertFormRefs.value) ? expertFormRefs.value : []
+  let didReset = false
+  for (const f of forms) {
+    if (f && typeof f.resetValidation === 'function') {
+      try { f.resetValidation(); didReset = true } catch (e) {}
+    }
+  }
+  if (!didReset) {
+    // 兜底：强制重新挂载讲师区域
+    renderExperts.value = false
+    await nextTick()
+    expertRenderKey.value++
+    renderExperts.value = true
+  }
+}
+
 const loadActivityDetail = async (id) => {
   loading.value = true
   try {
@@ -318,6 +346,11 @@ const loadActivityDetail = async (id) => {
     formData.value = { ...formData.value, ...normalized }
     // 通知父级已加载原始详情数据（用于父级决定导航右侧按钮显示等）
     emit('loaded', payload)
+    // 数据灌入完成后，清空一次页面上的校验提示，后续仍按正常校验
+    await nextTick()
+    await resetFieldsValidation()
+    // 同步清理所有讲师子表单的校验提示
+    await resetExpertFormsValidation()
   } catch (e) {
     console.error('加载活动详情失败:', e)
     showFailToast('加载活动详情失败')
@@ -330,12 +363,31 @@ const handleBack = () => {
   router.back()
 }
 
-const handleFormChange = (newFormData) => {
-  // 合并表单数据
-  formData.value = { ...formData.value, ...newFormData }
+const resetFieldsValidation = async (names = []) => {
+  await nextTick()
+  const f = activityBasicFormRef.value
+  if (!f) {
+    // 无法拿到表单实例，直接通过重挂载清理
+    basicFormRenderKey.value++
+    return
+  }
+  if (typeof f.resetValidation === 'function') {
+    try {
+      names.length ? f.resetValidation(names) : f.resetValidation()
+      return
+    } catch (e) {
+      // 调用失败则退回重挂载
+    }
+  }
+  // 未暴露 resetValidation 或调用失败，使用重挂载清理错误展示
+  basicFormRenderKey.value++
+}
 
-  // 如当前需要展示讲师信息且为空，则初始化一个空专家项
-  if (shouldShowExpertInfo.value && formData.value.experts.length === 0) {
+const handleFormChange = () => {
+  // 依赖 v-model:formData 的 basicFormModel 同步，这里不再合并，
+  // 仅做兜底初始化讲师信息
+  const experts = formData.value && Array.isArray(formData.value.experts) ? formData.value.experts : []
+  if (shouldShowExpertInfo.value && experts.length === 0) {
     initializeExperts()
   }
 }

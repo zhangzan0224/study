@@ -14,17 +14,32 @@
 
     <van-popup v-model:show="showPicker" position="bottom" round>
       <van-picker
-        :columns="communityOptions"
+        :key="pickerRenderKey"
+        ref="pickerRef"
+        :default-index="0"
+        :columns="filteredCommunityOptions"
         @confirm="onConfirm"
         @cancel="onCancel"
         title="选择社区"
-      />
+      >
+        <template #columns-top>
+          <div class="picker-search">
+            <van-search
+              v-model="searchKeyword"
+              placeholder="搜索社区名称"
+              shape="round"
+              clearable
+              :autofocus="true"
+            />
+          </div>
+        </template>
+      </van-picker>
     </van-popup>
   </div>
 </template>
 
 <script setup>
-import { ref, computed, onMounted, defineProps, defineEmits } from 'vue';
+import { ref, computed, onMounted, defineProps, defineEmits, nextTick, watch } from 'vue';
 import FormField from '@/components/base/FormField.vue';
 import { showLoadingToast, closeToast, showFailToast } from 'vant';
 
@@ -39,6 +54,19 @@ const emit = defineEmits(['update:modelValue', 'community-selected']);
 const showPicker = ref(false);
 const communityOptions = ref([]);
 const communityList = ref([]);
+
+// Picker 实例与重新渲染 key，用于重置滚动位置
+const pickerRef = ref(null);
+const pickerRenderKey = ref(0);
+
+// 搜索关键字与过滤后的列
+const searchKeyword = ref('');
+const filteredCommunityOptions = computed(() => {
+  const kw = searchKeyword.value.trim();
+  if (!kw) return communityOptions.value;
+  // 简单包含匹配（中文）
+  return communityOptions.value.filter(opt => String(opt.text || '').includes(kw));
+});
 
 const selectedCommunityName = computed(() => {
   const found = communityList.value.find(c => c.id === props.modelValue);
@@ -120,6 +148,7 @@ const loadCommunityData = async () => {
 const showPickerPopup = () => {
   if (!props.editable) return;
   loadCommunityData();
+  searchKeyword.value = '';
   showPicker.value = true;
 };
 
@@ -139,6 +168,25 @@ const onCancel = () => {
 
 onMounted(() => {
   loadCommunityData();
+});
+
+// 打开/关闭弹窗时重置搜索与滚动定位
+watch(showPicker, async (val) => {
+  if (val) {
+    await nextTick();
+    // 打开时将光标与选中重置到第一个选项
+    try {
+      if (pickerRef.value && typeof pickerRef.value.setColumnIndex === 'function') {
+        pickerRef.value.setColumnIndex(0, 0);
+      }
+    } catch (e) {}
+  } else {
+    // 关闭时清空关键字，下次打开展示完整列表
+    searchKeyword.value = '';
+    await nextTick();
+    // 强制重挂载 Picker，避免内部缓存滚动位置
+    pickerRenderKey.value++;
+  }
 });
 
 </script>

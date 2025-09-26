@@ -64,7 +64,7 @@
           </template>
           <!-- 其他普通文本 -->
           <template v-else>
-            {{ item.value }}
+            <span class="detail-value-text" :class="{ truncate: item.truncate }" :title="item.truncate ? item.value : null">{{ item.value }}</span>
           </template>
         </div>
       </div>
@@ -134,9 +134,9 @@ export default {
     detailList() {
       return [
         { label: '活动编号', value: this.activity.code || '-', isCode: true },
-        { label: '分公司', value: this.activity.branch || '-' },
+        { label: '分公司', value: this.activity.branch || '-', truncate: true },
         { label: '中支', value: this.activity.department || '-' },
-        { label: '医院名称', value: this.activity.hospital || '-' },
+        { label: '医院名称', value: this.activity.hospital || '-', truncate: true },
         { label: '活动状态', value: this.activity.status || '-', isStatus: true }
       ];
     }
@@ -363,6 +363,20 @@ export default {
   white-space: pre-wrap;
   word-break: break-word; /* 对中文更友好 */
   overflow-wrap: anywhere;
+  /* 为了让子元素在网格/弹性容器中可收缩，避免溢出 */
+  min-width: 0;
+}
+
+/* 普通值文本容器，支持在需要时省略号显示 */
+.detail-value-text {
+  flex: 1;
+  min-width: 0; /* 关键：允许在 flex 下收缩以触发省略号 */
+}
+.detail-value-text.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: block;
 }
 
 .activity-code-text {
